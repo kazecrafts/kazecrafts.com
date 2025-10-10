@@ -1,0 +1,1381 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>風 Kaze Crafts | Authentic Japanese Crafts Marketplace</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;300;400;500;600&family=Cormorant+Garamond:wght@300;400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --ivory: #FAF9F4;
+            --black: #1A1A1A;
+            --charcoal: #2C2C2C;
+            --cream: #F5F3ED;
+            --gold: #C4A572;
+            --silver: #E8E5E0;
+            --red: #C73E3A;
+            --sakura: #FFC0CB;
+            --indigo: #3F51B5;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--ivory);
+            color: var(--black);
+            overflow-x: hidden;
+            line-height: 1.6;
+            position: relative;
+        }
+
+        /* Animated Gradient Background */
+        .gradient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            opacity: 0.4;
+            background: linear-gradient(-45deg, #ffc0cb20, #3f51b510, #c4a57215, #c73e3a10);
+            background-size: 400% 400%;
+            animation: gradientShift 20s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Japanese Paper Texture Overlay */
+        .paper-texture {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.5;
+            background-image: 
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255,255,255,.05) 2px, rgba(255,255,255,.05) 4px),
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,.03) 2px, rgba(255,255,255,.03) 4px);
+            pointer-events: none;
+        }
+
+        .paper-texture::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at top left, rgba(255,255,255,0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at bottom right, rgba(0,0,0,0.05) 0%, transparent 50%);
+        }
+
+        /* Loading Screen */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: var(--ivory);
+            z-index: 10002;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .loader-kanji {
+            font-family: 'Noto Serif JP', serif;
+            font-size: 6rem;
+            font-weight: 200;
+            background: linear-gradient(135deg, var(--gold), var(--red));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: pulse 2s ease infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+
+        /* Navigation - Fixed Sizing */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 70px;
+            padding: 0 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(250, 249, 244, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            transition: all 0.4s ease;
+        }
+
+        nav.scrolled {
+            height: 60px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            height: 100%;
+        }
+
+        .logo-kanji {
+            font-family: 'Noto Serif JP', serif;
+            font-size: 2.2rem;
+            font-weight: 300;
+            background: linear-gradient(135deg, var(--gold), var(--red));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo-divider {
+            width: 1px;
+            height: 30px;
+            background: linear-gradient(to bottom, transparent, var(--black), transparent);
+            opacity: 0.3;
+        }
+
+        .logo-text {
+            font-size: 0.8rem;
+            letter-spacing: 0.15em;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        .nav-center {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+            height: 100%;
+            align-items: center;
+        }
+
+        .nav-center a {
+            color: var(--black);
+            text-decoration: none;
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+            font-weight: 500;
+            text-transform: uppercase;
+            position: relative;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0;
+        }
+
+        .nav-center a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--gold), var(--red));
+            transition: width 0.4s ease;
+        }
+
+        .nav-center a:hover::after {
+            width: 100%;
+        }
+
+        .nav-right {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            height: 100%;
+        }
+
+        .nav-icon {
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-icon:hover {
+            color: var(--gold);
+            transform: translateY(-2px);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--red);
+            color: white;
+            font-size: 0.65rem;
+            padding: 2px 5px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 70px;
+        }
+
+        .hero-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255, 192, 203, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(63, 81, 181, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(196, 165, 114, 0.15) 0%, transparent 50%);
+            animation: floatBg 20s ease-in-out infinite;
+        }
+
+        @keyframes floatBg {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(-20px, -20px) scale(1.05); }
+            66% { transform: translate(20px, -10px) scale(0.95); }
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 2;
+            padding: 2rem;
+        }
+
+        .hero-kanji {
+            font-family: 'Noto Serif JP', serif;
+            font-size: 8rem;
+            font-weight: 200;
+            letter-spacing: 0.2em;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--gold), var(--red), var(--indigo));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 3s linear infinite;
+            background-size: 200% 200%;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        .hero-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.5rem;
+            font-weight: 300;
+            letter-spacing: 0.3em;
+            margin-bottom: 1rem;
+            color: var(--charcoal);
+        }
+
+        .hero-subtitle {
+            font-family: 'Noto Serif JP', serif;
+            font-size: 1.2rem;
+            font-weight: 300;
+            letter-spacing: 0.15em;
+            color: var(--charcoal);
+            opacity: 0.8;
+        }
+
+        .hero-cta {
+            margin-top: 2rem;
+            padding: 1rem 3rem;
+            background: linear-gradient(135deg, var(--gold), var(--red));
+            color: white;
+            border: none;
+            font-size: 0.9rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 15px rgba(199, 62, 58, 0.3);
+        }
+
+        .hero-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(199, 62, 58, 0.4);
+        }
+
+        /* Interactive Map Section */
+        .map-section {
+            padding: 4rem 2rem;
+            background: white;
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-label {
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            font-weight: 300;
+            margin-bottom: 0.5rem;
+            color: var(--charcoal);
+        }
+
+        .section-title-jp {
+            font-family: 'Noto Serif JP', serif;
+            font-size: 1.3rem;
+            font-weight: 300;
+            letter-spacing: 0.2em;
+            color: var(--charcoal);
+            opacity: 0.8;
+        }
+
+        #japanMap {
+            height: 600px;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            background: var(--cream);
+        }
+
+        /* Custom Map Markers */
+        .custom-marker {
+            background: white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            border: 2px solid var(--gold);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .custom-marker:hover {
+            transform: scale(1.2);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .marker-pottery { color: #8B4513; }
+        .marker-kimono { color: var(--sakura); }
+        .marker-knife { color: #4A4A4A; }
+        .marker-textile { color: var(--indigo); }
+
+        /* Location Popup */
+        .location-popup {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .location-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--charcoal);
+        }
+
+        .location-specialty {
+            font-size: 0.9rem;
+            color: var(--gold);
+            margin-bottom: 0.3rem;
+        }
+
+        .location-count {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .view-products-btn {
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, var(--gold), var(--red));
+            color: white;
+            border: none;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .view-products-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Products Grid */
+        .products-section {
+            padding: 4rem 3rem;
+            background: var(--cream);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 5px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-image {
+            height: 250px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.1);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--red);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+            color: var(--charcoal);
+        }
+
+        .product-artisan {
+            font-family: 'Noto Serif JP', serif;
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.3rem;
+        }
+
+        .product-location {
+            font-size: 0.85rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+
+        .product-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .product-price {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--charcoal);
+        }
+
+        .add-to-cart-btn {
+            padding: 0.6rem 1.2rem;
+            background: var(--black);
+            color: white;
+            border: none;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .add-to-cart-btn:hover {
+            background: var(--gold);
+        }
+
+        /* Cart Modal */
+        .cart-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .cart-modal.active {
+            display: flex;
+        }
+
+        .cart-content {
+            background: white;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .cart-header {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, var(--gold), var(--red));
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-title {
+            font-size: 1.5rem;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+        }
+
+        .close-cart {
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close-cart:hover {
+            transform: rotate(90deg);
+        }
+
+        .cart-items {
+            padding: 1.5rem;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            align-items: center;
+        }
+
+        .cart-item-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-weight: 500;
+            margin-bottom: 0.3rem;
+        }
+
+        .cart-item-artisan {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        .cart-item-price {
+            font-weight: 600;
+            color: var(--gold);
+        }
+
+        .cart-item-remove {
+            color: var(--red);
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .cart-item-remove:hover {
+            transform: scale(1.2);
+        }
+
+        .cart-footer {
+            padding: 1.5rem;
+            background: var(--cream);
+            border-top: 1px solid #ddd;
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--gold), var(--red));
+            color: white;
+            border: none;
+            font-size: 1rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .checkout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 3rem;
+            color: #999;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--charcoal);
+            color: white;
+            padding: 3rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-family: 'Noto Serif JP', serif;
+            font-size: 2.5rem;
+            font-weight: 200;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--gold), var(--sakura));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .footer-text {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-link {
+            color: white;
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            color: var(--gold);
+            transform: translateY(-3px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-center {
+                display: none;
+            }
+            
+            .hero-kanji {
+                font-size: 5rem;
+            }
+            
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 1rem;
+                padding: 2rem 1rem;
+            }
+            
+            #japanMap {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Elements -->
+    <div class="gradient-bg"></div>
+    <div class="paper-texture"></div>
+
+    <!-- Loading Screen -->
+    <div class="loader" id="loader">
+        <div class="loader-kanji">風</div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="mainNav">
+        <div class="logo-container">
+            <div class="logo-kanji">風</div>
+            <div class="logo-divider"></div>
+            <div class="logo-text">Kaze Crafts</div>
+        </div>
+        
+        <ul class="nav-center">
+            <li><a href="#map">Explore</a></li>
+            <li><a href="#products">Collection</a></li>
+            <li><a href="#artisans">Artisans</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+
+        <div class="nav-right">
+            <div class="nav-icon">
+                <i class="fas fa-search"></i>
+            </div>
+            <div class="nav-icon">
+                <i class="far fa-heart"></i>
+            </div>
+            <div class="nav-icon" onclick="toggleCart()">
+                <i class="fas fa-shopping-bag"></i>
+                <span class="cart-count" id="cartCount">0</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <div class="hero-kanji">風の市場</div>
+            <h1 class="hero-title">KAZE MARKETPLACE</h1>
+            <p class="hero-subtitle">日本の職人技を世界へ | Empowering Japanese Artisans Globally</p>
+            <button class="hero-cta" onclick="scrollToMap()">Explore Japan's Crafts</button>
+        </div>
+    </section>
+
+    <!-- Interactive Map Section -->
+    <section class="map-section" id="map">
+        <div class="section-header">
+            <div class="section-label">Interactive Journey</div>
+            <h2 class="section-title">Discover Crafts by Region</h2>
+            <p class="section-title-jp">地域別工芸品を探る</p>
+        </div>
+        <div id="japanMap"></div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products-section" id="products">
+        <div class="section-header">
+            <div class="section-label">Featured Collection</div>
+            <h2 class="section-title">Artisan Masterpieces</h2>
+            <p class="section-title-jp">職人の傑作</p>
+        </div>
+        <div class="products-grid" id="productsGrid"></div>
+    </section>
+
+    <!-- Cart Modal -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h3 class="cart-title">Your Cart</h3>
+                <span class="close-cart" onclick="toggleCart()">&times;</span>
+            </div>
+            <div class="cart-items" id="cartItems">
+                <div class="empty-cart">Your cart is empty</div>
+            </div>
+            <div class="cart-footer">
+                <div class="cart-total">
+                    <span>Total:</span>
+                    <span id="cartTotal">¥0</span>
+                </div>
+                <button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">風</div>
+            <p class="footer-text">
+                Kaze Crafts Marketplace<br>
+                Empowering Japanese artisans and small businesses<br>
+                to share their authentic crafts with the world
+            </p>
+            <div class="social-links">
+                <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-link"><i class="far fa-envelope"></i></a>
+            </div>
+            <p style="font-size: 0.8rem; opacity: 0.6;">© 2025 Kaze Crafts. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Stripe
+        const stripe = Stripe('pk_test_51234567890'); // Replace with your Stripe publishable key
+
+        // Craft locations data
+        const craftLocations = [
+            {
+                name: "Kyoto",
+                nameJp: "京都",
+                lat: 35.0116,
+                lng: 135.7681,
+                type: "pottery",
+                icon: "🏺",
+                specialty: "Kyo-yaki Pottery",
+                products: 45,
+                artisans: [
+                    { name: "Tanaka Hiroshi", craft: "Raku Pottery", price: "¥85,000" },
+                    { name: "Yamamoto Keiko", craft: "Kiyomizu Pottery", price: "¥62,000" }
+                ]
+            },
+            {
+                name: "Tokyo",
+                nameJp: "東京",
+                lat: 35.6762,
+                lng: 139.6503,
+                type: "kimono",
+                icon: "👘",
+                specialty: "Edo Kimono",
+                products: 78,
+                artisans: [
+                    { name: "Sato Michiko", craft: "Silk Kimono", price: "¥250,000" },
+                    { name: "Ito Masaru", craft: "Yukata", price: "¥35,000" }
+                ]
+            },
+            {
+                name: "Gifu",
+                nameJp: "岐阜",
+                lat: 35.3912,
+                lng: 136.7223,
+                type: "knife",
+                icon: "🔪",
+                specialty: "Seki Cutlery",
+                products: 92,
+                artisans: [
+                    { name: "Fujiwara Takeshi", craft: "Damascus Knife", price: "¥120,000" },
+                    { name: "Nakamura Yuki", craft: "Santoku Knife", price: "¥45,000" }
+                ]
+            },
+            {
+                name: "Okayama",
+                nameJp: "岡山",
+                lat: 34.6555,
+                lng: 133.9195,
+                type: "pottery",
+                icon: "🏺",
+                specialty: "Bizen Pottery",
+                products: 63,
+                artisans: [
+                    { name: "Mori Kazuo", craft: "Bizen-yaki", price: "¥95,000" },
+                    { name: "Hayashi Emiko", craft: "Tea Ceremony Set", price: "¥180,000" }
+                ]
+            },
+            {
+                name: "Kanazawa",
+                nameJp: "金沢",
+                lat: 36.5944,
+                lng: 136.6256,
+                type: "textile",
+                icon: "🧵",
+                specialty: "Kaga Yuzen Silk",
+                products: 54,
+                artisans: [
+                    { name: "Watanabe Haruko", craft: "Silk Textile", price: "¥150,000" },
+                    { name: "Suzuki Daisuke", craft: "Gold Leaf Art", price: "¥75,000" }
+                ]
+            },
+            {
+                name: "Saga",
+                nameJp: "佐賀",
+                lat: 33.2492,
+                lng: 130.2988,
+                type: "pottery",
+                icon: "🏺",
+                specialty: "Arita & Imari Porcelain",
+                products: 108,
+                artisans: [
+                    { name: "Kato Noboru", craft: "Arita Porcelain", price: "¥55,000" },
+                    { name: "Shimizu Akiko", craft: "Imari Pottery", price: "¥72,000" }
+                ]
+            },
+            {
+                name: "Nara",
+                nameJp: "奈良",
+                lat: 34.6851,
+                lng: 135.8050,
+                type: "textile",
+                icon: "🧵",
+                specialty: "Nara Sarashi Linen",
+                products: 41,
+                artisans: [
+                    { name: "Okamoto Koji", craft: "Traditional Linen", price: "¥38,000" },
+                    { name: "Inoue Sachiko", craft: "Indigo Textile", price: "¥42,000" }
+                ]
+            },
+            {
+                name: "Yamagata",
+                nameJp: "山形",
+                lat: 38.2404,
+                lng: 140.3636,
+                type: "kimono",
+                icon: "👘",
+                specialty: "Yonezawa Silk Weaving",
+                products: 37,
+                artisans: [
+                    { name: "Takeda Masako", craft: "Silk Obi", price: "¥88,000" },
+                    { name: "Aoki Hiroto", craft: "Tsumugi Kimono", price: "¥195,000" }
+                ]
+            },
+            {
+                name: "Ehime",
+                nameJp: "愛媛",
+                lat: 33.8416,
+                lng: 132.7657,
+                type: "textile",
+                icon: "🧵",
+                specialty: "Iyo Kasuri Fabric",
+                products: 29,
+                artisans: [
+                    { name: "Matsuda Yui", craft: "Kasuri Textile", price: "¥65,000" },
+                    { name: "Ueda Taro", craft: "Indigo Fabric", price: "¥48,000" }
+                ]
+            }
+        ];
+
+        // Products data
+        const products = [
+            {
+                id: 1,
+                name: "Midnight Moon Bowl",
+                artisan: "Tanaka Hiroshi",
+                location: "Kyoto",
+                price: 85000,
+                image: "https://images.unsplash.com/photo-1606933245200-0b9a475e2e8e?w=600",
+                badge: "New",
+                category: "pottery"
+            },
+            {
+                id: 2,
+                name: "Golden Crane Kimono",
+                artisan: "Sato Michiko",
+                location: "Tokyo",
+                price: 250000,
+                image: "https://images.unsplash.com/photo-1545253088-a682b11ad5e1?w=600",
+                badge: "Exclusive",
+                category: "kimono"
+            },
+            {
+                id: 3,
+                name: "Damascus Chef Knife",
+                artisan: "Fujiwara Takeshi",
+                location: "Gifu",
+                price: 120000,
+                image: "https://images.unsplash.com/photo-1593788398928-65ad5d9fa024?w=600",
+                badge: "Featured",
+                category: "knife"
+            },
+            {
+                id: 4,
+                name: "Bizen Tea Set",
+                artisan: "Mori Kazuo",
+                location: "Okayama",
+                price: 95000,
+                image: "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=600",
+                badge: "Limited",
+                category: "pottery"
+            },
+            {
+                id: 5,
+                name: "Kaga Silk Scarf",
+                artisan: "Watanabe Haruko",
+                location: "Kanazawa",
+                price: 38000,
+                image: "https://images.unsplash.com/photo-1528217580778-96e570819666?w=600",
+                badge: "Popular",
+                category: "textile"
+            },
+            {
+                id: 6,
+                name: "Arita Blue Vase",
+                artisan: "Kato Noboru",
+                location: "Saga",
+                price: 55000,
+                image: "https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?w=600",
+                badge: "Classic",
+                category: "pottery"
+            },
+            {
+                id: 7,
+                name: "Nara Indigo Cloth",
+                artisan: "Inoue Sachiko",
+                location: "Nara",
+                price: 42000,
+                image: "https://images.unsplash.com/photo-1610701596061-2ecf227e85b2?w=600",
+                badge: "Artisan",
+                category: "textile"
+            },
+            {
+                id: 8,
+                name: "Yonezawa Silk Obi",
+                artisan: "Takeda Masako",
+                location: "Yamagata",
+                price: 88000,
+                image: "https://images.unsplash.com/photo-1556388275-bb5585725aca?w=600",
+                badge: "Heritage",
+                category: "kimono"
+            }
+        ];
+
+        // Shopping cart
+        let cart = [];
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hide loader
+            setTimeout(() => {
+                const loader = document.getElementById('loader');
+                loader.style.opacity = '0';
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                    initAnimations();
+                }, 500);
+            }, 1500);
+
+            // Initialize map
+            initMap();
+            
+            // Initialize products
+            displayProducts(products);
+            
+            // Scroll effects
+            initScrollEffects();
+        });
+
+        // Initialize interactive map
+        function initMap() {
+            const map = L.map('japanMap').setView([36.2048, 138.2529], 6);
+            
+            // Custom tile layer with Japanese style
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                attribution: '© OpenStreetMap contributors',
+                maxZoom: 19
+            }).addTo(map);
+
+            // Add custom markers for each location
+            craftLocations.forEach(location => {
+                const customIcon = L.divIcon({
+                    className: `custom-marker marker-${location.type}`,
+                    html: `<div>${location.icon}</div>`,
+                    iconSize: [40, 40],
+                    iconAnchor: [20, 20]
+                });
+
+                const marker = L.marker([location.lat, location.lng], { icon: customIcon })
+                    .addTo(map);
+
+                // Popup content
+                const popupContent = `
+                    <div class="location-popup">
+                        <div class="location-name">${location.name} ${location.nameJp}</div>
+                        <div class="location-specialty">${location.specialty}</div>
+                        <div class="location-count">${location.products} products • ${location.artisans.length} artisans</div>
+                        <button class="view-products-btn" onclick="filterByLocation('${location.name}')">
+                            View Products
+                        </button>
+                    </div>
+                `;
+
+                marker.bindPopup(popupContent, {
+                    maxWidth: 250
+                });
+
+                // Animate marker on hover
+                marker.on('mouseover', function() {
+                    this.getElement().style.transform = 'scale(1.2)';
+                });
+
+                marker.on('mouseout', function() {
+                    this.getElement().style.transform = 'scale(1)';
+                });
+            });
+        }
+
+        // Display products
+        function displayProducts(productsToShow) {
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = '';
+
+            productsToShow.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <div class="product-image">
+                        <img src="${product.image}" alt="${product.name}">
+                        <div class="product-badge">${product.badge}</div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-artisan">${product.artisan}</div>
+                        <div class="product-location">${product.location}, Japan</div>
+                        <div class="product-bottom">
+                            <div class="product-price">¥${product.price.toLocaleString()}</div>
+                            <button class="add-to-cart-btn" onclick="addToCart(${product.id})">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            // Animate cards
+            gsap.from('.product-card', {
+                y: 30,
+                opacity: 0,
+                duration: 0.6,
+                stagger: 0.1
+            });
+        }
+
+        // Filter products by location
+        function filterByLocation(location) {
+            const filtered = products.filter(p => p.location === location);
+            displayProducts(filtered);
+            
+            // Scroll to products section
+            document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Shopping cart functions
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if (product) {
+                cart.push(product);
+                updateCartUI();
+                showNotification(`${product.name} added to cart!`);
+            }
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const cartCount = document.getElementById('cartCount');
+            const cartItems = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+            
+            cartCount.textContent = cart.length;
+            cartCount.style.display = cart.length > 0 ? 'block' : 'none';
+
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<div class="empty-cart">Your cart is empty</div>';
+                cartTotal.textContent = '¥0';
+            } else {
+                let total = 0;
+                cartItems.innerHTML = cart.map((item, index) => {
+                    total += item.price;
+                    return `
+                        <div class="cart-item">
+                            <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+                            <div class="cart-item-info">
+                                <div class="cart-item-name">${item.name}</div>
+                                <div class="cart-item-artisan">${item.artisan}</div>
+                                <div class="cart-item-price">¥${item.price.toLocaleString()}</div>
+                            </div>
+                            <span class="cart-item-remove" onclick="removeFromCart(${index})">
+                                <i class="fas fa-trash"></i>
+                            </span>
+                        </div>
+                    `;
+                }).join('');
+                cartTotal.textContent = `¥${total.toLocaleString()}`;
+            }
+        }
+
+        function toggleCart() {
+            const modal = document.getElementById('cartModal');
+            modal.classList.toggle('active');
+        }
+
+        // Checkout with Stripe
+        async function checkout() {
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+
+            // Create line items for Stripe
+            const lineItems = cart.map(item => ({
+                price_data: {
+                    currency: 'jpy',
+                    product_data: {
+                        name: item.name,
+                        description: `By ${item.artisan} from ${item.location}`,
+                    },
+                    unit_amount: item.price,
+                },
+                quantity: 1,
+            }));
+
+            // In production, you would send this to your backend
+            // which would create a Stripe Checkout session
+            console.log('Checkout items:', lineItems);
+            
+            // For demo purposes
+            alert(`Processing checkout for ${cart.length} items totaling ¥${cart.reduce((sum, item) => sum + item.price, 0).toLocaleString()}\n\nThis is a demo. In production, this would redirect to Stripe Checkout.`);
+            
+            // Clear cart after checkout
+            cart = [];
+            updateCartUI();
+            toggleCart();
+        }
+
+        // Show notification
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                background: linear-gradient(135deg, var(--gold), var(--red));
+                color: white;
+                padding: 1rem 2rem;
+                border-radius: 5px;
+                box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+                z-index: 3000;
+                animation: slideIn 0.3s ease;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Scroll to map
+        function scrollToMap() {
+            document.getElementById('map').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Scroll effects
+        function initScrollEffects() {
+            window.addEventListener('scroll', () => {
+                const nav = document.getElementById('mainNav');
+                if (window.scrollY > 50) {
+                    nav.classList.add('scrolled');
+                } else {
+                    nav.classList.remove('scrolled');
+                }
+            });
+        }
+
+        // Initialize animations
+        function initAnimations() {
+            gsap.registerPlugin(ScrollTrigger);
+            
+            // Hero animations
+            gsap.timeline()
+                .from('.hero-kanji', { scale: 0.8, opacity: 0, duration: 1.2, ease: 'power2.out' })
+                .from('.hero-title', { y: 30, opacity: 0, duration: 1 }, '-=0.8')
+                .from('.hero-subtitle', { y: 20, opacity: 0, duration: 1 }, '-=0.5')
+                .from('.hero-cta', { scale: 0.9, opacity: 0, duration: 0.8 }, '-=0.3');
+
+            // Section animations
+            gsap.utils.toArray('.section-header').forEach(header => {
+                gsap.from(header.children, {
+                    y: 40,
+                    opacity: 0,
+                    stagger: 0.2,
+                    duration: 0.8,
+                    scrollTrigger: {
+                        trigger: header,
+                        start: 'top 80%'
+                    }
+                });
+            });
+        }
+
+        // Add slide animations styles
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
