@@ -52,7 +52,7 @@ const craftsmen = [
         craft: "Raku Pottery",
         craftJp: "楽焼",
         location: "Kyoto",
-        image: "workphotos/face1.jpg",
+        image: "face1.jpg",
         specialty: "Traditional Raku Tea Bowls",
         years: 35,
         story: "Born into a family of potters in Kyoto, Master Tanaka has dedicated his life to perfecting the ancient art of Raku-yaki. His tea bowls are renowned for their spontaneous beauty and spiritual depth, embodying the wabi-sabi aesthetic. Each piece is fired in a traditional anagama kiln, where flames dance and create unique patterns that cannot be replicated.",
@@ -66,7 +66,7 @@ const craftsmen = [
         craft: "Kiyomizu-yaki",
         craftJp: "清水焼",
         location: "Kyoto",
-        image: "workphotos/face2.jpg",
+        image: "face2.jpg",
         specialty: "Hand-Painted Porcelain",
         years: 28,
         story: "Master Yamamoto is one of the few female masters in the male-dominated world of Kiyomizu pottery. Her delicate hand-painted designs featuring seasonal flowers have won numerous awards. She combines traditional techniques with contemporary aesthetics, creating pieces that honor the past while embracing the future.",
@@ -80,7 +80,7 @@ const craftsmen = [
         craft: "Bizen-yaki",
         craftJp: "備前焼",
         location: "Okayama",
-        image: "workphotos/face3.jpg",
+        image: "face3.jpg",
         specialty: "Unglazed Stoneware",
         years: 42,
         story: "Fourth-generation Bizen master, Kazuo fires his works for 10 days straight in a climbing kiln fueled by red pine. The natural ash glaze and fire markings create patterns impossible to plan, making each piece unique. His works are collected by museums worldwide.",
@@ -94,7 +94,7 @@ const craftsmen = [
         craft: "Arita-yaki",
         craftJp: "有田焼",
         location: "Saga",
-        image: "workphotos/face4.jpg",
+        image: "face4.jpg",
         specialty: "Blue & White Porcelain",
         years: 31,
         story: "Heir to a 400-year-old Arita porcelain workshop, Master Kato creates the finest sometsuke (blue and white) porcelain using cobalt oxide imported from the same mines as his ancestors. His intricate patterns require years of training to master.",
@@ -108,7 +108,7 @@ const craftsmen = [
         craft: "Imari-yaki",
         craftJp: "伊万里焼",
         location: "Saga",
-        image: "workphotos/face5.jpg",
+        image: "face5.jpg",
         specialty: "Overglaze Enamel Decoration",
         years: 26,
         story: "Renowned for her intricate overglaze enamel work in vibrant reds, blues, and gold. Master Shimizu's Imari pieces are instantly recognizable for their elaborate patterns and perfect symmetry. She fires each piece multiple times to achieve the brilliant colors.",
@@ -122,7 +122,7 @@ const craftsmen = [
         craft: "Shigaraki-yaki",
         craftJp: "信楽焼",
         location: "Shiga",
-        image: "workphotos/face6.jpeg",
+        image: "face6.jpeg",
         specialty: "Natural Ash Glaze",
         years: 38,
         story: "Master Nakamura specializes in Shigaraki's characteristic orange-brown clay with natural ash glazing. His large vessels and sculptural works are favored by tea masters and collectors. The spontaneous beauty of his work embodies the Japanese concept of 'natural beauty.'",
@@ -136,7 +136,7 @@ const craftsmen = [
         craft: "Kutani-yaki",
         craftJp: "九谷焼",
         location: "Ishikawa",
-        image: "workphotos/face7.jpg",
+        image: "face7.jpg",
         specialty: "Five-Color Overglaze",
         years: 22,
         story: "Young master of Kutani's famous five-color technique (green, yellow, red, purple, and navy blue). Yumi's bold designs honor tradition while pushing boundaries. Her work has been exhibited in New York, Paris, and Dubai.",
@@ -150,7 +150,7 @@ const craftsmen = [
         craft: "Mashiko-yaki",
         craftJp: "益子焼",
         location: "Tochigi",
-        image: "workphotos/face9.jpg",
+        image: "face9.jpg",
         specialty: "Folk Pottery",
         years: 29,
         story: "Carrying on the mingei (folk craft) tradition of Mashiko, Master Watanabe creates functional pottery for everyday use. His thick glazes and earthy tones reflect the democratic ideals of the mingei movement - beauty in utility.",
@@ -164,12 +164,12 @@ const craftsmen = [
         craft: "Karatsu-yaki",
         craftJp: "唐津焼",
         location: "Saga",
-        image: "workphotos/face10.jpg",
+        image: "face10.jpg",
         specialty: "Korean-Style Pottery",
         years: 33,
         story: "Master Hayashi preserves the 400-year-old tradition of Karatsu pottery, influenced by Korean ceramic techniques. His simple, rustic vessels are beloved by tea ceremony practitioners for their humble elegance and perfect imperfections.",
         quote: "In simplicity lies sophistication; in roughness, refinement.",
-        video: "workphotos/pottery2.mp4"
+        video: "pottery2.mp4"
     },
     {
         id: 10,
@@ -178,7 +178,7 @@ const craftsmen = [
         craft: "Tokoname-yaki",
         craftJp: "常滑焼",
         location: "Aichi",
-        image: "workphotos/face11.jpg",
+        image: "face11.jpg",
         specialty: "Teapots & Red Clay",
         years: 24,
         story: "Specialist in Tokoname's famous red clay teapots. Master Fujiwara's kyusu (teapots) are prized by tea enthusiasts worldwide for their ability to enhance tea flavor. The iron-rich clay develops a unique patina over time, improving with use.",
@@ -192,7 +192,7 @@ const craftsmen = [
         craft: "Seto-yaki",
         craftJp: "瀬戸焼",
         location: "Aichi",
-        image: "workphotos/face12.jpg",
+        image: "face12.jpg",
         specialty: "Glazed Ceramics",
         years: 40,
         story: "From one of Japan's oldest pottery regions, Master Ito is a glaze specialist with over 200 glaze recipes in his collection. Each glaze is made from natural materials gathered from mountains and rivers around Seto. His pieces range from traditional to avant-garde.",
@@ -206,7 +206,7 @@ const craftsmen = [
         craft: "Hagi-yaki",
         craftJp: "萩焼",
         location: "Yamaguchi",
-        image: "workphotos/face13.webp",
+        image: "face13.webp",
         specialty: "Tea Ceremony Ware",
         years: 27,
         story: "Hagi pottery is known for changing color over time as tea seeps into its porous clay - a phenomenon called 'nanabake' (seven changes). Master Takahashi creates tea bowls that become more beautiful with each tea ceremony, embodying the passage of time.",
@@ -222,7 +222,7 @@ const craftsmen = [
         craft: "Blade Forging",
         craftJp: "刀鍛冶",
         location: "Gifu",
-        image: "workphotos/face15.jpg",
+        image: "face15.jpg",
         specialty: "Damascus Kitchen Knives",
         years: 36,
         story: "Fourth-generation bladesmith from Seki, the legendary knife-making city. Master Fujiwara forge-welds 67 layers of steel to create stunning Damascus patterns. Each knife takes 2 weeks to complete and is sharpened to a 15-degree edge.",
@@ -236,7 +236,7 @@ const craftsmen = [
         craft: "Kimono Weaving",
         craftJp: "着物織り",
         location: "Tokyo",
-        image: "workphotos/face5.jpg",
+        image: "face5.jpg",
         specialty: "Hand-Painted Yuzen",
         years: 32,
         story: "Master of Kyo-yuzen, the ancient art of hand-painting silk. Michiko can paint 1000 cherry blossoms without repeating a single petal. Her kimono take 6-12 months to complete and are worn by celebrities and traditional performers worldwide.",
@@ -250,7 +250,7 @@ const craftsmen = [
         craft: "Woodworking",
         craftJp: "木工芸",
         location: "Gifu",
-        image: "workphotos/face11.jpg",
+        image: "face11.jpg",
         specialty: "Traditional Furniture",
         years: 41,
         story: "Master woodworker specializing in joinery techniques that require no nails or screws. His furniture uses only natural wood connections that tighten with age. Each piece is made from trees he personally selects and seasons for years.",
@@ -268,7 +268,7 @@ const products = [
         artisan: "Tanaka Hiroshi",
         location: "Kyoto",
         price: 85000,
-        image: "workphotos/pot1.webp",
+        image: "pot1.webp",
         badge: "Master Craft",
         category: "pottery",
         description: "Exquisite Raku-fired tea bowl with deep black glaze and subtle crackle patterns.",
@@ -281,7 +281,7 @@ const products = [
         artisan: "Mori Kazuo",
         location: "Okayama",
         price: 95000,
-        image: "workphotos/pot2.jpg",
+        image: "pot2.jpg",
         badge: "Limited",
         category: "pottery",
         description: "Complete 5-piece tea ceremony set with natural hi-iro (scarlet) markings.",
@@ -294,7 +294,7 @@ const products = [
         artisan: "Kato Noboru",
         location: "Saga",
         price: 55000,
-        image: "workphotos/pot3.jpg",
+        image: "pot3.jpg",
         badge: "Classic",
         category: "pottery",
         description: "Traditional sometsuke blue and white porcelain vase with intricate floral patterns.",
@@ -307,7 +307,7 @@ const products = [
         artisan: "Shimizu Akiko",
         location: "Saga",
         price: 125000,
-        image: "workphotos/pot4.avif",
+        image: "pot4.avif",
         badge: "Exclusive",
         category: "pottery",
         description: "12-piece hand-painted porcelain dinner service in traditional Imari colors.",
@@ -320,7 +320,7 @@ const products = [
         artisan: "Nakamura Tetsuya",
         location: "Shiga",
         price: 42000,
-        image: "workphotos/pot5.webp",
+        image: "pot5.webp",
         badge: "New",
         category: "pottery",
         description: "Natural ash-glazed sake bottle and 4 cups with rich orange-brown tones.",
@@ -335,7 +335,7 @@ const products = [
         artisan: "Sato Michiko",
         location: "Tokyo",
         price: 250000,
-        image: "workphotos/pot6.webp",
+        image: "pot6.webp",
         badge: "Masterpiece",
         category: "kimono",
         description: "Hand-painted silk kimono featuring golden cranes in flight.",
@@ -348,7 +348,7 @@ const products = [
         artisan: "Sato Michiko",
         location: "Tokyo",
         price: 88000,
-        image: "workphotos/pot7.webp",
+        image: "pot7.webp",
         badge: "Heritage",
         category: "kimono",
         description: "Premium woven silk obi belt with cherry blossom patterns.",
@@ -363,7 +363,7 @@ const products = [
         artisan: "Fujiwara Takeshi",
         location: "Gifu",
         price: 120000,
-        image: "workphotos/pot8.webp",
+        image: "pot8.webp",
         badge: "Featured",
         category: "knife",
         description: "67-layer Damascus steel gyuto knife with octagonal ebony handle.",
@@ -376,7 +376,7 @@ const products = [
         artisan: "Fujiwara Takeshi",
         location: "Gifu",
         price: 45000,
-        image: "workphotos/pot9.jpg",
+        image: "pot9.jpg",
         badge: "Popular",
         category: "knife",
         description: "All-purpose santoku knife with VG-10 steel core.",
@@ -391,7 +391,7 @@ const products = [
         artisan: "Okamoto Kenji",
         location: "Gifu",
         price: 15000,
-        image: "workphotos/pot10.jpg",
+        image: "pot10.jpg",
         badge: "Elegant",
         category: "chopsticks",
         description: "Premium African blackwood chopsticks with natural oil finish.",
@@ -404,7 +404,7 @@ const products = [
         artisan: "Okamoto Kenji",
         location: "Gifu",
         price: 12000,
-        image: "workphotos/pot23.jpeg",
+        image: "pot23.jpeg",
         badge: "Traditional",
         category: "chopsticks",
         description: "Hand-lacquered chopsticks with gold leaf accents.",
@@ -419,7 +419,7 @@ const products = [
         artisan: "Sato Michiko",
         location: "Tokyo",
         price: 18000,
-        image: "workphotos/pot12.jpg",
+        image: "pot12.jpg",
         badge: "Art Piece",
         category: "fan",
         description: "Hand-painted silk sensu with bamboo ribs and sakura motif.",
@@ -432,7 +432,7 @@ const products = [
         artisan: "Sato Michiko",
         location: "Tokyo",
         price: 12000,
-        image: "workphotos/pot13.png",
+        image: "pot13.png",
         badge: "Summer",
         category: "fan",
         description: "Traditional non-folding fan with hand-dyed washi paper.",
@@ -445,7 +445,7 @@ const products = [
         artisan: "Tanaka Hiroshi",
         location: "Kyoto",
         price: 68000,
-        image: "workphotos/pot14.jpg",
+        image: "pot14.jpg",
         badge: "Handcrafted",
         category: "pottery",
         description: "Unique hand-thrown tea bowl with natural glaze variations.",
@@ -458,7 +458,7 @@ const products = [
         artisan: "Mori Kazuo",
         location: "Okayama",
         price: 52000,
-        image: "workphotos/pot15.jpg",
+        image: "pot15.jpg",
         badge: "Traditional",
         category: "pottery",
         description: "Elegant sake bottle with traditional glaze technique.",
@@ -471,7 +471,7 @@ const products = [
         artisan: "Kato Noboru",
         location: "Saga",
         price: 78000,
-        image: "workphotos/pot16.jpg",
+        image: "pot16.jpg",
         badge: "Set",
         category: "pottery",
         description: "Set of 4 handcrafted bowls with unique patterns.",
@@ -484,7 +484,7 @@ const products = [
         artisan: "Shimizu Akiko",
         location: "Saga",
         price: 95000,
-        image: "workphotos/pot17.jpg",
+        image: "pot17.jpg",
         badge: "Art Piece",
         category: "pottery",
         description: "Stunning decorative vase with intricate detailing.",
@@ -497,7 +497,7 @@ const products = [
         artisan: "Nakamura Tetsuya",
         location: "Shiga",
         price: 145000,
-        image: "workphotos/pot5.webp",
+        image: "pot5.webp",
         badge: "Premium",
         category: "pottery",
         description: "Complete tea ceremony set with traditional craftsmanship.",
@@ -510,7 +510,7 @@ const products = [
         artisan: "Tanaka Hiroshi",
         location: "Kyoto",
         price: 72000,
-        image: "workphotos/pot19.webp",
+        image: "pot19.webp",
         badge: "Handmade",
         category: "pottery",
         description: "Traditional teapot with elegant spout and handle design.",
@@ -523,7 +523,7 @@ const products = [
         artisan: "Mori Kazuo",
         location: "Okayama",
         price: 58000,
-        image: "workphotos/pot20.jpg",
+        image: "pot20.jpg",
         badge: "Classic",
         category: "pottery",
         description: "Set of 6 handcrafted plates with traditional patterns.",
@@ -536,7 +536,7 @@ const products = [
         artisan: "Kato Noboru",
         location: "Saga",
         price: 48000,
-        image: "workphotos/pot21.jpg",
+        image: "pot21.jpg",
         badge: "Elegant",
         category: "pottery",
         description: "Beautiful decorative bowl with intricate glaze work.",
@@ -549,7 +549,7 @@ const products = [
         artisan: "Shimizu Akiko",
         location: "Saga",
         price: 185000,
-        image: "workphotos/pot22.webp",
+        image: "pot22.webp",
         badge: "Masterpiece",
         category: "pottery",
         description: "Exquisite vase from master artisan's premium collection.",
@@ -564,7 +564,7 @@ const products = [
         artisan: "Okamoto Kenji",
         location: "Gifu",
         price: 65000,
-        image: "workphotos/pot20.jpg",
+        image: "pot20.jpg",
         badge: "Handcrafted",
         category: "woodcraft",
         description: "Intricate joinery jewelry box made without nails or glue.",
@@ -577,7 +577,7 @@ const products = [
         artisan: "Okamoto Kenji",
         location: "Gifu",
         price: 28000,
-        image: "workphotos/pot10.jpg",
+        image: "pot10.jpg",
         badge: "Functional Art",
         category: "woodcraft",
         description: "Minimalist serving tray with live edge and handles.",
@@ -592,7 +592,7 @@ const products = [
         artisan: "Takahashi Brewery",
         location: "Niigata",
         price: 18000,
-        image: "workphotos/pot4.avif",
+        image: "pot4.avif",
         badge: "Premium",
         category: "liquor",
         description: "Ultra-premium sake brewed with 35% polished rice.",
@@ -605,7 +605,7 @@ const products = [
         artisan: "Takahashi Brewery",
         location: "Kyushu",
         price: 22000,
-        image: "workphotos/pot7.webp",
+        image: "pot7.webp",
         badge: "Rare",
         category: "liquor",
         description: "10-year aged barley shochu in ceramic bottle.",
@@ -790,12 +790,12 @@ function initParticles() {
 let currentArtisanIndex = 0;
 let artisanCarouselInterval;
 const artImages = [
-    'workphotos/art1.jpg',
-    'workphotos/art2.jpg',
-    'workphotos/art3.jpg',
-    'workphotos/art4.jpg',
-    'workphotos/art5.jpg',
-    'workphotos/art6.jpg'
+    'art1.jpg',
+    'art2.jpg',
+    'art3.jpg',
+    'art4.jpg',
+    'art5.jpg',
+    'art6.jpg'
 ];
 
 function initArtisanCarousel() {
@@ -1124,7 +1124,7 @@ function displaySpotlightArtisan(index) {
     
     // Update portrait
     const portrait = document.getElementById('spotlightPortrait');
-    portrait.innerHTML = `<img src="${artisan.image}" alt="${artisan.name}" onerror="this.src='workphotos/face1.jpg'">`;
+    portrait.innerHTML = `<img src="${artisan.image}" alt="${artisan.name}" onerror="this.src='face1.jpg'">`;
     
     // Update details
     const details = document.getElementById('spotlightDetails');
@@ -1150,7 +1150,7 @@ function displaySpotlightArtisan(index) {
             <div class="artisan-products-grid">
                 ${artisanProducts.map(product => `
                     <div class="artisan-product-mini" onclick="openProductById(${product.id})">
-                        <img src="${product.image}" alt="${product.name}" onerror="this.src='workphotos/pot1.webp'">
+                        <img src="${product.image}" alt="${product.name}" onerror="this.src='pot1.webp'">
                         <div class="product-mini-info">
                             <div class="product-mini-name">${product.name}</div>
                             <div class="product-mini-price">¥${product.price.toLocaleString()}</div>
@@ -1204,17 +1204,17 @@ function openCraftsmanModal(id) {
     const modal = document.getElementById('craftsmanModal');
     const inner = document.getElementById('craftsmanModalInner');
     
-    const isLocalVideo = craftsman.video && craftsman.video.includes('workphotos/');
+    const isLocalVideo = craftsman.video && craftsman.video.includes('');
     
     inner.innerHTML = `
         <div class="craftsman-modal-grid">
             <div class="craftsman-modal-left">
-                <img src="${craftsman.image}" alt="${craftsman.name}" class="craftsman-modal-image" onerror="this.src='workphotos/face1.jpg'">
+                <img src="${craftsman.image}" alt="${craftsman.name}" class="craftsman-modal-image" onerror="this.src='face1.jpg'">
                 <div class="craftsman-modal-video">
                     ${isLocalVideo 
                         ? `<video controls autoplay loop muted playsinline class="craftsman-video" onerror="this.style.display='none'">
                             <source src="${craftsman.video}" type="video/mp4">
-                            <source src="workphotos/pottery.mp4" type="video/mp4">
+                            <source src="pottery.mp4" type="video/mp4">
                             Your browser does not support the video tag.
                            </video>`
                         : `<iframe src="${craftsman.video}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
@@ -1455,7 +1455,7 @@ function displayProducts(productsToShow) {
         
         card.innerHTML = `
             <div class="product-image">
-                <img src="${product.image}" alt="${product.name}" onerror="this.src='workphotos/pot1.webp'">
+                <img src="${product.image}" alt="${product.name}" onerror="this.src='pot1.webp'">
                 ${product.badge && product.badge.toLowerCase() === 'new' ? `<div class="product-badge">${product.badge}</div>` : ''}
             </div>
             <div class="product-info">
@@ -1496,7 +1496,7 @@ function openProductModal(product) {
     modalInner.innerHTML = `
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; padding: 2rem;">
             <div>
-                <img src="${product.image}" alt="${product.name}" style="width: 100%; border-radius: 8px;" onerror="this.src='workphotos/pot1.webp'">
+                <img src="${product.image}" alt="${product.name}" style="width: 100%; border-radius: 8px;" onerror="this.src='pot1.webp'">
             </div>
             <div style="padding: 1rem;">
                 <div style="display: inline-block; background: #000000; color: white; padding: 0.4rem 1rem; font-size: 0.7rem; margin-bottom: 1rem; border-radius: 3px;">${product.badge}</div>
@@ -2321,7 +2321,7 @@ document.addEventListener('keydown', function(event) {
 // ===== ASCII VIDEO EFFECT =====
 // Configuration
 const ASCII_CONFIG = {
-    videoPath: 'workphotos/wind2.mp4', // Easy to change video source
+    videoPath: 'wind2.mp4', // Easy to change video source
     chars: ' .░▒▓█', // Brightness-based character set - using Unicode blocks for better clarity
     resolution: 0.15, // Lower = more detail, higher = better performance (0.1 to 0.3 recommended)
     useColor: false, // Set to true for colored ASCII (uses more resources)
