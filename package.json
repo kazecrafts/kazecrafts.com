@@ -1,0 +1,33 @@
+{
+  "name": "kaze-crafts-backend",
+  "version": "1.0.0",
+  "description": "Backend API for Kaze Crafts Japanese Marketplace",
+  "main": "backend-example.js",
+  "scripts": {
+    "start": "node backend-example.js",
+    "dev": "nodemon backend-example.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "stripe",
+    "marketplace",
+    "japanese",
+    "crafts",
+    "ecommerce"
+  ],
+  "author": "Kaze Crafts",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "stripe": "^14.10.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
+
