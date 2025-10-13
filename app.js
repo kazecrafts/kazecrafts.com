@@ -1204,7 +1204,7 @@ function openCraftsmanModal(id) {
     const modal = document.getElementById('craftsmanModal');
     const inner = document.getElementById('craftsmanModalInner');
     
-    const isLocalVideo = craftsman.video && craftsman.video.includes('');
+    const isLocalVideo = craftsman.video && (craftsman.video.includes('.mp4') || craftsman.video.includes('.mov') || craftsman.video.includes('.webm'));
     
     inner.innerHTML = `
         <div class="craftsman-modal-grid">
