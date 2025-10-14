@@ -2099,17 +2099,41 @@ function toggleWishlist() {
 // Initialize partner section with Japanese default
 function initPartnerLanguage() {
     // Set Japanese as default
-    switchPartnerLanguage('jp', document.querySelector('.lang-btn[onclick*="jp"]'));
+    const langOption = document.querySelector('.lang-option[onclick*="jp"]');
+    const langBtn = document.querySelector('.lang-btn[onclick*="jp"]');
+    
+    if (langOption) {
+        switchPartnerLanguageText('jp', langOption);
+    } else if (langBtn) {
+        switchPartnerLanguage('jp', langBtn);
+    }
 }
 
-// Partner section language toggle
-function switchPartnerLanguage(lang, clickedButton) {
-    // Update button states
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.classList.remove('active');
+// Partner section language toggle (new text-based version)
+function switchPartnerLanguageText(lang, clickedElement) {
+    // Update active states
+    document.querySelectorAll('.lang-option').forEach(opt => {
+        opt.classList.remove('active');
     });
-    clickedButton.classList.add('active');
+    clickedElement.classList.add('active');
     
+    // Call existing language switch logic
+    switchPartnerLanguageContent(lang);
+}
+
+// Legacy function support and content switching
+function switchPartnerLanguage(lang, clickedButton) {
+    // Support for old button-based toggle (if any exist)
+    if (clickedButton && clickedButton.classList) {
+        document.querySelectorAll('.lang-btn, .lang-option').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        clickedButton.classList.add('active');
+    }
+    switchPartnerLanguageContent(lang);
+}
+
+function switchPartnerLanguageContent(lang) {
     // Update all text elements
     document.querySelectorAll('[data-jp][data-en]').forEach(element => {
         if (lang === 'jp') {
