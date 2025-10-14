@@ -751,7 +751,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Log Stripe configuration status
 function logStripeStatus() {
-    console.log('\n%c🎨 Kaze Crafts - Payment System Status', 'font-size: 16px; font-weight: bold; color: #50C878;');
+    console.log('\n%c🎨 Kaze Crafts - Payment System Status', 'font-size: 16px; font-weight: bold; color: #4A90E2;');
     
     if (stripe) {
         console.log('%c✅ Stripe Integration: ACTIVE', 'color: #4caf50; font-weight: bold;');
@@ -1447,9 +1447,8 @@ function displayProducts(productsToShow) {
             if (!e.target.closest('button')) {
                 // Show price if hidden
                 const priceElement = card.querySelector('.product-price-large');
-                if (priceElement.style.display === 'none') {
-                    priceElement.style.display = 'block';
-                    priceElement.style.animation = 'fadeIn 0.3s ease';
+                if (!priceElement.classList.contains('visible')) {
+                    priceElement.classList.add('visible');
                 }
                 // Open modal
                 openProductModal(product);
@@ -1466,7 +1465,7 @@ function displayProducts(productsToShow) {
                 <div class="product-name">${product.name}</div>
                 <div class="product-artisan">${product.artisan}</div>
                 <div class="product-location">📍 ${product.location}</div>
-                <div class="product-price-large" style="display: none;">¥${product.price.toLocaleString()}</div>
+                <div class="product-price-large">¥${product.price.toLocaleString()}</div>
                 <div class="product-actions">
                     <button class="product-stripe-btn" onclick="event.stopPropagation(); initiateStripeCheckout(${product.id})">
                         <i class="fas fa-lock"></i> Buy Now
@@ -1488,7 +1487,25 @@ function displayProducts(productsToShow) {
 function openProductById(productId) {
     const product = products.find(p => p.id === productId);
     if (product) {
-        openProductModal(product);
+        // Close artisan modal if open
+        const artisanModal = document.getElementById('craftsmanModal');
+        if (artisanModal && artisanModal.classList.contains('active')) {
+            closeCraftsmanModal();
+        }
+        
+        // Scroll to products section first
+        const productsSection = document.getElementById('collections');
+        if (productsSection) {
+            productsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            
+            // Wait for scroll to complete, then open modal
+            setTimeout(() => {
+                openProductModal(product);
+            }, 600);
+        } else {
+            // If no products section, just open modal
+            openProductModal(product);
+        }
     }
 }
 
@@ -1778,7 +1795,7 @@ function initializeStripeElements() {
                     color: '#1A1A1A',
                     fontFamily: 'Cinzel, serif',
                     '::placeholder': { color: '#aab7c4' },
-                    iconColor: '#50C878'
+                    iconColor: '#4A90E2'
                 },
                 invalid: {
                     color: '#e5424d',
