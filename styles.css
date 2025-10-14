@@ -416,20 +416,45 @@ nav.scrolled {
     width: 100%;
     height: 100%;
     z-index: 0;
+    background: #000000;
 }
 
-/* CRITICAL: Ensure video source and canvas stay hidden */
-#asciiVideoSourceHero {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
+.hero-video-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    opacity: 0.6;
 }
 
-#asciiCanvasHero {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
+.hero-gradient-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    background: linear-gradient(
+        135deg,
+        rgba(74, 144, 226, 0.4) 0%,
+        rgba(80, 200, 120, 0.4) 50%,
+        rgba(74, 144, 226, 0.4) 100%
+    );
+    background-size: 400% 400%;
+    animation: gradientMove 15s ease infinite;
+    pointer-events: none;
+}
+
+@keyframes gradientMove {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
 }
 
 .hero-overlay {
@@ -439,37 +464,13 @@ nav.scrolled {
     width: 100%;
     height: 100%;
     background: 
-        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.3) 100%);
-    z-index: 2;
+        radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.03) 0%, transparent 50%);
+    z-index: 3;
     pointer-events: none;
 }
 
-/* hero-bottom-blend removed */
-
-.ascii-hero-output {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    font-family: 'Courier New', Courier, monospace;
-    color: #50C878;
-    background: transparent;
-    margin: 0;
-    padding: 0;
-    line-height: 0.7;
-    letter-spacing: -0.02em;
-    white-space: pre;
-    overflow: hidden;
-    text-align: left;
-    font-size: clamp(4.5px, 0.5vw, 9px);
-    text-shadow: 0 0 15px rgba(80, 200, 120, 0.8);
-    font-weight: 600;
-    display: block !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-}
+/* ASCII elements removed per user request */
 
 .hero-main {
     position: relative;
@@ -2315,7 +2316,7 @@ footer::after {
     .video-grid-cinematic {
         grid-template-columns: 1fr;
         gap: 2.5rem;
-        padding: 0 1.5rem;
+        padding: 0;
     }
     
     .craft-video {
@@ -2453,18 +2454,8 @@ footer::after {
         height: 150px;
     }
     
-    /* Responsive ASCII Hero - Hide on mobile */
-    .ascii-hero-output {
-        display: none !important; /* Disable on mobile for performance */
-    }
-    
-    /* Simple gradient background for mobile */
-    .hero-background {
-        background: linear-gradient(135deg, #50C878 0%, #2D8B57 100%);
-    }
-    
     .hero-overlay {
-        opacity: 0.6;
+        opacity: 0.7;
     }
     
     
@@ -2616,7 +2607,7 @@ footer::after {
     .video-grid-cinematic {
         grid-template-columns: 1fr;
         gap: 2rem;
-        padding: 0 1rem;
+        padding: 0;
     }
     
     .video-card-cinematic:hover {
@@ -3081,13 +3072,13 @@ footer::after {
     
     /* Video Section */
     .video-section-cinematic {
-        padding: 4rem 1.5rem;
+        padding: 4rem 1rem;
     }
     
     .video-grid-cinematic {
         grid-template-columns: 1fr;
         gap: 3rem;
-        padding: 0 1rem;
+        padding: 0;
     }
     
     .video-card-cinematic {
@@ -3337,13 +3328,6 @@ footer::after {
         display: flex;
         align-items: center;
         justify-content: center;
-    }
-    
-    /* ASCII Effects */
-    .ascii-hero-output,
-    .ascii-output {
-        font-size: 3px !important;
-        line-height: 1 !important;
     }
     
     /* Map */
@@ -3719,12 +3703,7 @@ footer::after {
     }
 }
 
-/* Partner language toggle removed per user request */
-
-/* Hide Partner ASCII background for performance */
-.partner-section .ascii-background {
-    display: none !important;
-}
+/* Partner language toggle and ASCII removed per user request */
 
 
 .product-price-large {
@@ -4317,7 +4296,16 @@ footer::after {
 /* ===== VIDEO SECTION CINEMATIC ===== */
 .video-section-cinematic {
     padding: 8rem 3rem 6rem;
-    background: var(--tiffany-blue);
+    background: linear-gradient(
+        135deg,
+        #4A90E2 0%,
+        #50C878 25%,
+        #4A90E2 50%,
+        #50C878 75%,
+        #4A90E2 100%
+    );
+    background-size: 400% 400%;
+    animation: gradientMove 20s ease infinite;
     color: #000000;
     position: relative;
     overflow: hidden;
@@ -4330,7 +4318,7 @@ footer::after {
     left: 0;
     right: 0;
     height: 150px;
-    background: linear-gradient(to bottom, rgba(80, 200, 120, 0.3), transparent);
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.15), transparent);
     pointer-events: none;
     z-index: 0;
 }
@@ -4496,66 +4484,20 @@ footer::after {
     width: 100%;
 }
 
-/* ASCII Video as Background */
-.partner-section .ascii-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-    opacity: 0.4;
-    pointer-events: none;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.partner-section .ascii-background video {
-    display: none !important;
-}
-
-.partner-section .ascii-background canvas {
-    display: none !important;
-}
-
-.partner-section .ascii-background pre {
-    font-family: 'Courier New', Courier, monospace;
-    color: #50C878;
-    background: transparent;
-    margin: 0;
-    padding: 0;
-    line-height: 0.75;
-    letter-spacing: 0;
-    white-space: pre;
-    overflow: hidden;
-    text-align: left;
-    font-size: clamp(4px, 0.5vw, 8px);
-    text-shadow: 0 0 10px rgba(80, 200, 120, 0.6);
-    font-weight: 600;
-    width: 100%;
-    height: 100%;
-    min-height: 100%;
-    word-break: normal;
-    word-wrap: normal;
-    display: block;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
+/* ASCII background removed - using emerald gradient */
 
 .partner-section::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--accent-teal), transparent);
-    box-shadow: 0 0 20px rgba(80, 200, 120, 0.5);
-    z-index: 1;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 30%, rgba(80, 200, 120, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(111, 216, 156, 0.06) 0%, transparent 50%);
+    z-index: 0;
+    pointer-events: none;
 }
 
 .partner-content {
