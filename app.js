@@ -1,7 +1,6 @@
 // ===== STRIPE CONFIGURATION =====
-// Replace with your actual Stripe publishable key
-// Get your key from: https://dashboard.stripe.com/test/apikeys
-const STRIPE_PUBLIC_KEY = 'pk_test_51234567890REPLACEME'; // TODO: Replace with your real test key
+// Stripe publishable key - LIVE AND ACTIVE
+const STRIPE_PUBLIC_KEY = 'pk_test_51SHzYWCNZJjjYW2zUi60YWy5HYq827adGWVTTsvoGsSTQoezGdM2t9JxE63LuDSrM1pOAWDcqK9KsY0pSGQeztyN00qNGlxwWJ';
 
 // Initialize Stripe (will be initialized properly when real key is added)
 let stripe = null;
@@ -25,21 +24,39 @@ const TEST_CARDS = {
     ]
 };
 
-// Try to initialize Stripe
-try {
-    if (typeof Stripe !== 'undefined') {
-        // Check if we have a valid key (not the placeholder)
-        if (STRIPE_PUBLIC_KEY && !STRIPE_PUBLIC_KEY.includes('REPLACEME')) {
-            stripe = Stripe(STRIPE_PUBLIC_KEY);
-            console.log('✅ Stripe initialized with test key');
+// Initialize Stripe (will retry if not loaded yet)
+function initializeStripe() {
+    try {
+        if (typeof Stripe !== 'undefined') {
+            if (STRIPE_PUBLIC_KEY && STRIPE_PUBLIC_KEY.startsWith('pk_test_')) {
+                stripe = Stripe(STRIPE_PUBLIC_KEY);
+                console.log('✅ Stripe initialized successfully!');
+                console.log('💳 Ready to process payments');
+                return true;
+            } else {
+                console.warn('⚠️ Invalid Stripe key');
+                return false;
+            }
         } else {
-            console.warn('⚠️ Stripe key not configured. Using demo mode.');
-            console.log('📝 Add your Stripe test key to enable payments');
+            console.warn('⚠️ Stripe.js not loaded yet, retrying...');
+            return false;
         }
+    } catch (error) {
+        console.error('❌ Stripe initialization error:', error);
+        return false;
     }
-} catch (error) {
-    console.error('Stripe initialization error:', error);
 }
+
+// Try to initialize immediately
+initializeStripe();
+
+// Retry on window load if needed
+window.addEventListener('load', function() {
+    if (!stripe) {
+        console.log('Retrying Stripe initialization on window load...');
+        initializeStripe();
+    }
+});
 
 // ===== CRAFTSMEN DATA =====
 // 12 Famous Japanese Pottery Styles + Other Crafts
@@ -618,87 +635,7 @@ const products = [
 let cart = [];
 let currentFilter = 'all';
 
-// ===== ANIMATED GRADIENT BACKGROUND =====
-function initHeroThreeJS() {
-    // Particles removed - using CSS animated gradient instead
-    // The gradient animation is handled in CSS with @keyframes gradientFlow
-}
-
-// ===== SMART WORD-BY-WORD ANIMATION =====
-function initBilingualAnimation() {
-    const tagline = document.getElementById('dynamicTagline');
-    if (!tagline) return;
-
-    const phrases = [
-        { text: '日本の職人技', lang: 'jp' },
-        { text: 'Authentic Japanese Craftsmanship', lang: 'en' }
-    ];
-    
-    let currentPhraseIndex = 0;
-    
-    function animateWords(phrase) {
-        const words = phrase.text.split(' ');
-        const lang = phrase.lang;
-        
-        // Create a temporary container to maintain fixed height
-        const tempContainer = document.createElement('div');
-        tempContainer.style.position = 'absolute';
-        tempContainer.style.width = '100%';
-        tempContainer.style.opacity = '0';
-        
-        // Create spans for each word
-        words.forEach((word, index) => {
-            const span = document.createElement('span');
-            span.className = `word-${lang}`;
-            span.textContent = word;
-            span.style.animationDelay = `${index * 0.1}s`;
-            tempContainer.appendChild(span);
-            
-            // Add space except for Japanese
-            if (lang === 'en' && index < words.length - 1) {
-                tempContainer.appendChild(document.createTextNode(' '));
-            }
-        });
-        
-        // Replace content smoothly
-        tagline.innerHTML = '';
-        tagline.appendChild(tempContainer);
-        
-        // Fade in
-        setTimeout(() => {
-            tempContainer.style.position = 'relative';
-            tempContainer.style.opacity = '1';
-        }, 50);
-    }
-    
-    function transitionToNextPhrase() {
-        // Fade out current with stable positioning
-        const currentContent = tagline.firstChild;
-        if (currentContent) {
-            currentContent.style.opacity = '0';
-        }
-        
-        setTimeout(() => {
-            currentPhraseIndex = (currentPhraseIndex + 1) % phrases.length;
-            animateWords(phrases[currentPhraseIndex]);
-        }, 400);
-    }
-    
-    // Initial phrase
-    animateWords(phrases[0]);
-    
-    // Start cycling after 4 seconds, then every 5 seconds
-    setTimeout(() => {
-        transitionToNextPhrase();
-        setInterval(transitionToNextPhrase, 5000);
-    }, 4000);
-}
-
-// ===== WIND CANVAS ANIMATION (KAZE) =====
-function initFluidCanvas() {
-    // Disabled - using ASCII effects only
-    return;
-}
+// Animation functions removed - using CSS and ASCII only
 
 // Initialize app
 
@@ -718,19 +655,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize everything
     initAOS();
-    // initParticles(); // Disabled - using ASCII only
     initLuxuryAnimations();
     initAdvancedAnimations();
-    initArtisanCarousel();
     initCraftsmenGrid();
     initMap();
     displayProducts(products);
     initScrollEffects();
-    
-    // Initialize partner section with Japanese default
     initPartnerLanguage();
-    // initFluidCanvas(); // Disabled - using ASCII only
-    // initBilingualAnimation(); // Removed - text removed from hero
     initSmoothScroll();
     loadCart();
     updateProductCount();
@@ -753,242 +684,46 @@ document.addEventListener('DOMContentLoaded', function() {
 function logStripeStatus() {
     console.log('\n%c🎨 Kaze Crafts - Payment System Status', 'font-size: 16px; font-weight: bold; color: #4A90E2;');
     
+    // Ensure Stripe is initialized
+    if (!stripe && typeof Stripe !== 'undefined') {
+        initializeStripe();
+    }
+    
     if (stripe) {
-        console.log('%c✅ Stripe Integration: ACTIVE', 'color: #4caf50; font-weight: bold;');
+        console.log('%c✅ Stripe Integration: LIVE & ACTIVE', 'color: #4caf50; font-weight: bold; font-size: 14px;');
+        console.log('%c🔑 Key: ' + STRIPE_PUBLIC_KEY.substring(0, 20) + '...', 'color: #4caf50;');
         console.log('💳 Test cards available in checkout');
-        console.log('📖 See: STRIPE_TEST_CARDS.md');
+        console.log('🧪 Use: 4242 4242 4242 4242 (Visa success)');
+        console.log('📖 See: STRIPE_TEST_CARDS.md for more test cards');
     } else {
-        console.log('%c⚠️ Stripe Integration: DEMO MODE', 'color: #ff9800; font-weight: bold;');
-        console.log('📝 To enable Stripe payments:');
-        console.log('   1. Get your test key from: https://dashboard.stripe.com/test/apikeys');
-        console.log('   2. Open app.js and replace STRIPE_PUBLIC_KEY (line 4)');
-        console.log('   3. See: STRIPE_QUICK_START.md for 5-minute setup guide');
+        console.log('%c❌ Stripe Integration: FAILED', 'color: #ff0000; font-weight: bold;');
+        console.log('⚠️ Stripe.js may not be loaded. Check console for errors.');
+        console.log('🔄 Try refreshing the page (Cmd+Shift+R)');
     }
     
     console.log('\n📚 Documentation:');
-    console.log('   • Quick Start: STRIPE_QUICK_START.md');
-    console.log('   • Full Setup: STRIPE_SETUP_GUIDE.md');
+    console.log('   • Active Key: STRIPE_ACTIVE.md');
     console.log('   • Test Cards: STRIPE_TEST_CARDS.md');
-    console.log('   • Backend Example: stripe-backend-example.js');
+    console.log('   • Backend: stripe-backend-example.js');
     console.log('\n');
 }
 
 // ===== LUXURY INITIALIZATION =====
 function initAOS() {
+    // Detect mobile
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+    
     AOS.init({
-        duration: 1200,
+        duration: isMobile ? 600 : 1200, // Faster animations on mobile
         easing: 'ease-out-cubic',
         once: true,
-        offset: 50,
-        delay: 100
+        offset: isMobile ? 20 : 50, // Trigger earlier on mobile
+        delay: isMobile ? 0 : 100, // No delay on mobile
+        disable: false // Keep enabled but optimize
     });
 }
 
-function initParticles() {
-    // Disabled - using ASCII effects only
-    return;
-}
-
-// ===== SPLIT SCREEN ARTISAN CAROUSEL WITH ART IMAGES =====
-let currentArtisanIndex = 0;
-let artisanCarouselInterval;
-const artImages = [
-    'art1.jpg',
-    'art2.jpg',
-    'art3.jpg',
-    'art4.jpg',
-    'art5.jpg',
-    'art6.jpg'
-];
-
-function initArtisanCarousel() {
-    const carouselSplit = document.getElementById('artisanCarouselSplit');
-    
-    if (!carouselSplit) return;
-    
-    // Create slides with art images
-    artImages.forEach((imagePath, index) => {
-        const slide = document.createElement('div');
-        slide.className = 'carousel-slide-split';
-        if (index === 0) slide.classList.add('active');
-        slide.style.backgroundImage = `url('${imagePath}')`;
-        
-        carouselSplit.appendChild(slide);
-    });
-    
-    startArtisanCarousel();
-}
-
-function updateCarouselSlide() {
-    const slides = document.querySelectorAll('.carousel-slide-split');
-    slides.forEach((slide, i) => {
-        slide.classList.toggle('active', i === currentArtisanIndex);
-    });
-}
-
-let progressInterval;
-
-function startArtisanCarousel() {
-    clearInterval(artisanCarouselInterval);
-    clearInterval(progressInterval);
-    
-    const duration = 6000; // 6 seconds as requested
-    const progressBar = document.getElementById('carouselProgressBar');
-    
-    let progress = 0;
-    
-    // Reset and start progress bar
-    if (progressBar) {
-        progressBar.style.width = '0%';
-    }
-    
-    progressInterval = setInterval(() => {
-        progress += 100 / (duration / 50);
-        if (progressBar) {
-            progressBar.style.width = progress + '%';
-        }
-        if (progress >= 100) {
-            progress = 0;
-        }
-    }, 50);
-    
-    // Start the carousel interval
-    artisanCarouselInterval = setInterval(() => {
-        nextArtisan();
-        progress = 0;
-        if (progressBar) {
-            progressBar.style.width = '0%';
-        }
-    }, duration);
-}
-
-function nextArtisan() {
-    currentArtisanIndex = (currentArtisanIndex + 1) % artImages.length;
-    updateCarouselSlide();
-    // Restart progress on manual click
-    clearInterval(progressInterval);
-    const progressBar = document.getElementById('carouselProgressBar');
-    if (progressBar) {
-        progressBar.style.width = '0%';
-    }
-    let progress = 0;
-    progressInterval = setInterval(() => {
-        progress += 100 / (2500 / 50);
-        if (progressBar) {
-            progressBar.style.width = progress + '%';
-        }
-    }, 50);
-}
-
-function prevArtisan() {
-    currentArtisanIndex = (currentArtisanIndex - 1 + artImages.length) % artImages.length;
-    updateCarouselSlide();
-    // Restart progress on manual click
-    clearInterval(progressInterval);
-    const progressBar = document.getElementById('carouselProgressBar');
-    if (progressBar) {
-        progressBar.style.width = '0%';
-    }
-    let progress = 0;
-    progressInterval = setInterval(() => {
-        progress += 100 / (2500 / 50);
-        if (progressBar) {
-            progressBar.style.width = progress + '%';
-        }
-    }, 50);
-}
-
-// Legacy carousel code for compatibility
-function initArtisanCarouselOld() {
-    const carouselBg = document.getElementById('artisanCarouselBg');
-    const dotsContainer = document.getElementById('carouselDots');
-    
-    if (!carouselBg || !dotsContainer) return;
-    
-    // Create background slides
-    featuredArtisans.forEach((artisan, index) => {
-        const slide = document.createElement('div');
-        slide.className = 'carousel-bg-slide';
-        slide.style.backgroundImage = `url('${artisan.image}')`;
-        if (index === 0) slide.classList.add('active');
-        carouselBg.appendChild(slide);
-        
-        // Create dots
-        const dot = document.createElement('div');
-        dot.className = 'carousel-dot';
-        if (index === 0) dot.classList.add('active');
-        dot.onclick = () => goToArtisanSlide(index);
-        dotsContainer.appendChild(dot);
-    });
-    
-    // Set first artisan
-    updateArtisanCard(0);
-    
-    // Start auto-rotation
-    startArtisanCarousel();
-    
-    // Pause on hover
-    const storyCard = document.getElementById('artisanStoryCard');
-    if (storyCard) {
-        storyCard.addEventListener('mouseenter', () => clearInterval(artisanCarouselInterval));
-        storyCard.addEventListener('mouseleave', startArtisanCarousel);
-    }
-}
-
-function startArtisanCarousel() {
-    clearInterval(artisanCarouselInterval);
-    artisanCarouselInterval = setInterval(() => {
-        currentArtisanIndex = (currentArtisanIndex + 1) % featuredArtisans.length;
-        goToArtisanSlide(currentArtisanIndex);
-    }, 5000); // Change every 5 seconds
-}
-
-function goToArtisanSlide(index) {
-    currentArtisanIndex = index;
-    
-    // Update backgrounds
-    const slides = document.querySelectorAll('.carousel-bg-slide');
-    slides.forEach((slide, i) => {
-        slide.classList.toggle('active', i === index);
-    });
-    
-    // Update dots
-    const dots = document.querySelectorAll('.carousel-dot');
-    dots.forEach((dot, i) => {
-        dot.classList.toggle('active', i === index);
-    });
-    
-    // Update card with animation
-    updateArtisanCard(index);
-}
-
-function updateArtisanCard(index) {
-    const artisan = featuredArtisans[index];
-    
-    // Fade out
-    const storyCard = document.getElementById('artisanStoryCard');
-    if (!storyCard) return;
-    
-    storyCard.style.opacity = '0';
-    storyCard.style.transform = 'translateY(20px)';
-    
-    setTimeout(() => {
-        // Update content
-        document.getElementById('storyCardImg').src = artisan.image;
-        document.getElementById('storyCardImg').alt = artisan.name;
-        document.getElementById('storyCardLabel').textContent = artisan.craft;
-        document.getElementById('storyCardName').textContent = artisan.name;
-        document.getElementById('storyCardNameJp').textContent = `${artisan.nameJp} | ${artisan.craftJp}`;
-        document.getElementById('storyCardCraft').textContent = `${artisan.years} years of mastery`;
-        
-        // Set click handler
-        document.getElementById('storyCardBtn').onclick = () => openCraftsmanModal(artisan.id);
-        
-        // Fade in
-        storyCard.style.opacity = '1';
-        storyCard.style.transform = 'translateY(0)';
-    }, 300);
-}
+// Legacy carousel code removed - using spotlight system instead
 
 function initLuxuryAnimations() {
     // GSAP Timeline for hero with animations
@@ -1035,49 +770,7 @@ function initLuxuryAnimations() {
     }
 }
 
-// ===== HERO CAROUSEL =====
-function initHeroCarousel() {
-    const slidesContainer = document.getElementById('craftsmanSlides');
-    
-    // Add featured craftsmen to hero carousel
-    craftsmen.slice(0, 6).forEach(craftsman => {
-        const slide = document.createElement('div');
-        slide.className = 'swiper-slide craftsman-slide';
-        slide.innerHTML = `
-            <div class="craftsman-slide-bg" style="background-image: url('${craftsman.image}')"></div>
-            <div class="craftsman-slide-overlay"></div>
-            <div class="craftsman-slide-content">
-                <div class="craftsman-label">${craftsman.craft}</div>
-                <h2 class="craftsman-name-hero">${craftsman.name}</h2>
-                <p class="craftsman-name-jp">${craftsman.nameJp}</p>
-                <p class="craftsman-location">📍 ${craftsman.location}</p>
-                <p class="craftsman-years">${craftsman.years} years of mastery</p>
-                <button class="craftsman-story-btn" onclick="openCraftsmanModal(${craftsman.id})">
-                    My Story
-                </button>
-            </div>
-        `;
-        slidesContainer.appendChild(slide);
-    });
-    
-    // Initialize Swiper
-    new Swiper('.craftsman-swiper', {
-        effect: 'fade',
-        fadeEffect: {
-            crossFade: true
-        },
-        speed: 1500,
-        autoplay: {
-            delay: 5000,
-            disableOnInteraction: false,
-        },
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-        },
-        loop: true
-    });
-}
+// Hero carousel removed - not being used
 
 // ===== CRAFTSMEN GRID =====
 let currentSpotlightIndex = 0;
@@ -1114,72 +807,99 @@ function displaySpotlightArtisan(index) {
     const artisan = craftsmen[index];
     currentSpotlightIndex = index;
     
-    // Get artisan's products (or random ones for prototype)
-    let artisanProducts = products.filter(p => p.artisan === artisan.name);
-    
-    // If no products found, assign random products for prototype
-    if (artisanProducts.length === 0) {
-        const randomProducts = [...products].sort(() => 0.5 - Math.random()).slice(0, 3);
-        artisanProducts = randomProducts;
-    } else if (artisanProducts.length > 3) {
-        artisanProducts = artisanProducts.slice(0, 3);
-    }
+    // Detect mobile
+    const isMobile = window.innerWidth <= 768;
     
     // Update portrait
     const portrait = document.getElementById('spotlightPortrait');
-    portrait.innerHTML = `<img src="${artisan.image}" alt="${artisan.name}" onerror="this.src='face1.jpg'">`;
+    portrait.innerHTML = `<img src="${artisan.image}" alt="${artisan.name}" loading="lazy" onerror="this.src='face1.jpg'">`;
     
-    // Update details
-    const details = document.getElementById('spotlightDetails');
-    details.innerHTML = `
-        <div class="spotlight-craft-label">${artisan.craft}</div>
-        <h2 class="spotlight-name">${artisan.name}</h2>
-        <p class="spotlight-name-jp">${artisan.nameJp} • ${artisan.craftJp}</p>
-        <p class="spotlight-bio">${artisan.bio || artisan.specialty}</p>
-        <div class="spotlight-meta">
-            <div class="meta-item">
-                <span class="meta-label">Location</span>
-                <span class="meta-value">${artisan.location}</span>
+    // Mobile-optimized version (no products, simplified)
+    if (isMobile) {
+        const details = document.getElementById('spotlightDetails');
+        details.innerHTML = `
+            <div class="spotlight-craft-label">${artisan.craft}</div>
+            <h2 class="spotlight-name">${artisan.name}</h2>
+            <p class="spotlight-name-jp">${artisan.nameJp} • ${artisan.craftJp}</p>
+            <p class="spotlight-bio">${artisan.specialty}</p>
+            <div class="spotlight-meta">
+                <div class="meta-item">
+                    <span class="meta-label">Location</span>
+                    <span class="meta-value">${artisan.location}</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Experience</span>
+                    <span class="meta-value">${artisan.years} Years</span>
+                </div>
             </div>
-            <div class="meta-item">
-                <span class="meta-label">Experience</span>
-                <span class="meta-value">${artisan.years} Years</span>
-            </div>
-        </div>
+            <button class="spotlight-cta ripple" onclick="openCraftsmanModal(${artisan.id})">
+                View Full Story
+            </button>
+        `;
+    } else {
+        // Desktop version with products
+        let artisanProducts = products.filter(p => p.artisan === artisan.name);
         
-        <!-- Artisan Products Preview -->
-        <div class="artisan-products-preview">
-            <h4>Featured Works</h4>
-            <div class="artisan-products-grid">
-                ${artisanProducts.map(product => `
-                    <div class="artisan-product-mini" onclick="openProductById(${product.id})">
-                        <img src="${product.image}" alt="${product.name}" onerror="this.src='pot1.webp'">
-                        <div class="product-mini-info">
-                            <div class="product-mini-name">${product.name}</div>
-                            <div class="product-mini-price">¥${product.price.toLocaleString()}</div>
+        if (artisanProducts.length === 0) {
+            const randomProducts = [...products].sort(() => 0.5 - Math.random()).slice(0, 3);
+            artisanProducts = randomProducts;
+        } else if (artisanProducts.length > 3) {
+            artisanProducts = artisanProducts.slice(0, 3);
+        }
+        
+        const details = document.getElementById('spotlightDetails');
+        details.innerHTML = `
+            <div class="spotlight-craft-label">${artisan.craft}</div>
+            <h2 class="spotlight-name">${artisan.name}</h2>
+            <p class="spotlight-name-jp">${artisan.nameJp} • ${artisan.craftJp}</p>
+            <p class="spotlight-bio">${artisan.bio || artisan.specialty}</p>
+            <div class="spotlight-meta">
+                <div class="meta-item">
+                    <span class="meta-label">Location</span>
+                    <span class="meta-value">${artisan.location}</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Experience</span>
+                    <span class="meta-value">${artisan.years} Years</span>
+                </div>
+            </div>
+            
+            <!-- Artisan Products Preview -->
+            <div class="artisan-products-preview">
+                <h4>Featured Works</h4>
+                <div class="artisan-products-grid">
+                    ${artisanProducts.map(product => `
+                        <div class="artisan-product-mini" onclick="openProductById(${product.id})">
+                            <img src="${product.image}" alt="${product.name}" loading="lazy" onerror="this.src='pot1.webp'">
+                            <div class="product-mini-info">
+                                <div class="product-mini-name">${product.name}</div>
+                                <div class="product-mini-price">¥${product.price.toLocaleString()}</div>
+                            </div>
                         </div>
-                    </div>
-                `).join('')}
+                    `).join('')}
+                </div>
             </div>
-        </div>
-        
-        <button class="spotlight-cta ripple" onclick="filterByArtisan('${artisan.name}')">
-            View All Works
-        </button>
-        <button class="spotlight-cta-secondary ripple" onclick="openCraftsmanModal(${artisan.id})" style="margin-top: 0.5rem;">
-            View Full Story
-        </button>
-    `;
+            
+            <button class="spotlight-cta ripple" onclick="filterByArtisan('${artisan.name}')">
+                View All Works
+            </button>
+            <button class="spotlight-cta-secondary ripple" onclick="openCraftsmanModal(${artisan.id})" style="margin-top: 0.5rem;">
+                View Full Story
+            </button>
+        `;
+    }
     
     // Update counter
     updateCounter();
     
-    // Add fade animation
-    const spotlight = document.getElementById('artisanSpotlight');
-    spotlight.style.opacity = '0';
-    setTimeout(() => {
-        spotlight.style.opacity = '1';
-    }, 50);
+    // Simplified animation (no fade on mobile)
+    if (!isMobile) {
+        const spotlight = document.getElementById('artisanSpotlight');
+        spotlight.style.opacity = '0';
+        setTimeout(() => {
+            spotlight.style.opacity = '1';
+        }, 50);
+    }
 }
 
 function updateCounter() {
@@ -1771,15 +1491,22 @@ function initializeStripeElements() {
     const cardElementDiv = document.getElementById('card-element');
     const cardErrors = document.getElementById('card-errors');
     
+    // Ensure Stripe is initialized
+    if (!stripe && typeof Stripe !== 'undefined') {
+        initializeStripe();
+    }
+    
     // Check if Stripe is available
     if (!stripe || !cardElementDiv) {
-        console.warn('Stripe not available or card element not found');
+        console.error('❌ Stripe not available or card element not found');
         if (cardElementDiv) {
             cardElementDiv.innerHTML = `
-                <div style="padding: 2rem; background: #fff3cd; border: 2px solid #ffc107; border-radius: 8px; text-align: center;">
-                    <p style="margin-bottom: 1rem; font-weight: 600; color: #856404;">⚠️ Demo Mode</p>
-                    <p style="color: #856404; margin-bottom: 1rem;">Stripe API key not configured. Add your key to enable real payments.</p>
-                    <p style="font-size: 0.85rem; color: #856404;">Get your key from: <a href="https://dashboard.stripe.com/test/apikeys" target="_blank" style="color: #0066cc;">Stripe Dashboard</a></p>
+                <div style="padding: 2rem; background: #ffe6e6; border: 2px solid #ff4444; border-radius: 8px; text-align: center;">
+                    <p style="margin-bottom: 1rem; font-weight: 600; color: #cc0000;">❌ Payment System Error</p>
+                    <p style="color: #cc0000; margin-bottom: 1rem;">Stripe is not properly loaded. Please refresh the page.</p>
+                    <button onclick="location.reload()" style="padding: 0.8rem 1.5rem; background: #cc0000; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">
+                        Refresh Page
+                    </button>
                 </div>
             `;
         }
@@ -2089,11 +1816,11 @@ function showNotification(message, type = 'success') {
 }
 
 function toggleSearch() {
-    showNotification('Search coming soon!');
+    showNotification('Search feature coming soon!');
 }
 
 function toggleWishlist() {
-    showNotification('Wishlist coming soon!');
+    showNotification('Wishlist feature coming soon!');
 }
 
 // Initialize partner section with Japanese default
@@ -2367,9 +2094,9 @@ document.addEventListener('keydown', function(event) {
 const ASCII_CONFIG = {
     videoPath: 'wind2.mp4', // Easy to change video source
     chars: ' .░▒▓█', // Brightness-based character set - using Unicode blocks for better clarity
-    resolution: 0.35, // Higher = better performance (0.35 = 3x faster than 0.15!)
+    resolution: 0.28, // Balanced: visible + performant (was 0.35, now more detailed)
     useColor: false, // Set to true for colored ASCII (uses more resources)
-    frameRate: 24 // Optimized frame rate (24fps = cinematic + performant)
+    frameRate: 30 // Smooth frame rate (30fps = good balance)
 };
 
 // ASCII Video Class
@@ -2622,8 +2349,16 @@ function initPartnerASCII() {
     return;
 }
 
-// Initialize Hero ASCII Effect
+// Initialize Hero ASCII Effect (Desktop only for performance)
 function initHeroASCII() {
+    // Only run on desktop for performance
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+    
+    if (isMobile) {
+        console.log('ASCII Hero disabled on mobile for performance');
+        return;
+    }
+    
     // Small delay to ensure DOM is fully ready
     setTimeout(() => {
         const video = document.getElementById('asciiVideoSourceHero');
@@ -2687,8 +2422,21 @@ function initMobileOptimizations() {
         // Throttle scroll events
         window.addEventListener('scroll', requestTick, { passive: true });
         
-        // Note: ASCII effects remain enabled on mobile for hero video
-        // The video source remains hidden, only ASCII output is visible
+        // Disable ASCII on mobile for better performance
+        if (isMobile) {
+            const asciiOutputs = document.querySelectorAll('.ascii-hero-output, #asciiOutputPartner, #asciiOutputHero');
+            asciiOutputs.forEach(el => {
+                if (el) {
+                    el.style.display = 'none';
+                }
+            });
+            
+            // Show simple gradient background instead
+            const heroBackground = document.querySelector('.hero-background');
+            if (heroBackground) {
+                heroBackground.style.background = 'linear-gradient(135deg, #4A90E2 0%, #2C5F8D 100%)';
+            }
+        }
         
         // Optimize video loading
         const videos = document.querySelectorAll('video');
