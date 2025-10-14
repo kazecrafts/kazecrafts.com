@@ -2640,10 +2640,10 @@ function initHeroASCII() {
         const output = document.getElementById('asciiOutputHero');
         
         if (video && canvas && output) {
-            // Crop left 25% and bottom 25% for homepage hero
-            const cropConfig = { left: 0.095, bottom: 0.22 };
+            // Crop left 10% and bottom 20% for homepage hero
+            const cropConfig = { left: 0.10, bottom: 0.20 };
             new ASCIIVideoEffect(ASCII_CONFIG, 'asciiVideoSourceHero', 'asciiCanvasHero', 'asciiOutputHero', cropConfig);
-            console.log('ASCII Hero video initialized with cropping (left 9.5%, bottom 22%)');
+            console.log('ASCII Hero video initialized with cropping (left 10%, bottom 20%)');
         } else {
             console.error('ASCII Hero elements not found:', { video: !!video, canvas: !!canvas, output: !!output });
         }
@@ -2696,38 +2696,8 @@ function initMobileOptimizations() {
         // Throttle scroll events
         window.addEventListener('scroll', requestTick, { passive: true });
         
-        // Disable ASCII effects on mobile for performance, but keep video visible
-        if (isIOS || isMobile) {
-            const asciiElements = document.querySelectorAll('.ascii-output, .ascii-hero-output');
-            asciiElements.forEach(el => {
-                el.style.display = 'none';
-            });
-            
-            // Show regular video backgrounds on mobile instead of ASCII
-            const heroVideo = document.getElementById('asciiVideoSourceHero');
-            if (heroVideo) {
-                heroVideo.style.display = 'block';
-                heroVideo.style.position = 'absolute';
-                heroVideo.style.top = '0';
-                heroVideo.style.left = '0';
-                heroVideo.style.width = '100%';
-                heroVideo.style.height = '100%';
-                heroVideo.style.objectFit = 'cover';
-                heroVideo.style.zIndex = '1';
-            }
-            
-            const partnerVideo = document.getElementById('asciiVideoSourcePartner');
-            if (partnerVideo) {
-                partnerVideo.style.display = 'block';
-                partnerVideo.style.position = 'absolute';
-                partnerVideo.style.top = '0';
-                partnerVideo.style.left = '0';
-                partnerVideo.style.width = '100%';
-                partnerVideo.style.height = '100%';
-                partnerVideo.style.objectFit = 'cover';
-                partnerVideo.style.zIndex = '1';
-            }
-        }
+        // Note: ASCII effects remain enabled on mobile for hero video
+        // The video source remains hidden, only ASCII output is visible
         
         // Optimize video loading
         const videos = document.querySelectorAll('video');
