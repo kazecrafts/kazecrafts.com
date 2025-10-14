@@ -738,6 +738,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize ASCII effect for partner section background
     initPartnerASCII();
     
+    // Initialize mobile optimizations
+    initMobileOptimizations();
+    
     // Initialize ASCII effect for hero video
     initHeroASCII();
     
@@ -748,7 +751,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Log Stripe configuration status
 function logStripeStatus() {
-    console.log('\n%c🎨 Kaze Crafts - Payment System Status', 'font-size: 16px; font-weight: bold; color: #81d8d0;');
+    console.log('\n%c🎨 Kaze Crafts - Payment System Status', 'font-size: 16px; font-weight: bold; color: #50C878;');
     
     if (stripe) {
         console.log('%c✅ Stripe Integration: ACTIVE', 'color: #4caf50; font-weight: bold;');
@@ -1775,7 +1778,7 @@ function initializeStripeElements() {
                     color: '#1A1A1A',
                     fontFamily: 'Cinzel, serif',
                     '::placeholder': { color: '#aab7c4' },
-                    iconColor: '#81d8d0'
+                    iconColor: '#50C878'
                 },
                 invalid: {
                     color: '#e5424d',
@@ -2604,4 +2607,99 @@ function initHeroASCII() {
             console.error('ASCII Hero elements not found:', { video: !!video, canvas: !!canvas, output: !!output });
         }
     }, 500);
+}
+
+// Mobile optimizations
+function initMobileOptimizations() {
+    // Detect mobile device
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    
+    if (isMobile) {
+        // Add mobile class to body
+        document.body.classList.add('mobile-device');
+        
+        // Disable hover effects on mobile
+        const style = document.createElement('style');
+        style.textContent = `
+            .mobile-device *:hover {
+                transform: none !important;
+                box-shadow: none !important;
+            }
+            
+            .mobile-device .product-card:hover {
+                transform: none !important;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06) !important;
+            }
+            
+            .mobile-device .craftsman-card:hover {
+                transform: none !important;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12) !important;
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Optimize scroll performance
+        let ticking = false;
+        function updateScroll() {
+            ticking = false;
+        }
+        
+        function requestTick() {
+            if (!ticking) {
+                requestAnimationFrame(updateScroll);
+                ticking = true;
+            }
+        }
+        
+        // Throttle scroll events
+        window.addEventListener('scroll', requestTick, { passive: true });
+        
+        // Disable ASCII effects on mobile for performance
+        if (isIOS) {
+            const asciiElements = document.querySelectorAll('.ascii-output, .ascii-hero-output');
+            asciiElements.forEach(el => {
+                el.style.display = 'none';
+            });
+        }
+        
+        // Optimize video loading
+        const videos = document.querySelectorAll('video');
+        videos.forEach(video => {
+            video.preload = 'metadata';
+            video.setAttribute('playsinline', '');
+        });
+        
+        // Add touch-friendly button interactions
+        const buttons = document.querySelectorAll('button, .hero-btn, .btn-explore, .btn-artisans, .product-stripe-btn, .product-cart-btn');
+        buttons.forEach(button => {
+            button.addEventListener('touchstart', function() {
+                this.style.transform = 'scale(0.95)';
+            }, { passive: true });
+            
+            button.addEventListener('touchend', function() {
+                this.style.transform = '';
+            }, { passive: true });
+            
+            button.addEventListener('touchcancel', function() {
+                this.style.transform = '';
+            }, { passive: true });
+        });
+        
+        // Prevent zoom on input focus (iOS)
+        if (isIOS) {
+            const inputs = document.querySelectorAll('input, select, textarea');
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    document.querySelector('meta[name="viewport"]').setAttribute('content', 
+                        'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover');
+                });
+                
+                input.addEventListener('blur', function() {
+                    document.querySelector('meta[name="viewport"]').setAttribute('content', 
+                        'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover');
+                });
+            });
+        }
+    }
 }
