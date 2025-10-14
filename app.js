@@ -2367,9 +2367,9 @@ document.addEventListener('keydown', function(event) {
 const ASCII_CONFIG = {
     videoPath: 'wind2.mp4', // Easy to change video source
     chars: ' .░▒▓█', // Brightness-based character set - using Unicode blocks for better clarity
-    resolution: 0.25, // Lower = more detail, higher = better performance (increased from 0.15 for speed)
+    resolution: 0.35, // Higher = better performance (0.35 = 3x faster than 0.15!)
     useColor: false, // Set to true for colored ASCII (uses more resources)
-    frameRate: 40 // Target frame rate (increased from 24 to 40 for smoother playback)
+    frameRate: 24 // Optimized frame rate (24fps = cinematic + performant)
 };
 
 // ASCII Video Class
@@ -2614,21 +2614,12 @@ class ASCIIVideoEffect {
     }
 }
 
-// Initialize Partner ASCII Background
+// Initialize Partner ASCII Background (DISABLED for performance)
 function initPartnerASCII() {
-    // Small delay to ensure DOM is fully ready
-    setTimeout(() => {
-        const video = document.getElementById('asciiVideoSourcePartner');
-        const canvas = document.getElementById('asciiCanvasPartner');
-        const output = document.getElementById('asciiOutputPartner');
-        
-        if (video && canvas && output) {
-            new ASCIIVideoEffect(ASCII_CONFIG, 'asciiVideoSourcePartner', 'asciiCanvasPartner', 'asciiOutputPartner');
-            console.log('ASCII Partner background initialized');
-        } else {
-            console.error('ASCII Partner elements not found:', { video: !!video, canvas: !!canvas, output: !!output });
-        }
-    }, 500);
+    // Partner ASCII disabled to improve performance
+    // Only hero ASCII runs for optimal speed
+    console.log('Partner ASCII disabled for performance optimization');
+    return;
 }
 
 // Initialize Hero ASCII Effect
