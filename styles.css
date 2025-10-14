@@ -3464,6 +3464,7 @@ nav.scrolled {
     height: 120px;
     object-fit: cover;
     transition: transform 0.3s ease;
+    display: block;
 }
 
 .artisan-product-mini:hover img {
@@ -5164,35 +5165,50 @@ footer::after {
         margin-bottom: 1rem;
     }
     
+    .artisan-products-preview {
+        width: 100%;
+        overflow: hidden;
+    }
+    
     .artisan-products-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: 0.8rem;
+        gap: 0.6rem;
         margin-bottom: 1.5rem;
+        width: 100%;
     }
     
     .artisan-product-mini {
         border-radius: 8px;
         overflow: hidden;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
     }
     
     .artisan-product-mini img {
-        height: 80px;
+        height: 70px;
         width: 100%;
         object-fit: cover;
+        display: block;
     }
     
     .product-mini-info {
-        padding: 0.5rem;
+        padding: 0.4rem;
+        background: white;
     }
     
     .product-mini-name {
-        font-size: 0.75rem;
-        margin-bottom: 0.25rem;
+        font-size: 0.7rem;
+        margin-bottom: 0.2rem;
+        line-height: 1.2;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
     
     .product-mini-price {
-        font-size: 0.8rem;
+        font-size: 0.75rem;
         font-weight: 600;
     }
     
