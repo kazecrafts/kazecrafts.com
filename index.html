@@ -70,13 +70,11 @@
 
     <!-- Hero - Minimal Centered Design -->
     <section class="hero-minimal">
-        <!-- ASCII Video Background -->
         <div class="hero-background">
-            <video id="asciiVideoSourceHero" style="display: none;" autoplay loop muted playsinline preload="auto" crossorigin="anonymous">
-                <source src="wind5.mp4" type="video/mp4">
+            <video class="hero-video-bg" autoplay loop muted playsinline preload="auto">
+                <source src="wind7.mp4" type="video/mp4">
             </video>
-            <canvas id="asciiCanvasHero" style="display: none;"></canvas>
-            <pre id="asciiOutputHero" class="ascii-hero-output"></pre>
+            <div class="hero-gradient-overlay"></div>
             <div class="hero-overlay"></div>
         </div>
         
@@ -349,17 +347,8 @@
         </div>
     </section>
 
-    <!-- Partner Application Section with ASCII Background -->
+    <!-- Partner Application Section -->
     <section class="partner-section" id="partner">
-        <!-- ASCII Video Background -->
-        <div class="ascii-background">
-            <video id="asciiVideoSourcePartner" style="display: none;" preload="none" crossorigin="anonymous">
-                <source src="wind2.mp4" type="video/mp4">
-            </video>
-            <canvas id="asciiCanvasPartner" style="display: none;"></canvas>
-            <pre id="asciiOutputPartner"></pre>
-        </div>
-        
         <div class="partner-content">
             <div class="partner-left">
                 <div class="section-label" style="color: white;" data-jp="職人・小規模事業者向け" data-en="For Artisans & Small Businesses">職人・小規模事業者向け</div>
