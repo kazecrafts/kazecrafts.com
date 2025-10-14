@@ -649,17 +649,16 @@ nav.scrolled {
     background: transparent;
     margin: 0;
     padding: 0;
-    line-height: 0.6;
-    letter-spacing: -0.05em;
+    line-height: 0.75;
+    letter-spacing: 0;
     white-space: pre;
     overflow: hidden;
     text-align: left;
-    font-size: clamp(2.5px, 0.35vw, 7px);
-    text-shadow: 0 0 8px rgba(74, 144, 226, 0.5);
-    font-weight: 700;
-    word-break: break-all;
-    word-wrap: break-word;
-    display: block;
+    font-size: clamp(4px, 0.5vw, 9px);
+    text-shadow: 0 0 12px rgba(74, 144, 226, 0.7);
+    font-weight: 600;
+    display: block !important;
+    opacity: 1 !important;
 }
 
 .hero-main {
@@ -5321,13 +5320,12 @@ footer::after {
         margin: 0 auto 2rem;
         flex-direction: row;
         gap: 1rem;
+        font-size: 1.2rem;
     }
     
-    .lang-btn {
-        padding: 1rem 2rem;
-        font-size: 1rem;
-        min-width: 120px;
-        border-radius: 50px;
+    .lang-option {
+        padding: 0.5rem 0.8rem;
+        font-size: 1.1rem;
     }
     
     .partner-form {
@@ -6225,81 +6223,58 @@ footer::after {
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    flex-direction: row;
-    gap: 0.5rem;
+    gap: 0.8rem;
     z-index: 10;
-    background: rgba(0, 0, 0, 0.8);
-    padding: 1rem;
-    border-radius: 20px;
-    backdrop-filter: blur(15px);
-    border: 1px solid rgba(74, 144, 226, 0.3);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    justify-content: center;
+    align-items: center;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1.1rem;
 }
 
-.lang-btn {
-    padding: 0.8rem 1.5rem;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: white;
-    border-radius: 15px;
-    font-size: 0.9rem;
-    font-weight: 600;
+.lang-option {
+    color: rgba(255, 255, 255, 0.6);
     cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    backdrop-filter: blur(10px);
-    min-width: 100px;
-    text-align: center;
+    transition: all 0.3s ease;
+    font-weight: 400;
+    padding: 0.3rem 0.5rem;
     position: relative;
-    overflow: hidden;
 }
 
-.lang-btn::before {
+.lang-option::after {
     content: '';
     position: absolute;
-    top: 0;
-    left: -100%;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--tiffany-blue);
+    transition: width 0.3s ease;
+}
+
+.lang-option:hover {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.lang-option:hover::after {
     width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(74, 144, 226, 0.3), transparent);
-    transition: left 0.6s ease;
 }
 
-.lang-btn:hover::before {
-    left: 100%;
-}
-
-.lang-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(74, 144, 226, 0.6);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
-}
-
-.lang-btn.active {
-    background: linear-gradient(135deg, var(--tiffany-blue), var(--tiffany-blue-dark));
-    border-color: var(--tiffany-blue);
-    color: #2a2a2a;
+.lang-option.active {
+    color: white;
     font-weight: 700;
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
+    text-shadow: 0 0 15px rgba(74, 144, 226, 0.8);
 }
 
-.lang-btn.active::before {
-    display: none;
+.lang-option.active::after {
+    width: 100%;
+    background: var(--tiffany-blue);
+    box-shadow: 0 0 10px rgba(74, 144, 226, 0.8);
 }
 
-/* Floating animation for language toggle */
-.partner-language-toggle {
-    animation: floatToggle 6s ease-in-out infinite;
-}
-
-@keyframes floatToggle {
-    0%, 100% {
-        transform: translateX(-50%) translateY(0);
-    }
-    50% {
-        transform: translateX(-50%) translateY(-5px);
-    }
+.lang-divider {
+    color: rgba(255, 255, 255, 0.4);
+    font-weight: 300;
+    user-select: none;
 }
 
 
@@ -8190,20 +8165,8 @@ footer::after {
     max-width: 1600px;
     margin: 0 auto;
     padding: 0 2rem;
-    justify-items: center;
+    justify-items: stretch;
     align-items: start;
-}
-
-/* Ensure video cards are centered when there's only 1-2 items */
-.video-grid-cinematic > * {
-    width: 100%;
-    max-width: 500px;
-}
-
-@media (min-width: 1200px) {
-    .video-grid-cinematic > * {
-        max-width: 100%;
-    }
 }
 
 .video-card-cinematic {
@@ -8417,7 +8380,7 @@ footer::after {
     width: 100%;
     height: 100%;
     z-index: 0;
-    opacity: 0.35;
+    opacity: 0.4;
     pointer-events: none;
     overflow: hidden;
     display: flex;
