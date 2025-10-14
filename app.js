@@ -2343,9 +2343,9 @@ document.addEventListener('keydown', function(event) {
 const ASCII_CONFIG = {
     videoPath: 'wind2.mp4', // Easy to change video source
     chars: ' .░▒▓█', // Brightness-based character set - using Unicode blocks for better clarity
-    resolution: 0.15, // Lower = more detail, higher = better performance (0.1 to 0.3 recommended)
+    resolution: 0.25, // Lower = more detail, higher = better performance (increased from 0.15 for speed)
     useColor: false, // Set to true for colored ASCII (uses more resources)
-    frameRate: 24 // Target frame rate (24fps for cinematic look, 30fps for smooth)
+    frameRate: 40 // Target frame rate (increased from 24 to 40 for smoother playback)
 };
 
 // ASCII Video Class
@@ -2672,12 +2672,37 @@ function initMobileOptimizations() {
         // Throttle scroll events
         window.addEventListener('scroll', requestTick, { passive: true });
         
-        // Disable ASCII effects on mobile for performance
-        if (isIOS) {
+        // Disable ASCII effects on mobile for performance, but keep video visible
+        if (isIOS || isMobile) {
             const asciiElements = document.querySelectorAll('.ascii-output, .ascii-hero-output');
             asciiElements.forEach(el => {
                 el.style.display = 'none';
             });
+            
+            // Show regular video backgrounds on mobile instead of ASCII
+            const heroVideo = document.getElementById('asciiVideoSourceHero');
+            if (heroVideo) {
+                heroVideo.style.display = 'block';
+                heroVideo.style.position = 'absolute';
+                heroVideo.style.top = '0';
+                heroVideo.style.left = '0';
+                heroVideo.style.width = '100%';
+                heroVideo.style.height = '100%';
+                heroVideo.style.objectFit = 'cover';
+                heroVideo.style.zIndex = '1';
+            }
+            
+            const partnerVideo = document.getElementById('asciiVideoSourcePartner');
+            if (partnerVideo) {
+                partnerVideo.style.display = 'block';
+                partnerVideo.style.position = 'absolute';
+                partnerVideo.style.top = '0';
+                partnerVideo.style.left = '0';
+                partnerVideo.style.width = '100%';
+                partnerVideo.style.height = '100%';
+                partnerVideo.style.objectFit = 'cover';
+                partnerVideo.style.zIndex = '1';
+            }
         }
         
         // Optimize video loading
