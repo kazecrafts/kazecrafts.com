@@ -365,8 +365,9 @@
         
         <div class="partner-content">
             <div class="partner-language-toggle">
-                <button class="lang-btn active" onclick="switchPartnerLanguage('jp', this)">日本語</button>
-                <button class="lang-btn" onclick="switchPartnerLanguage('en', this)">English</button>
+                <span class="lang-option active" onclick="switchPartnerLanguageText('jp', this)">日本語</span>
+                <span class="lang-divider">/</span>
+                <span class="lang-option" onclick="switchPartnerLanguageText('en', this)">English</span>
             </div>
             <div class="partner-left">
                 <div class="section-label" style="color: white;" data-jp="職人・小規模事業者向け" data-en="For Artisans & Small Businesses">職人・小規模事業者向け</div>
