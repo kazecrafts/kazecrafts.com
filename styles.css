@@ -606,6 +606,20 @@ nav.scrolled {
     z-index: 0;
 }
 
+/* CRITICAL: Ensure video source and canvas stay hidden */
+#asciiVideoSourceHero {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+#asciiCanvasHero {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+}
+
 .hero-overlay {
     position: absolute;
     top: 0;
@@ -663,7 +677,7 @@ nav.scrolled {
 
 .hero-main {
     position: relative;
-    z-index: 3;
+    z-index: 100;
     text-align: center;
     width: 100%;
     max-width: 1400px;
@@ -683,6 +697,7 @@ nav.scrolled {
     width: 100%;
     position: relative;
     height: 100%;
+    z-index: 10;
 }
 
 @media (max-width: 1600px) {
@@ -711,6 +726,8 @@ nav.scrolled {
     gap: 0;
     justify-content: center;
     flex: 1;
+    position: relative;
+    z-index: 100;
 }
 
 .hero-rotating-text {
@@ -732,6 +749,8 @@ nav.scrolled {
     filter: drop-shadow(0 10px 40px rgba(0, 0, 0, 0.3));
     flex-shrink: 0;
     margin-top: -120px;
+    position: relative;
+    z-index: 100;
 }
 
 @media (max-width: 1400px) {
@@ -6224,6 +6243,11 @@ footer::after {
     align-items: center;
     font-family: 'Noto Serif JP', serif;
     font-size: 1.1rem;
+}
+
+/* Hide Partner ASCII background for performance */
+.partner-section .ascii-background {
+    display: none !important;
 }
 
 .lang-option {
