@@ -4287,27 +4287,6 @@ footer::after {
         letter-spacing: -0.08em;
     }
     
-    /* Show regular video background on mobile when ASCII is hidden */
-    #asciiVideoSourceHero {
-        display: block !important;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        z-index: 1;
-    }
-    
-    .hero-overlay {
-        z-index: 2;
-    }
-    
-    .hero-main {
-        z-index: 3;
-        position: relative;
-    }
-    
     /* Old split hero mobile (compatibility) */
     .hero-split {
         grid-template-columns: 1fr;
