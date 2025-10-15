@@ -2439,30 +2439,42 @@ function tryInitAutoScroll() {
     return false;
 }
 
-// Multiple initialization strategies for reliability
+// Multiple initialization strategies for reliability - ENHANCED FOR GITHUB PAGES
 document.addEventListener('DOMContentLoaded', function() {
     console.log('📄 DOM Content Loaded - attempting autoscroll init');
     
     // Strategy 1: Try immediately
     if (tryInitAutoScroll()) return;
     
-    // Strategy 2: Try after 500ms
+    // Strategy 2: Try after 300ms
     setTimeout(function() {
-        console.log('🔄 Retry 1 (500ms)');
+        console.log('🔄 Retry 1 (300ms)');
         if (tryInitAutoScroll()) return;
         
-        // Strategy 3: Try after 1500ms
+        // Strategy 3: Try after 800ms
         setTimeout(function() {
-            console.log('🔄 Retry 2 (1500ms)');
+            console.log('🔄 Retry 2 (800ms)');
             if (tryInitAutoScroll()) return;
             
-            // Strategy 4: Try after 3000ms (final attempt)
+            // Strategy 4: Try after 1500ms
             setTimeout(function() {
-                console.log('🔄 Retry 3 (3000ms - final attempt)');
-                tryInitAutoScroll();
-            }, 3000);
-        }, 1500);
-    }, 500);
+                console.log('🔄 Retry 3 (1500ms)');
+                if (tryInitAutoScroll()) return;
+                
+                // Strategy 5: Try after 3000ms (GitHub Pages delay)
+                setTimeout(function() {
+                    console.log('🔄 Retry 4 (3000ms - GitHub Pages)');
+                    if (tryInitAutoScroll()) return;
+                    
+                    // Strategy 6: Final attempt after 5000ms
+                    setTimeout(function() {
+                        console.log('🔄 Retry 5 (5000ms - FINAL)');
+                        tryInitAutoScroll();
+                    }, 5000);
+                }, 3000);
+            }, 1500);
+        }, 800);
+    }, 300);
 });
 
 // Also try on window load as backup
@@ -2470,7 +2482,9 @@ window.addEventListener('load', function() {
     console.log('🌍 Window loaded - checking autoscroll');
     if (!autoScrollInitialized) {
         console.log('🔄 Attempting autoscroll init on window load');
-        setTimeout(tryInitAutoScroll, 500);
+        setTimeout(function() {
+            tryInitAutoScroll();
+        }, 1000);
     }
 });
 
