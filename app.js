@@ -1263,6 +1263,17 @@ function displayProducts(productsToShow) {
     });
     
     console.log('🎯 Total cards in grid:', grid.children.length);
+    
+    // Initialize autoscroll after products are rendered
+    // Reset initialization flag to allow re-initialization
+    setTimeout(() => {
+        console.log('🔄 Attempting autoscroll init from displayProducts');
+        if (!autoScrollInitialized) {
+            tryInitAutoScroll();
+        } else {
+            console.log('✅ Autoscroll already active');
+        }
+    }, 300);
 }
 
 // Helper function to open product by ID
@@ -2275,10 +2286,24 @@ function initMobileOptimizations() {
 
 // Auto-scrolling Products - Continuous smooth scroll (MOBILE & DESKTOP)
 function initProductAutoScroll() {
+    console.log('🎬 initProductAutoScroll called');
     const productsGrid = document.getElementById('productsGrid');
     
     // Enable auto-scroll for ALL devices
-    if (!productsGrid) return;
+    if (!productsGrid) {
+        console.warn('⚠️ productsGrid not found, cannot init autoscroll');
+        return null;
+    }
+    
+    console.log('✅ productsGrid found:', productsGrid);
+    console.log('📊 Grid children count:', productsGrid.children.length);
+    console.log('📏 Grid scrollWidth:', productsGrid.scrollWidth, 'clientWidth:', productsGrid.clientWidth);
+    
+    // Check if there's content to scroll
+    if (productsGrid.scrollWidth <= productsGrid.clientWidth) {
+        console.warn('⚠️ No scrollable content yet, will retry...');
+        return null;
+    }
     
     let scrollDirection = 1; // 1 = right, -1 = left
     let isScrolling = true;
@@ -2292,26 +2317,22 @@ function initProductAutoScroll() {
             return;
         }
         
-        const isMobile = window.innerWidth < 768;
-        const maxScroll = isMobile ? productsGrid.scrollHeight - productsGrid.clientHeight : productsGrid.scrollWidth - productsGrid.clientWidth;
-        const currentScroll = isMobile ? productsGrid.scrollTop : productsGrid.scrollLeft;
+        // Always use horizontal scroll for products grid (mobile and desktop now both horizontal)
+        const maxScroll = productsGrid.scrollWidth - productsGrid.clientWidth;
+        const currentScroll = productsGrid.scrollLeft;
         
         // Scroll speed - slower for readability
-        const scrollSpeed = isMobile ? 0.5 : 0.3;
+        const scrollSpeed = 0.3;
         
         // Check boundaries and reverse direction
         if (currentScroll >= maxScroll - 1) {
-            scrollDirection = -1; // Start scrolling up/left
+            scrollDirection = -1; // Start scrolling left
         } else if (currentScroll <= 1) {
-            scrollDirection = 1; // Start scrolling down/right
+            scrollDirection = 1; // Start scrolling right
         }
         
-        // Apply scroll (vertical on mobile, horizontal on desktop)
-        if (isMobile) {
-            productsGrid.scrollTop += scrollSpeed * scrollDirection;
-        } else {
-            productsGrid.scrollLeft += scrollSpeed * scrollDirection;
-        }
+        // Apply horizontal scroll for all devices
+        productsGrid.scrollLeft += scrollSpeed * scrollDirection;
         
         // Continue animation
         animationFrame = requestAnimationFrame(autoScroll);
@@ -2319,11 +2340,13 @@ function initProductAutoScroll() {
     
     function startScrolling() {
         if (animationFrame) return; // Already running
+        console.log('▶️ Starting autoscroll');
         isScrolling = true;
         autoScroll();
     }
     
     function stopScrolling() {
+        console.log('⏸️ Pausing autoscroll');
         isScrolling = false;
         if (animationFrame) {
             cancelAnimationFrame(animationFrame);
@@ -2362,6 +2385,7 @@ function initProductAutoScroll() {
     
     // Start auto-scrolling after delay
     setTimeout(startScrolling, 1000);
+    console.log('✅ Autoscroll initialized successfully');
     
     // Return cleanup function
     return function cleanup() {
@@ -2376,11 +2400,76 @@ function initProductAutoScroll() {
 
 // Initialize auto-scroll when products are loaded
 let autoScrollCleanup = null;
+let autoScrollInitialized = false;
+
+function tryInitAutoScroll() {
+    console.log('🔄 Attempting to initialize autoscroll...');
+    
+    if (autoScrollInitialized) {
+        console.log('✅ Autoscroll already initialized');
+        return true;
+    }
+    
+    const productsGrid = document.getElementById('productsGrid');
+    
+    if (!productsGrid) {
+        console.warn('⚠️ productsGrid element not found yet');
+        return false;
+    }
+    
+    console.log('📦 Products grid found, children:', productsGrid.children.length);
+    
+    // Check if products grid exists and has content
+    if (productsGrid.children.length > 0) {
+        const result = initProductAutoScroll();
+        if (result) {
+            autoScrollCleanup = result;
+            autoScrollInitialized = true;
+            console.log('✅ Autoscroll initialization successful');
+            return true;
+        } else {
+            console.warn('⚠️ initProductAutoScroll returned null, will retry');
+            return false;
+        }
+    }
+    
+    console.warn('⚠️ Products grid has no children yet');
+    return false;
+}
+
+// Multiple initialization strategies for reliability
 document.addEventListener('DOMContentLoaded', function() {
-    // Wait for products to be displayed
+    console.log('📄 DOM Content Loaded - attempting autoscroll init');
+    
+    // Strategy 1: Try immediately
+    if (tryInitAutoScroll()) return;
+    
+    // Strategy 2: Try after 500ms
     setTimeout(function() {
-        autoScrollCleanup = initProductAutoScroll();
-    }, 2000);
+        console.log('🔄 Retry 1 (500ms)');
+        if (tryInitAutoScroll()) return;
+        
+        // Strategy 3: Try after 1500ms
+        setTimeout(function() {
+            console.log('🔄 Retry 2 (1500ms)');
+            if (tryInitAutoScroll()) return;
+            
+            // Strategy 4: Try after 3000ms (final attempt)
+            setTimeout(function() {
+                console.log('🔄 Retry 3 (3000ms - final attempt)');
+                tryInitAutoScroll();
+            }, 3000);
+        }, 1500);
+    }, 500);
+});
+
+// Also try on window load as backup
+window.addEventListener('load', function() {
+    console.log('🌍 Window loaded - checking autoscroll');
+    if (!autoScrollInitialized) {
+        console.log('🔄 Attempting autoscroll init on window load');
+        setTimeout(tryInitAutoScroll, 500);
+    }
 });
 
 // Auto-play Artistry in Motion videos when they come into view
