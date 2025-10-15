@@ -200,6 +200,7 @@ body {
 .loader-logo {
     height: 60px;
     margin-bottom: 2rem;
+    filter: brightness(0) invert(1);
 }
 
 .loader-text {
@@ -257,9 +258,9 @@ nav {
     justify-content: space-between;
     align-items: center;
     z-index: 999;
-    background: #ffffff;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background: #000000;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     transition: all 0.3s ease;
 }
 
@@ -277,6 +278,7 @@ nav.scrolled {
 
 .nav-logo-large {
     height: 48px;
+    filter: brightness(0) invert(1);
 }
 
 @keyframes shimmer {
@@ -296,7 +298,7 @@ nav.scrolled {
 }
 
 .nav-center a {
-    color: #000000;
+    color: #ffffff;
     text-decoration: none;
     font-size: 0.88rem;
     letter-spacing: 0.1em;
@@ -315,12 +317,12 @@ nav.scrolled {
     transform: translateX(-50%);
     width: 0;
     height: 2px;
-    background: #000000;
+    background: var(--tiffany-blue);
     transition: width 0.2s ease;
 }
 
 .nav-center a:hover {
-    color: #000000;
+    color: var(--tiffany-blue);
 }
 
 .nav-center a:hover::after {
@@ -339,13 +341,15 @@ nav.scrolled {
     cursor: pointer;
     font-size: 1.3rem;
     position: relative;
-    color: #000000;
+    color: #ffffff;
     padding: 0.5rem;
     border-radius: 50%;
+    transition: all 0.3s ease;
 }
 
 .nav-icon:hover {
-    background: rgba(0, 0, 0, 0.05);
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--tiffany-blue);
 }
 
 .cart-count {
@@ -353,7 +357,7 @@ nav.scrolled {
     top: -8px;
     right: -8px;
     background: linear-gradient(135deg, var(--tiffany-blue), var(--tiffany-blue-dark));
-    color: #2a2a2a;
+    color: #000000;
     font-size: 0.7rem;
     padding: 4px 7px;
     border-radius: 14px;
@@ -534,7 +538,7 @@ nav.scrolled {
 
 .hero-logo {
     height: 405px;
-    filter: drop-shadow(0 10px 40px rgba(0, 0, 0, 0.3));
+    filter: brightness(0) invert(1) drop-shadow(0 10px 40px rgba(0, 0, 0, 0.3));
     flex-shrink: 0;
     margin-top: -120px;
     position: relative;
@@ -631,25 +635,33 @@ nav.scrolled {
     }
 }
 
-/* Tablet and below - stack vertically */
+/* Tablet and below - horizontal row */
 @media (max-width: 1200px) {
     .hero-layout {
-        flex-direction: column;
-        gap: 1.5rem;
+        flex-direction: row;
+        gap: 1rem;
         padding: 0 1.5rem;
+        align-items: center;
+        justify-content: space-between;
     }
     
     .btn-explore,
     .btn-artisans {
-        padding: 0.9rem 1.8rem;
-        font-size: 0.8rem;
-        min-width: 200px;
-        width: 100%;
-        max-width: 280px;
+        padding: 0.75rem 1.2rem;
+        font-size: 0.7rem;
+        min-width: 120px;
+        max-width: 140px;
+        flex: 0 0 auto;
     }
     
     .hero-logo-container {
-        margin: 0.5rem 0;
+        flex: 0 1 auto;
+        max-width: 160px;
+    }
+    
+    .hero-logo {
+        max-width: 100%;
+        height: auto;
     }
 }
 
@@ -668,9 +680,10 @@ nav.scrolled {
 }
 
 .btn-explore {
-    background: linear-gradient(135deg, rgba(80, 200, 120, 0.9), rgba(53, 122, 189, 0.9));
+    background: transparent;
     color: #ffffff;
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
 }
 
 .btn-explore::before {
@@ -680,15 +693,16 @@ nav.scrolled {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
     transform: translateX(-100%);
     transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .btn-explore:hover {
     transform: translateY(-6px);
-    box-shadow: 0 16px 48px rgba(80, 200, 120, 0.4);
-    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 16px 48px rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .btn-explore:hover::before {
@@ -2225,13 +2239,13 @@ footer::after {
 }
 
 .video-card-cinematic {
-    background: #000000;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 12px;
     overflow: hidden;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
-    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 .video-card-cinematic::before {
@@ -2297,21 +2311,21 @@ footer::after {
     font-size: 1.6rem;
     font-weight: 700;
     margin-bottom: 0.5rem;
-    color: #ffffff;
+    color: #000000;
     line-height: 1.3;
 }
 
 .video-card-subtitle {
     font-family: 'Noto Serif JP', serif;
     font-size: 1rem;
-    color: #ffffff;
+    color: #000000;
     margin-bottom: 1rem;
     letter-spacing: 0.05em;
 }
 
 .video-card-description {
     font-size: 0.95rem;
-    color: rgba(255, 255, 255, 0.9);
+    color: #2a2a2a;
     line-height: 1.6;
 }
 
@@ -2463,7 +2477,7 @@ footer::after {
     
     .nav-icon:active {
         transform: scale(0.9);
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.2);
     }
     
     /* Hero Section */
@@ -2481,39 +2495,32 @@ footer::after {
     }
     
     .hero-logo {
-        height: 180px;
-        max-width: 85%;
+        height: auto;
+        max-width: 100%;
         margin-top: 0;
     }
     
-    
     .hero-layout {
-        flex-direction: column;
-        gap: 2.5rem;
+        flex-direction: row;
+        gap: 0.8rem;
         width: 100%;
-        padding: 2rem 1rem;
+        padding: 0 1.5rem;
+        align-items: center;
+        justify-content: space-between;
     }
     
     .btn-explore,
     .btn-artisans {
-        padding: 1.2rem 2.5rem;
-        font-size: 0.85rem;
-        min-width: 200px;
-        width: 100%;
-        max-width: 320px;
-        position: static;
-        margin: 0 auto;
+        padding: 0.7rem 1rem;
+        font-size: 0.65rem;
+        min-width: 110px;
+        max-width: 130px;
+        flex: 0 0 auto;
     }
     
-    .btn-side {
-        position: static;
-    }
-    
-    .btn-explore.btn-side,
-    .btn-artisans.btn-side {
-        left: auto;
-        right: auto;
-        bottom: auto;
+    .hero-logo-container {
+        flex: 0 1 auto;
+        max-width: 140px;
     }
     
     /* Products Grid */
@@ -2653,35 +2660,31 @@ footer::after {
     }
     
     
-    .hero-logo {
-        height: 198px;
-        margin-top: -50px;
-    }
-    
-    .btn-explore {
-        order: 0;
-    }
-    
-    .btn-artisans {
-        order: 2;
+    .hero-layout {
+        flex-direction: row;
+        gap: 0.6rem;
+        padding: 0 1rem;
+        align-items: center;
     }
     
     .btn-explore,
     .btn-artisans {
-        padding: 1rem 2rem;
-        font-size: 0.8rem;
-        min-width: 180px;
+        padding: 0.65rem 0.8rem;
+        font-size: 0.6rem;
+        min-width: 95px;
+        max-width: 110px;
+        flex: 0 0 auto;
+    }
+    
+    .hero-logo-container {
+        flex: 0 1 auto;
+        max-width: 120px;
+    }
+    
+    .hero-logo {
+        height: auto;
         max-width: 100%;
-    }
-    
-    .btn-explore.btn-side {
-        left: 2rem;
-        bottom: 5rem;
-    }
-    
-    .btn-artisans.btn-side {
-        right: 2rem;
-        bottom: 5rem;
+        margin-top: 0;
     }
     
     /* Artisan products mobile */
@@ -2723,8 +2726,28 @@ footer::after {
     
     .bento-container {
         grid-template-columns: 1fr;
-        padding: 1.5rem;
-        gap: 2rem;
+        padding: 1rem;
+        gap: 1.5rem;
+    }
+    
+    .filter-bar-sticky {
+        top: 70px;
+    }
+    
+    .filter-container {
+        padding: 1rem 1.5rem;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .filter-chip {
+        padding: 0.5rem 0.9rem;
+        font-size: 0.75rem;
+        white-space: nowrap;
+    }
+    
+    .filter-count {
+        font-size: 0.8rem;
     }
     
     .bento-map {
@@ -2733,18 +2756,22 @@ footer::after {
         padding: 1.5rem;
         height: auto;
         max-height: none;
-        min-height: 500px;
+        min-height: 350px;
     }
     
     #japanMap {
-        height: 400px !important;
-        min-height: 400px !important;
-        max-height: 400px !important;
-        flex: 0 0 400px;
+        height: 300px !important;
+        min-height: 300px !important;
+        max-height: 300px !important;
+        flex: 0 0 300px;
     }
     
     .bento-map-header h3 {
-        font-size: 1.5rem;
+        font-size: 1.3rem;
+    }
+    
+    .bento-map-header p {
+        font-size: 0.85rem;
     }
     
     .map-legend-bento {
@@ -2753,26 +2780,47 @@ footer::after {
     }
     
     .bento-products {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-        height: auto;
-        max-height: none;
-        overflow-y: visible;
-        padding: 1rem;
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: 240px;
+        gap: 1rem;
+        padding: 1.5rem 1rem;
+        height: 400px;
+        max-height: 400px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-behavior: smooth;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
     }
     
     .bento-products .product-card {
-        width: 100%;
-        height: auto;
-        min-height: 360px; /* Reduced from 480px for less scrolling */
+        width: 240px;
+        height: 100%;
+        min-height: auto;
+        scroll-snap-align: start;
     }
     
     .bento-products .product-info {
-        padding: 1rem 0.9rem 1.2rem;
+        padding: 0.8rem 0.7rem 0.9rem;
     }
     
     .bento-products .product-image {
-        height: 220px; /* Reduced from 300px */
+        height: 200px;
+        object-fit: cover;
+    }
+    
+    .bento-products .product-name {
+        font-size: 0.9rem;
+        margin-bottom: 0.2rem;
+    }
+    
+    .bento-products .product-artisan {
+        font-size: 0.7rem;
+    }
+    
+    .bento-products .product-location {
+        font-size: 0.65rem;
     }
     
     /* Compact text on mobile */
@@ -2996,37 +3044,53 @@ footer::after {
     
     /* Products Grid */
     .bento-products {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-        padding: 1.5rem;
-        height: auto;
-        max-height: none;
-        overflow: visible;
-        scroll-snap-type: y mandatory;
-        scroll-padding: 1rem;
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: 220px;
+        gap: 1rem;
+        padding: 1.5rem 1rem;
+        height: 380px;
+        max-height: 380px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-behavior: smooth;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
     }
     
     .product-card {
-        width: 100%;
-        height: auto;
-        min-height: 360px; /* Reduced from 500px for better mobile experience */
-        max-width: 100%;
+        width: 220px;
+        height: 100%;
+        min-height: auto;
         scroll-snap-align: start;
-        border-radius: 16px;
+        border-radius: 12px;
         box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
     }
     
     .product-image {
-        height: 340px;
+        height: 180px;
         flex-shrink: 0;
+        object-fit: cover;
     }
     
     .product-info {
-        padding: 1.2rem 1.2rem 1.5rem;
+        padding: 0.9rem 0.8rem 1rem;
         min-height: auto;
         display: flex;
         flex-direction: column;
-        gap: 0.5rem;
+        gap: 0.3rem;
+    }
+    
+    .product-name {
+        font-size: 0.85rem;
+    }
+    
+    .product-artisan {
+        font-size: 0.65rem;
+    }
+    
+    .product-location {
+        font-size: 0.6rem;
     }
     
     .product-category-label {
@@ -3352,13 +3416,14 @@ footer::after {
     
     /* Partner Section */
     .partner-section {
-        padding: 4rem 1.5rem;
+        padding: 3rem 1.5rem;
         min-height: auto;
     }
     
     .partner-content {
+        display: flex;
         flex-direction: column;
-        gap: 3rem;
+        gap: 2.5rem;
         padding: 0;
     }
     
@@ -3371,50 +3436,76 @@ footer::after {
         display: none;
     }
     
+    .partner-section .section-label {
+        font-size: 0.65rem;
+        padding: 0.5rem 1.2rem;
+        margin-bottom: 1rem;
+    }
+    
+    .partner-title {
+        font-size: 1.8rem;
+        margin-bottom: 0.8rem;
+        line-height: 1.2;
+    }
+    
+    .partner-title-jp {
+        font-size: 1rem;
+        margin-bottom: 1.2rem;
+    }
+    
+    .partner-description {
+        font-size: 0.95rem;
+        line-height: 1.7;
+        margin-bottom: 1.5rem;
+    }
+    
+    .partner-benefits {
+        margin-bottom: 1.5rem;
+    }
+    
+    .partner-benefits li {
+        font-size: 0.9rem;
+        padding: 0.9rem 0;
+        display: flex;
+        align-items: flex-start;
+        gap: 0.8rem;
+    }
+    
+    .partner-benefits i {
+        font-size: 1.1rem;
+        width: 26px;
+        height: 26px;
+        margin-top: 0.1rem;
+    }
+    
     .partner-form {
         width: 100%;
         padding: 2rem 1.5rem;
         background: white;
         border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     }
     
     .partner-form h3 {
-        font-size: 1.8rem;
-        margin-bottom: 2rem;
-    }
-    
-    .partner-title {
-        font-size: 2.2rem;
-        margin-bottom: 1rem;
-        line-height: 1.2;
-    }
-    
-    .partner-title-jp {
-        font-size: 1.2rem;
+        font-size: 1.5rem;
         margin-bottom: 1.5rem;
     }
     
-    .partner-description {
-        font-size: 1rem;
-        line-height: 1.7;
-        margin-bottom: 2rem;
+    .partner-form .form-group {
+        margin-bottom: 1.2rem;
     }
     
-    .partner-benefits {
-        margin-bottom: 2rem;
-    }
-    
-    .partner-benefits li {
+    .partner-form input,
+    .partner-form select,
+    .partner-form textarea {
+        padding: 0.9rem 1rem;
         font-size: 0.95rem;
-        padding: 1rem 0;
+        border-radius: 8px;
     }
     
-    .partner-benefits li {
-        padding: 1.2rem;
-        font-size: 1rem;
-        display: flex;
-        align-items: center;
-        gap: 1rem;
+    .partner-submit-btn {
+        padding: 1.1rem;
+        font-size: 0.9rem;
     }
     
     /* Better form inputs for mobile */
@@ -3605,131 +3696,238 @@ footer::after {
     }
 }
 
-@media (max-width: 320px) {
-    /* Extra small screens */
+@media (max-width: 480px) {
+    /* Small mobile screens */
     .hero-main {
-        padding: 1rem 0.5rem;
-    }
-    
-    .hero-logo {
-        height: 54px;
-        margin-top: -20px;
-    }
-    
-    .hero-rotating-text {
-        font-size: 0.65rem;
-        padding: 0 0.5rem;
-    }
-    
-    .hero-main {
-        padding: 1.5rem 1rem;
+        padding: 1.5rem 0.75rem;
         min-height: 70vh;
     }
     
     .hero-layout {
-        gap: 1rem;
+        flex-direction: row;
+        gap: 0.5rem;
         padding: 0 0.75rem;
+        align-items: center;
+        justify-content: space-between;
     }
     
     .btn-explore,
     .btn-artisans {
-        padding: 0.9rem 1.5rem;
-        font-size: 0.75rem;
-        min-width: 160px;
-        max-width: 220px;
-        letter-spacing: 0.1em;
-        border-radius: 8px;
+        padding: 0.6rem 0.75rem;
+        font-size: 0.55rem;
+        min-width: 75px;
+        max-width: 90px;
+        flex: 0 0 auto;
+        letter-spacing: 0.08em;
+        border-radius: 6px;
     }
     
     .hero-logo-container {
-        max-width: 180px;
+        flex: 0 1 auto;
+        max-width: 100px;
     }
     
     .hero-logo {
         height: auto;
         max-width: 100%;
+        margin-top: 0;
     }
     
-    .product-card {
-        min-height: 420px;
+    /* Partner Section - Extra compact */
+    .partner-section {
+        padding: 2.5rem 1rem;
     }
     
-    .product-image {
-        height: 260px;
+    .partner-title {
+        font-size: 1.6rem;
+    }
+    
+    .partner-title-jp {
+        font-size: 0.9rem;
+    }
+    
+    .partner-description {
+        font-size: 0.9rem;
+        line-height: 1.6;
+    }
+    
+    .partner-benefits li {
+        font-size: 0.85rem;
+        padding: 0.8rem 0;
+    }
+    
+    .partner-form {
+        padding: 1.5rem 1.2rem;
+    }
+    
+    .partner-form h3 {
+        font-size: 1.3rem;
+        margin-bottom: 1.2rem;
+    }
+    
+    /* Contact Section - Extra compact */
+    .contact-section {
+        padding: 2.5rem 1rem;
+    }
+    
+    .section-title {
+        font-size: 1.8rem;
+    }
+    
+    .contact-content {
+        gap: 2rem;
+    }
+    
+    .contact-item {
+        padding: 1.2rem;
+        gap: 0.9rem;
+    }
+    
+    .contact-item i {
+        font-size: 1.2rem;
+        width: 35px;
+        height: 35px;
+    }
+    
+    .contact-item h4 {
+        font-size: 0.9rem;
+    }
+    
+    .contact-item p,
+    .contact-item a {
+        font-size: 0.8rem;
+    }
+    
+    .contact-form {
+        padding: 1.5rem 1.1rem;
     }
     
     .bento-products {
-        padding: 0.5rem;
-        gap: 1rem;
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: 200px;
+        gap: 0.8rem;
+        padding: 1.2rem 0.8rem;
+        height: 350px;
+        max-height: 350px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-behavior: smooth;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .bento-products .product-card {
+        width: 200px;
+        height: 100%;
+        min-height: auto;
     }
     
     .product-info {
-        padding: 0.9rem 0.9rem 1rem;
+        padding: 0.7rem 0.6rem 0.8rem;
+    }
+    
+    .product-image {
+        height: 160px;
+        object-fit: cover;
     }
     
     .product-name {
-        font-size: 1.05rem;
+        font-size: 0.85rem;
+        margin-bottom: 0.2rem;
     }
     
     .product-artisan {
-        font-size: 0.75rem;
+        font-size: 0.65rem;
     }
     
     .product-location {
-        font-size: 0.7rem;
+        font-size: 0.6rem;
     }
     
     .product-price-large {
-        font-size: 1.1rem;
+        font-size: 0.95rem;
     }
 }
 
 /* Contact Section Mobile */
 @media (max-width: 968px) {
     .contact-section {
-        padding: 4rem 1.5rem;
+        padding: 3rem 1.5rem;
+    }
+    
+    .section-header {
+        margin-bottom: 2.5rem;
+    }
+    
+    .section-label {
+        font-size: 0.7rem;
+        margin-bottom: 0.8rem;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .section-title-jp {
+        font-size: 1rem;
     }
     
     .contact-content {
         grid-template-columns: 1fr;
-        gap: 3rem;
-        margin-top: 2rem;
+        gap: 2.5rem;
+        margin-top: 1.5rem;
     }
     
     .contact-info {
-        gap: 1.5rem;
+        gap: 1.2rem;
     }
     
     .contact-item {
-        padding: 1.5rem;
-        border-radius: 12px;
+        padding: 1.3rem;
+        border-radius: 10px;
         border-width: 2px;
+        gap: 1rem;
     }
     
     .contact-item i {
-        font-size: 1.5rem;
-        width: 40px;
-        height: 40px;
+        font-size: 1.3rem;
+        width: 38px;
+        height: 38px;
+        flex-shrink: 0;
     }
     
     .contact-item h4 {
-        font-size: 1rem;
+        font-size: 0.95rem;
+        margin-bottom: 0.3rem;
     }
     
     .contact-item p,
     .contact-item a {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
     }
     
     .contact-form {
-        padding: 2rem 1.5rem;
+        padding: 1.8rem 1.3rem;
+        border-radius: 12px;
+    }
+    
+    .contact-form .form-group {
+        margin-bottom: 1.2rem;
     }
     
     .contact-form .form-group input,
     .contact-form .form-group textarea,
     .contact-form .form-group select {
+        padding: 0.9rem;
+        font-size: 0.95rem;
+        border-radius: 8px;
+    }
+    
+    .contact-submit-btn {
         padding: 1rem;
-        font-size: 1rem;
+        font-size: 0.9rem;
     }
 }
 
@@ -4930,19 +5128,18 @@ footer::after {
     gap: 1.5rem;
     align-items: flex-start;
     padding: 1.8rem;
-    background: transparent;
+    background: #ffffff;
     border-radius: 12px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 2px solid rgba(0, 0, 0, 0.2);
-    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(10px);
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 .contact-item:hover {
     transform: translateX(8px);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-    border-color: rgba(0, 0, 0, 0.4);
-    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    border-color: var(--tiffany-blue);
+    background: #ffffff;
 }
 
 .contact-item i {
