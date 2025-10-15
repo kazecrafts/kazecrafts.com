@@ -3136,7 +3136,7 @@ footer::after {
         display: grid !important;
         grid-template-rows: repeat(2, 1fr) !important;
         grid-auto-flow: column !important;
-        grid-auto-columns: 152px !important; /* Fixed: Added space for proper gap */
+        grid-auto-columns: 160px !important; /* FIXED: Proper spacing for 145px cards + 0.8rem gap */
         gap: 0.8rem !important; /* Fixed: Increased gap for better spacing */
         padding: 1rem 1rem !important; /* Fixed: Added horizontal padding to prevent edge clipping */
         height: 580px !important;
