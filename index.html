@@ -22,7 +22,7 @@
     
     <!-- CRITICAL: Stripe for payments - NO DEFER (must load before app.js) -->
     <script src="https://js.stripe.com/v3/"></script>
-    <link rel="stylesheet" href="styles.css?v=1760506139">
+    <link rel="stylesheet" href="styles.css?v=1760508072">
 </head>
 <body>
     <!-- Background Elements -->
@@ -163,10 +163,10 @@
                 </div>
                 <div id="japanMap"></div>
                 <div class="map-legend-bento">
-                    <span class="legend-bento"><span class="dot pottery"></span>Pottery</span>
-                    <span class="legend-bento"><span class="dot kimono"></span>Kimono</span>
-                    <span class="legend-bento"><span class="dot cutlery"></span>Cutlery</span>
-                    <span class="legend-bento"><span class="dot textiles"></span>Textiles</span>
+                    <span class="legend-bento clickable" onclick="filterProducts('pottery')"><span class="dot pottery"></span>Pottery</span>
+                    <span class="legend-bento clickable" onclick="filterProducts('kimono')"><span class="dot kimono"></span>Kimono</span>
+                    <span class="legend-bento clickable" onclick="filterProducts('knife')"><span class="dot cutlery"></span>Cutlery</span>
+                    <span class="legend-bento clickable" onclick="filterProducts('all')"><span class="dot textiles"></span>All Items</span>
                 </div>
             </div>
 
@@ -555,7 +555,7 @@
         </div>
     </div>
 
-    <script src="app.js?v=1760506139"></script>
+    <script src="app.js?v=1760508072"></script>
 </body>
 </html>
 
