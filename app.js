@@ -768,6 +768,8 @@ function initLuxuryAnimations() {
 
 // ===== CRAFTSMEN GRID =====
 let currentSpotlightIndex = 0;
+let artisanAutoAdvance = null;
+let artisanPaused = false;
 
 function initCraftsmenGrid() {
     // Find Hayashi Yuki and move to first position
@@ -786,6 +788,46 @@ function initCraftsmenGrid() {
     
     displaySpotlightArtisan(0);
     updateCounter();
+    startArtisanAutoAdvance();
+    
+    // Add pause/resume on hover and touch
+    const spotlightContainer = document.querySelector('.artisan-spotlight-container');
+    if (spotlightContainer) {
+        // Desktop: pause on hover
+        spotlightContainer.addEventListener('mouseenter', pauseArtisanAutoAdvance);
+        spotlightContainer.addEventListener('mouseleave', resumeArtisanAutoAdvance);
+        
+        // Mobile: pause on touch, resume after delay
+        spotlightContainer.addEventListener('touchstart', pauseArtisanAutoAdvance, { passive: true });
+        spotlightContainer.addEventListener('touchend', () => {
+            setTimeout(resumeArtisanAutoAdvance, 5000); // Resume after 5 seconds
+        }, { passive: true });
+    }
+}
+
+// Start auto-advance timer
+function startArtisanAutoAdvance() {
+    // Clear existing timer
+    if (artisanAutoAdvance) {
+        clearInterval(artisanAutoAdvance);
+    }
+    
+    // Auto-advance every 6 seconds
+    artisanAutoAdvance = setInterval(() => {
+        if (!artisanPaused) {
+            nextArtisan();
+        }
+    }, 6000);
+}
+
+// Pause auto-advance
+function pauseArtisanAutoAdvance() {
+    artisanPaused = true;
+}
+
+// Resume auto-advance
+function resumeArtisanAutoAdvance() {
+    artisanPaused = false;
 }
 
 // Shuffle array helper function
@@ -804,12 +846,20 @@ function displaySpotlightArtisan(index) {
     // Detect mobile
     const isMobile = window.innerWidth <= 768;
     
-    // Update portrait
+    const spotlight = document.getElementById('artisanSpotlight');
     const portrait = document.getElementById('spotlightPortrait');
-    portrait.innerHTML = `<img src="${artisan.image}" alt="${artisan.name}" loading="lazy" onerror="this.src='face1.jpg'">`;
+    const details = document.getElementById('spotlightDetails');
     
-    // Get artisan products for both mobile and desktop
-    let artisanProducts = products.filter(p => p.artisan === artisan.name);
+    // Add fade-out animation
+    spotlight.style.opacity = '0';
+    spotlight.style.transform = 'translateX(-30px)';
+    
+    setTimeout(() => {
+        // Update portrait
+        portrait.innerHTML = `<img src="${artisan.image}" alt="${artisan.name}" loading="lazy" onerror="this.src='face1.jpg'">`;
+        
+        // Get artisan products for both mobile and desktop
+        let artisanProducts = products.filter(p => p.artisan === artisan.name);
     
     if (artisanProducts.length === 0) {
         const randomProducts = [...products].sort(() => 0.5 - Math.random()).slice(0, 3);
@@ -818,10 +868,9 @@ function displaySpotlightArtisan(index) {
         artisanProducts = artisanProducts.slice(0, 3);
     }
     
-    // Mobile-optimized version (NOW WITH PRODUCTS!)
-    if (isMobile) {
-        const details = document.getElementById('spotlightDetails');
-        details.innerHTML = `
+        // Mobile-optimized version (NOW WITH PRODUCTS!)
+        if (isMobile) {
+            details.innerHTML = `
             <div class="spotlight-craft-label">${artisan.craft}</div>
             <h2 class="spotlight-name">${artisan.name}</h2>
             <p class="spotlight-name-jp">${artisan.nameJp} • ${artisan.craftJp}</p>
@@ -857,10 +906,9 @@ function displaySpotlightArtisan(index) {
                 View Full Story
             </button>
         `;
-    } else {
-        // Desktop version with products
-        const details = document.getElementById('spotlightDetails');
-        details.innerHTML = `
+        } else {
+            // Desktop version with products
+            details.innerHTML = `
             <div class="spotlight-craft-label">${artisan.craft}</div>
             <h2 class="spotlight-name">${artisan.name}</h2>
             <p class="spotlight-name-jp">${artisan.nameJp} • ${artisan.craftJp}</p>
@@ -899,19 +947,17 @@ function displaySpotlightArtisan(index) {
                 View Full Story
             </button>
         `;
-    }
-    
-    // Update counter
-    updateCounter();
-    
-    // Simplified animation (no fade on mobile)
-    if (!isMobile) {
-        const spotlight = document.getElementById('artisanSpotlight');
-        spotlight.style.opacity = '0';
+        }
+        
+        // Update counter
+        updateCounter();
+        
+        // Fade-in animation with slide
         setTimeout(() => {
             spotlight.style.opacity = '1';
+            spotlight.style.transform = 'translateX(0)';
         }, 50);
-    }
+    }, 300); // Wait for fade-out before updating content
 }
 
 function updateCounter() {
@@ -924,11 +970,15 @@ function updateCounter() {
 function nextArtisan() {
     currentSpotlightIndex = (currentSpotlightIndex + 1) % craftsmen.length;
     displaySpotlightArtisan(currentSpotlightIndex);
+    // Reset timer when manually navigated
+    startArtisanAutoAdvance();
 }
 
 function prevArtisan() {
     currentSpotlightIndex = (currentSpotlightIndex - 1 + craftsmen.length) % craftsmen.length;
     displaySpotlightArtisan(currentSpotlightIndex);
+    // Reset timer when manually navigated
+    startArtisanAutoAdvance();
 }
 
 // ===== CRAFTSMAN MODAL =====
@@ -1848,6 +1898,25 @@ function toggleMobileMenu() {
     }
 }
 
+// Toggle products view (collapse/expand)
+function toggleProductsView() {
+    const productsGrid = document.getElementById('productsGrid');
+    const toggleBtn = document.getElementById('toggleProductsBtn');
+    
+    if (!productsGrid || !toggleBtn) return;
+    
+    productsGrid.classList.toggle('collapsed');
+    toggleBtn.classList.toggle('collapsed');
+    
+    // Update icon direction
+    const icon = toggleBtn.querySelector('i');
+    if (productsGrid.classList.contains('collapsed')) {
+        icon.className = 'fas fa-chevron-down';
+    } else {
+        icon.className = 'fas fa-chevron-up';
+    }
+}
+
 // Initialize partner section with Japanese default
 function initPartnerLanguage() {
     // Set Japanese as default
@@ -2204,12 +2273,12 @@ function initMobileOptimizations() {
     }
 }
 
-// Auto-scrolling Products - Continuous smooth scroll (DESKTOP ONLY)
+// Auto-scrolling Products - Continuous smooth scroll (MOBILE & DESKTOP)
 function initProductAutoScroll() {
     const productsGrid = document.getElementById('productsGrid');
     
-    // Only enable auto-scroll for DESKTOP (mobile uses vertical grid now)
-    if (!productsGrid || window.innerWidth < 1024) return;
+    // Enable auto-scroll for ALL devices
+    if (!productsGrid) return;
     
     let scrollDirection = 1; // 1 = right, -1 = left
     let isScrolling = true;
@@ -2223,21 +2292,26 @@ function initProductAutoScroll() {
             return;
         }
         
-        const maxScroll = productsGrid.scrollWidth - productsGrid.clientWidth;
-        const currentScroll = productsGrid.scrollLeft;
+        const isMobile = window.innerWidth < 768;
+        const maxScroll = isMobile ? productsGrid.scrollHeight - productsGrid.clientHeight : productsGrid.scrollWidth - productsGrid.clientWidth;
+        const currentScroll = isMobile ? productsGrid.scrollTop : productsGrid.scrollLeft;
         
-        // Scroll speed - adjust based on screen size
-        const scrollSpeed = window.innerWidth < 768 ? 0.4 : 0.3;
+        // Scroll speed - slower for readability
+        const scrollSpeed = isMobile ? 0.5 : 0.3;
         
         // Check boundaries and reverse direction
         if (currentScroll >= maxScroll - 1) {
-            scrollDirection = -1; // Start scrolling left
+            scrollDirection = -1; // Start scrolling up/left
         } else if (currentScroll <= 1) {
-            scrollDirection = 1; // Start scrolling right
+            scrollDirection = 1; // Start scrolling down/right
         }
         
-        // Apply scroll
-        productsGrid.scrollLeft += scrollSpeed * scrollDirection;
+        // Apply scroll (vertical on mobile, horizontal on desktop)
+        if (isMobile) {
+            productsGrid.scrollTop += scrollSpeed * scrollDirection;
+        } else {
+            productsGrid.scrollLeft += scrollSpeed * scrollDirection;
+        }
         
         // Continue animation
         animationFrame = requestAnimationFrame(autoScroll);
