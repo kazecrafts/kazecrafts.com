@@ -542,6 +542,96 @@ nav.scrolled {
     }
 }
 
+/* Scroll Indicator */
+.scroll-indicator {
+    position: absolute;
+    bottom: 3rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    text-align: center;
+    animation: fadeInUp 1.5s ease-out 1s both;
+}
+
+.scroll-text {
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    color: white;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.3rem;
+    opacity: 0.9;
+}
+
+.scroll-text-bold {
+    font-family: 'Cinzel', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: white;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.scroll-text-small {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.85rem;
+    color: white;
+    letter-spacing: 0.05em;
+    font-style: italic;
+    margin-bottom: 1rem;
+    opacity: 0.85;
+}
+
+.scroll-arrow {
+    font-size: 1.5rem;
+    color: white;
+    animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(10px);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mobile scroll indicator */
+@media (max-width: 768px) {
+    .scroll-indicator {
+        bottom: 2rem;
+    }
+    
+    .scroll-text {
+        font-size: 0.75rem;
+    }
+    
+    .scroll-text-bold {
+        font-size: 1rem;
+    }
+    
+    .scroll-text-small {
+        font-size: 0.75rem;
+    }
+    
+    .scroll-arrow {
+        font-size: 1.2rem;
+    }
+}
+
 .hero-background {
     position: absolute;
     top: 0;
@@ -2474,9 +2564,10 @@ footer::after {
     a,
     .nav-icon,
     .filter-chip {
-        min-height: 48px;
-        min-width: 48px;
-        padding: 0.8rem 1.2rem;
+        min-height: 40px !important;
+        min-width: 40px !important;
+        padding: 0.6rem 1rem !important;
+        font-size: 0.8rem !important;
     }
     
     /* Smooth scrolling on mobile */
@@ -2739,16 +2830,21 @@ footer::after {
     .bento-map {
         height: auto;
         max-height: none;
-        min-height: 450px;
+        min-height: 320px;
         position: relative;
         top: 0;
+        padding: 1rem;
+    }
+    
+    .bento-map-header h3 {
+        font-size: 1.4rem;
     }
     
     #japanMap {
-        height: 380px !important;
-        min-height: 380px !important;
-        max-height: 380px !important;
-        flex: 0 0 380px;
+        height: 250px !important;
+        min-height: 250px !important;
+        max-height: 250px !important;
+        border-radius: 12px;
     }
     
     /* Smooth scrolling for mobile */
@@ -2845,8 +2941,10 @@ footer::after {
     }
     
     .filter-chip {
-        padding: 0.5rem 1rem;
-        font-size: 0.75rem;
+        padding: 0.5rem 0.9rem !important;
+        font-size: 0.75rem !important;
+        min-height: 38px !important;
+        border-radius: 20px !important;
     }
     
     .filter-count {
@@ -2873,9 +2971,11 @@ footer::after {
     }
     
     .filter-chip {
-        padding: 0.5rem 0.9rem;
-        font-size: 0.75rem;
-        white-space: nowrap;
+        padding: 0.45rem 0.8rem !important;
+        font-size: 0.7rem !important;
+        white-space: nowrap !important;
+        min-height: 36px !important;
+        border-radius: 18px !important;
     }
     
     .filter-count {
@@ -2885,33 +2985,33 @@ footer::after {
     .bento-map {
         position: relative;
         top: 0;
-        padding: 1.5rem;
+        padding: 1rem;
         height: auto;
         max-height: none;
-        min-height: 80px;
+        min-height: 350px;
         overflow: hidden;
-        transition: all 0.4s ease;
-    }
-    
-    .bento-map.collapsed {
-        min-height: 80px;
-        max-height: 80px;
-    }
-    
-    .bento-map.collapsed #japanMap,
-    .bento-map.collapsed .map-legend-bento {
-        display: none;
     }
     
     .bento-map-header {
-        cursor: pointer;
+        margin-bottom: 1rem;
+    }
+    
+    .bento-map-header h3 {
+        font-size: 1.3rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .bento-map-header p {
+        font-size: 0.9rem;
+        margin-bottom: 0.8rem;
     }
     
     #japanMap {
-        height: 300px !important;
-        min-height: 300px !important;
-        max-height: 300px !important;
-        flex: 0 0 300px;
+        height: 280px !important;
+        min-height: 280px !important;
+        max-height: 280px !important;
+        border-radius: 12px;
+        overflow: hidden;
     }
     
     .bento-map-header h3 {
@@ -2927,78 +3027,85 @@ footer::after {
         flex-wrap: wrap;
     }
     
-    /* MOBILE: Vertical grid - MUCH better UX */
+    /* MOBILE: Compact vertical grid with AUTO-SCROLL */
     .bento-products {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 1.5rem;
-        padding: 1.5rem 1rem;
-        height: auto;
-        max-height: none;
-        overflow-x: visible;
-        overflow-y: visible;
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        gap: 1.2rem !important;
+        padding: 1.5rem 1rem !important;
+        height: 650px !important;
+        max-height: 650px !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        scroll-behavior: smooth !important;
+    }
+    
+    .bento-products.collapsed {
+        height: 350px !important;
+        max-height: 350px !important;
     }
     
     .bento-products .product-card {
-        width: 100%;
-        height: auto;
-        min-height: 420px;
+        width: 100% !important;
+        height: auto !important;
+        min-height: 400px !important;
     }
     
     .bento-products .product-info {
-        padding: 1rem 0.9rem 1.1rem;
+        padding: 1.2rem 1rem 1.2rem !important;
     }
     
     .bento-products .product-image {
-        height: 240px;
-        object-fit: cover;
+        height: 230px !important;
+        object-fit: cover !important;
     }
     
     .bento-products .product-name {
-        font-size: 1.1rem;
-        margin-bottom: 0.4rem;
+        font-size: 1.1rem !important;
+        margin-bottom: 0.4rem !important;
     }
     
     .bento-products .product-artisan {
-        font-size: 0.9rem;
-        margin-bottom: 0.3rem;
+        font-size: 0.9rem !important;
+        margin-bottom: 0.3rem !important;
     }
     
     .bento-products .product-location {
-        font-size: 0.85rem;
-        margin-bottom: 0.7rem;
+        font-size: 0.85rem !important;
+        margin-bottom: 0.7rem !important;
     }
     
     .bento-products .product-price-large {
-        font-size: 1.4rem;
-        margin-bottom: 1rem;
+        font-size: 1.35rem !important;
+        margin-bottom: 0.9rem !important;
     }
     
     .bento-products .product-actions {
-        display: flex;
-        gap: 0.8rem;
-        margin-top: 0.8rem;
+        display: flex !important;
+        gap: 0.8rem !important;
+        margin-top: 0.8rem !important;
     }
     
     .bento-products .product-stripe-btn,
     .bento-products .product-cart-btn {
-        flex: 1;
-        padding: 0.9rem 1.2rem;
-        font-size: 0.9rem;
+        flex: 1 !important;
+        padding: 1rem 1.1rem !important;
+        font-size: 0.9rem !important;
     }
     
     .bento-map {
         height: auto;
         max-height: none;
-        min-height: 500px;
+        min-height: 380px;
         position: relative;
+        padding: 1.2rem;
     }
     
     #japanMap {
-        height: 400px !important;
-        min-height: 400px !important;
-        max-height: 400px !important;
-        flex: 0 0 400px;
+        height: 300px !important;
+        min-height: 300px !important;
+        max-height: 300px !important;
+        border-radius: 12px;
     }
     
     .craftsman-element {
@@ -3212,22 +3319,28 @@ footer::after {
     }
     
     /* Products Grid */
-    /* MOBILE: Vertical grid for better usability */
+    /* MOBILE: Compact vertical grid with AUTO-SCROLL */
     .bento-products {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-        padding: 1.5rem 1rem;
-        height: auto;
-        max-height: none;
-        overflow-x: visible;
-        overflow-y: visible;
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        gap: 1.2rem !important;
+        padding: 1.5rem 1rem !important;
+        height: 600px !important;
+        max-height: 600px !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        scroll-behavior: smooth !important;
     }
     
-    .product-card {
-        width: 220px;
-        height: 100%;
-        min-height: auto;
+    .bento-products.collapsed {
+        height: 300px !important;
+        max-height: 300px !important;
+    }
+    
+    .bento-products .product-card {
+        width: 100% !important;
+        height: auto !important;
+        min-height: 380px !important;
         scroll-snap-align: start;
         border-radius: 12px;
         box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
@@ -3332,13 +3445,13 @@ footer::after {
     }
     
     .filter-chip {
-        padding: 0.8rem 1.5rem;
-        font-size: 0.9rem;
-        white-space: nowrap;
-        flex-shrink: 0;
-        border-radius: 50px;
-        min-height: 48px;
-        scroll-snap-align: start;
+        padding: 0.6rem 1rem !important;
+        font-size: 0.8rem !important;
+        white-space: nowrap !important;
+        flex-shrink: 0 !important;
+        border-radius: 25px !important;
+        min-height: 40px !important;
+        scroll-snap-align: start !important;
     }
     
     .filter-count {
@@ -3357,30 +3470,32 @@ footer::after {
     }
     
     /* Artisans Section - Mobile Optimized */
-    /* ARTISAN SECTION - COMPACT AND USABLE */
+    /* ARTISAN SECTION - ULTRA COMPACT */
     .artisans-showcase {
-        padding: 3rem 1.5rem 2.5rem !important;
+        padding: 2rem 1rem 2rem !important;
         background: white !important;
     }
     
     .artisans-showcase-header {
-        margin-bottom: 1.5rem !important;
-        padding: 0 0.5rem !important;
+        margin-bottom: 1rem !important;
+        padding: 0 !important;
     }
     
     .showcase-label {
-        font-size: 0.75rem !important;
-        margin-bottom: 0.5rem !important;
+        font-size: 0.7rem !important;
+        margin-bottom: 0.3rem !important;
+        padding: 0.3rem 0.7rem !important;
     }
     
     .showcase-title {
-        font-size: 2rem;
-        margin-bottom: 0.5rem;
-        line-height: 1.2;
+        font-size: 1.6rem !important;
+        margin-bottom: 0.3rem !important;
+        line-height: 1.2 !important;
     }
     
     .showcase-subtitle {
-        font-size: 1rem;
+        font-size: 0.85rem !important;
+        margin-bottom: 0 !important;
     }
     
     .artisan-spotlight-container {
@@ -3391,15 +3506,19 @@ footer::after {
     .artisan-spotlight {
         display: flex !important;
         flex-direction: column !important;
-        gap: 1.5rem !important;
+        gap: 1rem !important;
         padding: 0 !important;
         max-width: 100% !important;
         margin: 0 auto !important;
+        opacity: 1 !important;
+        transform: translateX(0) !important;
+        transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                    transform 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
     }
     
     .spotlight-visual {
-        height: 280px !important;
-        border-radius: 12px !important;
+        height: 220px !important;
+        border-radius: 10px !important;
         overflow: hidden !important;
         margin: 0 auto !important;
         max-width: 100% !important;
@@ -3413,74 +3532,76 @@ footer::after {
     }
     
     .spotlight-details {
-        padding: 1rem 0.5rem !important;
+        padding: 0.8rem 0.3rem !important;
         background: transparent !important;
     }
     
     .spotlight-craft-label {
-        font-size: 0.75rem !important;
-        padding: 0.4rem 0.9rem !important;
-        margin-bottom: 0.7rem !important;
+        font-size: 0.7rem !important;
+        padding: 0.3rem 0.7rem !important;
+        margin-bottom: 0.5rem !important;
         display: inline-block !important;
     }
     
     .spotlight-name {
-        font-size: 1.8rem !important;
-        margin-bottom: 0.5rem !important;
-        line-height: 1.3 !important;
+        font-size: 1.5rem !important;
+        margin-bottom: 0.4rem !important;
+        line-height: 1.2 !important;
     }
     
     .spotlight-name-jp {
-        font-size: 0.85rem;
-        margin-bottom: 0.8rem;
+        font-size: 0.8rem !important;
+        margin-bottom: 0.6rem !important;
         opacity: 0.8;
     }
     
     .spotlight-bio {
-        font-size: 0.9rem;
-        line-height: 1.5;
-        margin-bottom: 1rem;
+        font-size: 0.85rem !important;
+        line-height: 1.5 !important;
+        margin-bottom: 0.7rem !important;
+        color: #555 !important;
     }
     
     .spotlight-meta {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 0.8rem;
-        margin-bottom: 1.2rem;
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 0.6rem !important;
+        margin-bottom: 0.9rem !important;
     }
     
     .meta-item {
-        background: rgba(80, 200, 120, 0.05);
-        padding: 0.6rem;
-        border-radius: 6px;
+        background: rgba(80, 200, 120, 0.05) !important;
+        padding: 0.5rem !important;
+        border-radius: 6px !important;
     }
     
     .meta-label {
-        font-size: 0.7rem;
-        display: block;
-        margin-bottom: 0.2rem;
-        opacity: 0.7;
+        font-size: 0.65rem !important;
+        display: block !important;
+        margin-bottom: 0.1rem !important;
+        opacity: 0.7 !important;
+        text-transform: uppercase !important;
     }
     
     .meta-value {
-        font-size: 0.95rem;
+        font-size: 0.85rem !important;
         font-weight: 600;
     }
     
     /* HIDE products grid on mobile for performance */
-    /* FEATURED WORKS - NOW VISIBLE ON MOBILE! */
+    /* FEATURED WORKS - COMPACT VERSION */
     .artisan-products-preview.mobile-products {
         display: block !important;
-        margin: 1.5rem 0 !important;
-        padding: 1.2rem !important;
+        margin: 1rem 0 !important;
+        padding: 0.9rem !important;
         background: rgba(80, 200, 120, 0.05) !important;
-        border-radius: 12px !important;
+        border-radius: 10px !important;
         border: 1px solid rgba(80, 200, 120, 0.2) !important;
     }
     
     .artisan-products-preview.mobile-products h4 {
-        font-size: 1.1rem !important;
-        margin-bottom: 1rem !important;
+        font-size: 0.95rem !important;
+        margin-bottom: 0.7rem !important;
         color: #000 !important;
         font-weight: 600 !important;
     }
@@ -3488,49 +3609,49 @@ footer::after {
     .artisan-products-grid.mobile-grid {
         display: grid !important;
         grid-template-columns: 1fr !important;
-        gap: 1rem !important;
+        gap: 0.7rem !important;
     }
     
     .artisan-product-mini {
         background: white !important;
-        border-radius: 10px !important;
+        border-radius: 8px !important;
         overflow: hidden !important;
         cursor: pointer !important;
         transition: all 0.3s ease !important;
         border: 2px solid rgba(0, 0, 0, 0.1) !important;
         display: flex !important;
         align-items: center !important;
-        min-height: 100px !important;
+        min-height: 80px !important;
     }
     
     .artisan-product-mini img {
-        width: 120px !important;
-        height: 100px !important;
+        width: 90px !important;
+        height: 80px !important;
         object-fit: cover !important;
         flex-shrink: 0 !important;
     }
     
     .product-mini-info {
-        padding: 1rem !important;
+        padding: 0.7rem !important;
         flex: 1 !important;
     }
     
     .product-mini-name {
-        font-size: 1.05rem !important;
+        font-size: 0.95rem !important;
         font-weight: 600 !important;
-        margin-bottom: 0.5rem !important;
+        margin-bottom: 0.3rem !important;
         color: #333 !important;
     }
     
     .product-mini-price {
-        font-size: 1.1rem !important;
+        font-size: 1rem !important;
         font-weight: 700 !important;
         color: var(--tiffany-blue) !important;
     }
     
     .spotlight-cta {
-        font-size: 1.05rem !important;
-        padding: 1.3rem 2rem !important;
+        font-size: 1rem !important;
+        padding: 1.1rem 1.8rem !important;
         width: 100% !important;
         text-align: center !important;
         margin-bottom: 0.8rem;
@@ -3540,29 +3661,32 @@ footer::after {
         display: none; /* Hide secondary button on mobile */
     }
     
-    /* NAVIGATION - ERGONOMIC POSITION */
+    /* NAVIGATION - COMPACT & ERGONOMIC - ONLY IN ARTISAN SECTION */
     .artisan-navigation {
-        position: fixed !important;
-        bottom: 120px !important;
+        position: sticky !important;
+        bottom: 20px !important;
         left: 50% !important;
         transform: translateX(-50%) !important;
-        z-index: 100 !important;
-        margin-top: 0 !important;
+        z-index: 10 !important;
+        margin-top: 1.5rem !important;
         display: flex !important;
         justify-content: center !important;
         align-items: center !important;
-        gap: 2rem !important;
-        padding: 1rem 2rem !important;
+        gap: 1.5rem !important;
+        padding: 0.8rem 1.5rem !important;
         background: rgba(255, 255, 255, 0.95) !important;
         backdrop-filter: blur(10px) !important;
         border-radius: 50px !important;
         box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15) !important;
+        width: fit-content !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
     }
     
     .artisan-nav-btn {
-        width: 56px !important;
-        height: 56px !important;
-        font-size: 1.3rem !important;
+        width: 50px !important;
+        height: 50px !important;
+        font-size: 1.2rem !important;
         border-radius: 50% !important;
         background: var(--tiffany-blue) !important;
         color: white !important;
@@ -4059,16 +4183,17 @@ footer::after {
     .bento-map {
         height: auto;
         max-height: none;
-        min-height: 350px;
+        min-height: 300px;
         position: relative;
         top: 0;
+        padding: 1rem;
     }
     
     #japanMap {
-        height: 280px !important;
-        min-height: 280px !important;
-        max-height: 280px !important;
-        flex: 0 0 280px;
+        height: 220px !important;
+        min-height: 220px !important;
+        max-height: 220px !important;
+        border-radius: 10px;
     }
     
     .map-legend {
@@ -4281,69 +4406,77 @@ footer::after {
         border-radius: 12px !important;
     }
     
-    /* MOBILE: Single column vertical layout - LARGE AND USABLE */
+    /* MOBILE: Compact vertical layout with AUTO-SCROLL */
     .bento-products {
         display: grid !important;
         grid-template-columns: 1fr !important;
-        gap: 2rem !important;
-        padding: 2rem 1.5rem !important;
-        height: auto !important;
-        max-height: none !important;
-        overflow: visible !important;
+        gap: 1.2rem !important;
+        padding: 1.5rem 1rem !important;
+        height: 600px !important;
+        max-height: 600px !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        scroll-behavior: smooth !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+    
+    .bento-products.collapsed {
+        height: 300px !important;
+        max-height: 300px !important;
     }
     
     .bento-products .product-card {
         width: 100% !important;
         height: auto !important;
-        min-height: 500px !important;
+        min-height: 380px !important;
         box-sizing: border-box !important;
     }
     
     .product-info {
-        padding: 1.5rem 1.3rem 1.5rem !important;
+        padding: 1.2rem 1rem 1.2rem !important;
     }
     
     .product-image {
-        height: 280px !important;
+        height: 220px !important;
         object-fit: cover !important;
     }
     
     .product-name {
-        font-size: 1.3rem !important;
-        margin-bottom: 0.5rem !important;
-        line-height: 1.4 !important;
+        font-size: 1.15rem !important;
+        margin-bottom: 0.4rem !important;
+        line-height: 1.3 !important;
     }
     
     .product-artisan {
-        font-size: 1rem !important;
-        margin-bottom: 0.4rem !important;
+        font-size: 0.9rem !important;
+        margin-bottom: 0.3rem !important;
     }
     
     .product-location {
-        font-size: 0.95rem !important;
-        margin-bottom: 0.8rem !important;
+        font-size: 0.85rem !important;
+        margin-bottom: 0.6rem !important;
     }
     
     .product-price-large {
-        font-size: 1.5rem !important;
-        margin-bottom: 1rem !important;
+        font-size: 1.3rem !important;
+        margin-bottom: 0.8rem !important;
         font-weight: 700 !important;
     }
     
     .product-actions {
         display: flex !important;
-        gap: 1rem !important;
+        gap: 0.8rem !important;
         width: 100% !important;
-        margin-top: 1rem !important;
+        margin-top: 0.8rem !important;
     }
     
     .product-stripe-btn,
     .product-cart-btn {
         flex: 1 !important;
-        padding: 1.3rem 1rem !important;
-        font-size: 1rem !important;
-        min-height: 56px !important;
-        border-radius: 10px !important;
+        padding: 1.1rem 0.9rem !important;
+        font-size: 0.95rem !important;
+        min-height: 52px !important;
+        border-radius: 8px !important;
     }
 }
 
@@ -4544,6 +4677,46 @@ footer::after {
     font-weight: 700;
     color: var(--tiffany-blue);
     font-size: 1rem;
+}
+
+/* Toggle Products Button */
+.toggle-products-btn {
+    margin-left: 1rem;
+    padding: 0.5rem 1rem;
+    background: var(--tiffany-blue);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    display: none;
+}
+
+.toggle-products-btn:hover {
+    background: var(--tiffany-blue-dark);
+    transform: translateY(-2px);
+}
+
+.toggle-products-btn i {
+    transition: transform 0.3s ease;
+}
+
+.toggle-products-btn.collapsed i {
+    transform: rotate(180deg);
+}
+
+/* Show toggle button on mobile */
+@media (max-width: 768px) {
+    .toggle-products-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 44px;
+        min-height: 44px;
+        padding: 0.6rem 0.9rem;
+        font-size: 0.9rem;
+    }
 }
 
 .filter-count span {
@@ -4929,7 +5102,10 @@ footer::after {
     grid-template-columns: 1fr 1fr;
     gap: 4rem;
     align-items: center;
-    transition: opacity 0.5s ease;
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .spotlight-visual {
