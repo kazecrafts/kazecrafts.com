@@ -635,8 +635,6 @@ const products = [
 let cart = [];
 let currentFilter = 'all';
 
-// Animation functions removed - using CSS and ASCII only
-
 // Initialize app
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -717,8 +715,6 @@ function initAOS() {
     });
 }
 
-// Legacy carousel code removed - using spotlight system instead
-
 function initLuxuryAnimations() {
     // GSAP Timeline for hero with animations
     gsap.registerPlugin(ScrollTrigger);
@@ -763,8 +759,6 @@ function initLuxuryAnimations() {
         }, '-=0.3');
     }
 }
-
-// Hero carousel removed - not being used
 
 // ===== CRAFTSMEN GRID =====
 let currentSpotlightIndex = 0;
@@ -1809,35 +1803,6 @@ async function createPaymentIntent(amount, paymentMethodId, metadata) {
             });
         }, 1500);
     });
-    
-    /* 
-    // PRODUCTION CODE (uncomment when backend is ready):
-    try {
-        const response = await fetch('/api/create-payment-intent', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                amount: amount,
-                currency: 'jpy',
-                payment_method: paymentMethodId,
-                metadata: metadata,
-                confirm: true,
-                return_url: window.location.origin + '/payment-success'
-            })
-        });
-        
-        if (!response.ok) {
-            throw new Error('Payment failed');
-        }
-        
-        return await response.json();
-    } catch (error) {
-        console.error('Backend error:', error);
-        return { error: error.message };
-    }
-    */
 }
 
 function showSuccessMessage(name, email, total) {
@@ -2195,9 +2160,6 @@ document.addEventListener('keydown', function(event) {
         if (checkoutModal.classList.contains('active')) closeCheckout();
     }
 });
-
-// ===== ASCII VIDEO EFFECT REMOVED =====
-// ASCII design removed per user request for cleaner, faster site
 
 // Mobile optimizations
 function initMobileOptimizations() {
