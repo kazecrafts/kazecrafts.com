@@ -22,7 +22,7 @@
     
     <!-- CRITICAL: Stripe for payments - NO DEFER (must load before app.js) -->
     <script src="https://js.stripe.com/v3/"></script>
-    <link rel="stylesheet" href="styles.css?v=1760502910">
+    <link rel="stylesheet" href="styles.css?v=1760505634">
 </head>
 <body>
     <!-- Background Elements -->
@@ -123,8 +123,14 @@
     <!-- Marketplace - Bento Box Grid -->
     <section class="marketplace-bento" id="collections">
         
-        <!-- Sticky Filter Bar -->
-        <div class="filter-bar-sticky" id="filterBar">
+        <!-- Products Section Header with Animation -->
+        <div class="products-section-intro" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
+            <h2 class="products-main-title" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">Marketplace</h2>
+            <p class="products-description" data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">Discover authentic Japanese craftsmanship from master artisans across Japan</p>
+        </div>
+
+        <!-- Filter Bar Attached to Products -->
+        <div class="filter-bar-attached" id="filterBar" data-aos="fade-up" data-aos-duration="600" data-aos-delay="400">
             <div class="filter-container">
                 <button class="filter-chip active ripple" onclick="filterProducts('all')">All</button>
                 <button class="filter-chip ripple" onclick="filterProducts('pottery')">Pottery</button>
@@ -142,7 +148,7 @@
                 </button>
             </div>
         </div>
-
+        
         <!-- Bento Grid Container -->
         <div class="bento-container">
             
@@ -549,7 +555,7 @@
         </div>
     </div>
 
-    <script src="app.js?v=1760502910"></script>
+    <script src="app.js?v=1760505634"></script>
 </body>
 </html>
 
