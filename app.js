@@ -2177,7 +2177,8 @@ function initMobileOptimizations() {
 document.addEventListener('DOMContentLoaded', function() {
     const productsGrid = document.getElementById('productsGrid');
     
-    if (productsGrid && window.innerWidth >= 1024) {
+    // Enable auto-scroll for desktop AND mobile
+    if (productsGrid) {
         let scrollDirection = 1; // 1 = right, -1 = left
         let isScrolling = true;
         let animationFrame;
@@ -2189,8 +2190,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const maxScroll = productsGrid.scrollWidth - productsGrid.clientWidth;
             const currentScroll = productsGrid.scrollLeft;
             
-            // Scroll speed - adjust this value (pixels per frame)
-            const scrollSpeed = 0.3;
+            // Scroll speed - adjust based on screen size
+            const scrollSpeed = window.innerWidth < 768 ? 0.4 : 0.3;
             
             // Check boundaries and reverse direction
             if (currentScroll >= maxScroll - 1) {
