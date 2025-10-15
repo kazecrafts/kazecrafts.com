@@ -1212,49 +1212,117 @@ function displayProducts(productsToShow) {
         return;
     }
 
-    productsToShow.forEach((product, index) => {
-        console.log(`🔍 Creating product card ${index + 1}:`, product.name);
-        const card = document.createElement('div');
-        card.className = 'product-card';
-        card.setAttribute('data-category', product.category);
+    // Check if we're on mobile (screen width <= 768px)
+    const isMobile = window.innerWidth <= 768;
+    
+    if (isMobile) {
+        // Create two rows for mobile
+        const row1 = document.createElement('div');
+        row1.className = 'product-row';
+        const row2 = document.createElement('div');
+        row2.className = 'product-row';
         
-        // Show price and open modal when clicking on card (except buttons)
-        card.onclick = (e) => {
-            if (!e.target.closest('button')) {
-                // Show price if hidden
-                const priceElement = card.querySelector('.product-price-large');
-                if (!priceElement.classList.contains('visible')) {
-                    priceElement.classList.add('visible');
+        productsToShow.forEach((product, index) => {
+            console.log(`🔍 Creating product card ${index + 1}:`, product.name);
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            card.setAttribute('data-category', product.category);
+            
+            // Show price and open modal when clicking on card (except buttons)
+            card.onclick = (e) => {
+                if (!e.target.closest('button')) {
+                    // Show price if hidden
+                    const priceElement = card.querySelector('.product-price-large');
+                    if (!priceElement.classList.contains('visible')) {
+                        priceElement.classList.add('visible');
+                    }
+                    // Open modal
+                    openProductModal(product);
                 }
-                // Open modal
-                openProductModal(product);
-            }
-        };
-        
-        card.innerHTML = `
-            <div class="product-image">
-                <img src="${product.image}" alt="${product.name}" onerror="this.src='pot1.webp'">
-                ${product.badge && product.badge.toLowerCase() === 'new' ? `<div class="product-badge">${product.badge}</div>` : ''}
-            </div>
-            <div class="product-info">
-                <div class="product-category-label">${product.category.toUpperCase()}</div>
-                <div class="product-name">${product.name}</div>
-                <div class="product-artisan">${product.artisan}</div>
-                <div class="product-location">📍 ${product.location}</div>
-                <div class="product-price-large">¥${product.price.toLocaleString()}</div>
-                <div class="product-actions">
-                    <button class="product-stripe-btn" onclick="event.stopPropagation(); initiateStripeCheckout(${product.id})">
-                        <i class="fas fa-lock"></i> Buy Now
-                    </button>
-                    <button class="product-cart-btn" onclick="event.stopPropagation(); addToCart(${product.id})">
-                        <i class="fas fa-shopping-cart"></i> Cart
-                    </button>
+            };
+            
+            card.innerHTML = `
+                <div class="product-image">
+                    <img src="${product.image}" alt="${product.name}" onerror="this.src='pot1.webp'">
+                    ${product.badge && product.badge.toLowerCase() === 'new' ? `<div class="product-badge">${product.badge}</div>` : ''}
                 </div>
-            </div>
-        `;
-        grid.appendChild(card);
-        console.log(`✅ Card ${index + 1} added to grid`);
-    });
+                <div class="product-info">
+                    <div class="product-category-label">${product.category.toUpperCase()}</div>
+                    <div class="product-name">${product.name}</div>
+                    <div class="product-artisan">${product.artisan}</div>
+                    <div class="product-location">📍 ${product.location}</div>
+                    <div class="product-price-large">¥${product.price.toLocaleString()}</div>
+                    <div class="product-actions">
+                        <button class="product-stripe-btn" onclick="event.stopPropagation(); initiateStripeCheckout(${product.id})">
+                            <i class="fas fa-lock"></i> Buy Now
+                        </button>
+                        <button class="product-cart-btn" onclick="event.stopPropagation(); addToCart(${product.id})">
+                            <i class="fas fa-shopping-cart"></i> Cart
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            // Alternate between rows
+            if (index % 2 === 0) {
+                row1.appendChild(card);
+            } else {
+                row2.appendChild(card);
+            }
+            
+            console.log(`✅ Card ${index + 1} added to row ${index % 2 === 0 ? '1' : '2'}`);
+        });
+        
+        grid.appendChild(row1);
+        grid.appendChild(row2);
+        console.log('🎯 Mobile layout: Two rows created');
+    } else {
+        // Desktop layout - single row
+        productsToShow.forEach((product, index) => {
+            console.log(`🔍 Creating product card ${index + 1}:`, product.name);
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            card.setAttribute('data-category', product.category);
+            
+            // Show price and open modal when clicking on card (except buttons)
+            card.onclick = (e) => {
+                if (!e.target.closest('button')) {
+                    // Show price if hidden
+                    const priceElement = card.querySelector('.product-price-large');
+                    if (!priceElement.classList.contains('visible')) {
+                        priceElement.classList.add('visible');
+                    }
+                    // Open modal
+                    openProductModal(product);
+                }
+            };
+            
+            card.innerHTML = `
+                <div class="product-image">
+                    <img src="${product.image}" alt="${product.name}" onerror="this.src='pot1.webp'">
+                    ${product.badge && product.badge.toLowerCase() === 'new' ? `<div class="product-badge">${product.badge}</div>` : ''}
+                </div>
+                <div class="product-info">
+                    <div class="product-category-label">${product.category.toUpperCase()}</div>
+                    <div class="product-name">${product.name}</div>
+                    <div class="product-artisan">${product.artisan}</div>
+                    <div class="product-location">📍 ${product.location}</div>
+                    <div class="product-price-large">¥${product.price.toLocaleString()}</div>
+                    <div class="product-actions">
+                        <button class="product-stripe-btn" onclick="event.stopPropagation(); initiateStripeCheckout(${product.id})">
+                            <i class="fas fa-lock"></i> Buy Now
+                        </button>
+                        <button class="product-cart-btn" onclick="event.stopPropagation(); addToCart(${product.id})">
+                            <i class="fas fa-shopping-cart"></i> Cart
+                        </button>
+                    </div>
+                </div>
+            `;
+            grid.appendChild(card);
+            console.log(`✅ Card ${index + 1} added to grid`);
+        });
+        console.log('🎯 Desktop layout: Single row created');
+    }
     
     console.log('🎯 Total cards in grid:', grid.children.length);
     
@@ -1268,6 +1336,29 @@ function displayProducts(productsToShow) {
             console.log('✅ Autoscroll already active');
         }
     }, 300);
+    
+    // Handle window resize to reinitialize layout if needed
+    const handleResize = () => {
+        const newIsMobile = window.innerWidth <= 768;
+        if (newIsMobile !== isMobile) {
+            console.log('📱 Screen size changed, reinitializing layout...');
+            // Reinitialize autoscroll with new layout
+            if (autoScrollCleanup) {
+                autoScrollCleanup();
+                autoScrollInitialized = false;
+            }
+            setTimeout(() => {
+                tryInitAutoScroll();
+            }, 100);
+        }
+    };
+    
+    // Add resize listener (debounced)
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(handleResize, 250);
+    });
 }
 
 // Helper function to open product by ID
@@ -2261,12 +2352,28 @@ function initProductAutoScroll() {
     
     console.log('✅ productsGrid found:', productsGrid);
     console.log('📊 Grid children count:', productsGrid.children.length);
-    console.log('📏 Grid scrollWidth:', productsGrid.scrollWidth, 'clientWidth:', productsGrid.clientWidth);
     
-    // Check if there's content to scroll
-    if (productsGrid.scrollWidth <= productsGrid.clientWidth) {
-        console.warn('⚠️ No scrollable content yet, will retry...');
-        return null;
+    // Check if we're on mobile (two-row layout)
+    const isMobile = window.innerWidth <= 768;
+    let scrollElements = [];
+    
+    if (isMobile) {
+        // Mobile: Get both product rows
+        const rows = productsGrid.querySelectorAll('.product-row');
+        if (rows.length === 0) {
+            console.warn('⚠️ No product rows found on mobile, will retry...');
+            return null;
+        }
+        scrollElements = Array.from(rows);
+        console.log('📱 Mobile: Found', rows.length, 'product rows');
+    } else {
+        // Desktop: Use the main grid
+        if (productsGrid.scrollWidth <= productsGrid.clientWidth) {
+            console.warn('⚠️ No scrollable content yet, will retry...');
+            return null;
+        }
+        scrollElements = [productsGrid];
+        console.log('🖥️ Desktop: Using main grid');
     }
     
     let scrollDirection = 1; // 1 = right, -1 = left
@@ -2281,22 +2388,24 @@ function initProductAutoScroll() {
             return;
         }
         
-        // Always use horizontal scroll for products grid (mobile and desktop now both horizontal)
-        const maxScroll = productsGrid.scrollWidth - productsGrid.clientWidth;
-        const currentScroll = productsGrid.scrollLeft;
-        
-        // Scroll speed - slower for readability
-        const scrollSpeed = 0.3;
-        
-        // Check boundaries and reverse direction
-        if (currentScroll >= maxScroll - 1) {
-            scrollDirection = -1; // Start scrolling left
-        } else if (currentScroll <= 1) {
-            scrollDirection = 1; // Start scrolling right
-        }
-        
-        // Apply horizontal scroll for all devices
-        productsGrid.scrollLeft += scrollSpeed * scrollDirection;
+        // Scroll all elements
+        scrollElements.forEach(element => {
+            const maxScroll = element.scrollWidth - element.clientWidth;
+            const currentScroll = element.scrollLeft;
+            
+            // Scroll speed - slower for readability
+            const scrollSpeed = 0.3;
+            
+            // Check boundaries and reverse direction
+            if (currentScroll >= maxScroll - 1) {
+                scrollDirection = -1; // Start scrolling left
+            } else if (currentScroll <= 1) {
+                scrollDirection = 1; // Start scrolling right
+            }
+            
+            // Apply horizontal scroll
+            element.scrollLeft += scrollSpeed * scrollDirection;
+        });
         
         // Continue animation
         animationFrame = requestAnimationFrame(autoScroll);
@@ -2318,19 +2427,22 @@ function initProductAutoScroll() {
         }
     }
     
-    // Pause on hover (desktop only)
-    productsGrid.addEventListener('mouseenter', stopScrolling);
-    
-    // Resume on mouse leave
-    productsGrid.addEventListener('mouseleave', startScrolling);
-    
-    // Pause on touch start (mobile)
-    productsGrid.addEventListener('touchstart', stopScrolling, { passive: true });
-    
-    // Resume after touch end with delay
-    productsGrid.addEventListener('touchend', function() {
-        setTimeout(startScrolling, 2000);
-    }, { passive: true });
+    // Add event listeners to all scroll elements
+    scrollElements.forEach(element => {
+        // Pause on hover (desktop only)
+        element.addEventListener('mouseenter', stopScrolling);
+        
+        // Resume on mouse leave
+        element.addEventListener('mouseleave', startScrolling);
+        
+        // Pause on touch start (mobile)
+        element.addEventListener('touchstart', stopScrolling, { passive: true });
+        
+        // Resume after touch end with delay
+        element.addEventListener('touchend', function() {
+            setTimeout(startScrolling, 2000);
+        }, { passive: true });
+    });
     
     // Handle visibility change (pause when tab not visible)
     function handleVisibilityChange() {
@@ -2354,10 +2466,12 @@ function initProductAutoScroll() {
     // Return cleanup function
     return function cleanup() {
         stopScrolling();
-        productsGrid.removeEventListener('mouseenter', stopScrolling);
-        productsGrid.removeEventListener('mouseleave', startScrolling);
-        productsGrid.removeEventListener('touchstart', stopScrolling);
-        productsGrid.removeEventListener('touchend', startScrolling);
+        scrollElements.forEach(element => {
+            element.removeEventListener('mouseenter', stopScrolling);
+            element.removeEventListener('mouseleave', startScrolling);
+            element.removeEventListener('touchstart', stopScrolling);
+            element.removeEventListener('touchend', startScrolling);
+        });
         document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
 }
