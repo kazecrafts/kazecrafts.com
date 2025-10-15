@@ -2830,20 +2830,20 @@ footer::after {
     .bento-map {
         height: auto;
         max-height: none;
-        min-height: 320px;
+        min-height: 280px;
         position: relative;
         top: 0;
         padding: 1rem;
     }
     
     .bento-map-header h3 {
-        font-size: 1.4rem;
+        font-size: 1.2rem;
     }
     
     #japanMap {
-        height: 250px !important;
-        min-height: 250px !important;
-        max-height: 250px !important;
+        height: 220px !important;
+        min-height: 220px !important;
+        max-height: 220px !important;
         border-radius: 12px;
     }
     
@@ -2988,34 +2988,34 @@ footer::after {
         padding: 1rem;
         height: auto;
         max-height: none;
-        min-height: 350px;
+        min-height: 280px;
         overflow: hidden;
     }
     
     .bento-map-header {
-        margin-bottom: 1rem;
-    }
-    
-    .bento-map-header h3 {
-        font-size: 1.3rem;
-        margin-bottom: 0.5rem;
-    }
-    
-    .bento-map-header p {
-        font-size: 0.9rem;
         margin-bottom: 0.8rem;
     }
     
+    .bento-map-header h3 {
+        font-size: 1.2rem;
+        margin-bottom: 0.3rem;
+    }
+    
+    .bento-map-header p {
+        font-size: 0.85rem;
+        margin-bottom: 0.5rem;
+    }
+    
     #japanMap {
-        height: 280px !important;
-        min-height: 280px !important;
-        max-height: 280px !important;
+        height: 220px !important;
+        min-height: 220px !important;
+        max-height: 220px !important;
         border-radius: 12px;
         overflow: hidden;
     }
     
     .bento-map-header h3 {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
     }
     
     .bento-map-header p {
@@ -3027,93 +3027,92 @@ footer::after {
         flex-wrap: wrap;
     }
     
-    /* MOBILE: Compact vertical grid with AUTO-SCROLL */
+    /* MOBILE: Horizontal scroll grid like Instagram Stories */
     .bento-products {
         display: grid !important;
-        grid-template-columns: 1fr !important;
-        gap: 1.2rem !important;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 240px)) !important;
+        grid-auto-flow: column !important;
+        gap: 1rem !important;
         padding: 1.5rem 1rem !important;
-        height: 650px !important;
-        max-height: 650px !important;
-        overflow-y: auto !important;
-        overflow-x: hidden !important;
+        height: auto !important;
+        max-height: none !important;
+        overflow-y: hidden !important;
+        overflow-x: auto !important;
         scroll-behavior: smooth !important;
+        scroll-snap-type: x mandatory !important;
     }
     
     .bento-products.collapsed {
-        height: 350px !important;
-        max-height: 350px !important;
+        display: none !important;
     }
     
     .bento-products .product-card {
-        width: 100% !important;
+        width: 240px !important;
         height: auto !important;
-        min-height: 400px !important;
+        min-height: 340px !important;
+        flex-shrink: 0 !important;
+        scroll-snap-align: start !important;
     }
     
     .bento-products .product-info {
-        padding: 1.2rem 1rem 1.2rem !important;
+        padding: 0.8rem 0.7rem 0.9rem !important;
     }
     
     .bento-products .product-image {
-        height: 230px !important;
+        height: 180px !important;
         object-fit: cover !important;
     }
     
     .bento-products .product-name {
-        font-size: 1.1rem !important;
-        margin-bottom: 0.4rem !important;
-    }
-    
-    .bento-products .product-artisan {
-        font-size: 0.9rem !important;
+        font-size: 0.95rem !important;
         margin-bottom: 0.3rem !important;
     }
     
+    .bento-products .product-artisan {
+        font-size: 0.75rem !important;
+        margin-bottom: 0.2rem !important;
+    }
+    
     .bento-products .product-location {
-        font-size: 0.85rem !important;
-        margin-bottom: 0.7rem !important;
+        font-size: 0.7rem !important;
+        margin-bottom: 0.5rem !important;
     }
     
     .bento-products .product-price-large {
-        font-size: 1.35rem !important;
-        margin-bottom: 0.9rem !important;
+        font-size: 1.1rem !important;
+        margin-bottom: 0.6rem !important;
     }
     
     .bento-products .product-actions {
         display: flex !important;
-        gap: 0.8rem !important;
-        margin-top: 0.8rem !important;
+        gap: 0.5rem !important;
+        margin-top: 0.5rem !important;
     }
     
     .bento-products .product-stripe-btn,
     .bento-products .product-cart-btn {
         flex: 1 !important;
-        padding: 1rem 1.1rem !important;
-        font-size: 0.9rem !important;
+        padding: 0.75rem 0.8rem !important;
+        font-size: 0.8rem !important;
     }
     
     .bento-map {
         height: auto;
         max-height: none;
-        min-height: 380px;
+        min-height: 280px;
         position: relative;
-        padding: 1.2rem;
+        padding: 1rem;
     }
     
     #japanMap {
-        height: 300px !important;
-        min-height: 300px !important;
-        max-height: 300px !important;
+        height: 220px !important;
+        min-height: 220px !important;
+        max-height: 220px !important;
         border-radius: 12px;
     }
     
     .craftsman-element {
         display: none;
-    }
-    
-    #japanMap {
-        height: 400px;
     }
     
     /* Touch gestures for mobile */
@@ -3319,107 +3318,97 @@ footer::after {
     }
     
     /* Products Grid */
-    /* MOBILE: Compact vertical grid with AUTO-SCROLL */
+    /* MOBILE: Horizontal scroll grid like Instagram Stories */
     .bento-products {
         display: grid !important;
-        grid-template-columns: 1fr !important;
-        gap: 1.2rem !important;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 220px)) !important;
+        grid-auto-flow: column !important;
+        gap: 0.9rem !important;
         padding: 1.5rem 1rem !important;
-        height: 600px !important;
-        max-height: 600px !important;
-        overflow-y: auto !important;
-        overflow-x: hidden !important;
+        height: auto !important;
+        max-height: none !important;
+        overflow-y: hidden !important;
+        overflow-x: auto !important;
         scroll-behavior: smooth !important;
+        scroll-snap-type: x mandatory !important;
     }
     
     .bento-products.collapsed {
-        height: 300px !important;
-        max-height: 300px !important;
+        display: none !important;
     }
     
     .bento-products .product-card {
-        width: 100% !important;
+        width: 220px !important;
         height: auto !important;
-        min-height: 380px !important;
-        scroll-snap-align: start;
+        min-height: 320px !important;
+        flex-shrink: 0 !important;
+        scroll-snap-align: start !important;
         border-radius: 12px;
         box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
     }
     
-    .product-image {
-        height: 180px;
+    .bento-products .product-image {
+        height: 150px !important;
         flex-shrink: 0;
         object-fit: cover;
     }
     
-    .product-info {
-        padding: 0.9rem 0.8rem 1rem;
+    .bento-products .product-info {
+        padding: 0.8rem 0.7rem 0.9rem !important;
         min-height: auto;
         display: flex;
         flex-direction: column;
-        gap: 0.3rem;
+        gap: 0.2rem;
     }
     
-    .product-name {
-        font-size: 0.85rem;
-    }
-    
-    .product-artisan {
-        font-size: 0.65rem;
-    }
-    
-    .product-location {
-        font-size: 0.6rem;
-    }
-    
-    .product-category-label {
-        font-size: 0.7rem;
+    .bento-products .product-name {
+        font-size: 0.9rem !important;
+        line-height: 1.3;
         margin-bottom: 0.3rem;
     }
     
-    .product-name {
-        font-size: 1.3rem;
-        line-height: 1.3;
-        margin-bottom: 0.4rem;
+    .bento-products .product-artisan {
+        font-size: 0.7rem !important;
+        margin-bottom: 0.2rem;
     }
     
-    .product-artisan {
-        font-size: 0.9rem;
-        margin-bottom: 0.4rem;
+    .bento-products .product-location {
+        font-size: 0.65rem !important;
+        margin-bottom: 0.5rem;
     }
     
-    .product-location {
-        font-size: 0.85rem;
-        margin-bottom: 0.8rem;
+    .bento-products .product-category-label {
+        font-size: 0.65rem;
+        margin-bottom: 0.3rem;
     }
     
-    .product-price-large {
-        font-size: 1.4rem;
-        margin-bottom: 1rem;
+    .bento-products .product-price-large {
+        font-size: 1rem !important;
+        margin-bottom: 0.6rem;
         margin-top: auto;
     }
     
-    .product-actions {
+    .bento-products .product-actions {
         display: flex;
         flex-direction: row;
-        gap: 1rem;
+        gap: 0.5rem;
         width: 100%;
-        margin-top: 0.8rem;
+        margin-top: 0.5rem;
     }
     
-    .product-stripe-btn,
-    .product-cart-btn {
+    .bento-products .product-stripe-btn,
+    .bento-products .product-cart-btn {
         flex: 1;
-        padding: 1.2rem 1rem;
-        font-size: 0.85rem;
+        padding: 0.7rem 0.7rem !important;
+        font-size: 0.75rem !important;
         white-space: nowrap;
         border-radius: 8px;
-        min-height: 54px;
+        min-height: 42px;
     }
     
-    .product-stripe-btn i,
-    .product-cart-btn i {
-        font-size: 1rem;
+    .bento-products .product-stripe-btn i,
+    .bento-products .product-cart-btn i {
+        font-size: 0.85rem;
     }
     
     /* Filter Bar */
@@ -3663,17 +3652,17 @@ footer::after {
     
     /* NAVIGATION - COMPACT & ERGONOMIC - ONLY IN ARTISAN SECTION */
     .artisan-navigation {
-        position: sticky !important;
-        bottom: 20px !important;
-        left: 50% !important;
-        transform: translateX(-50%) !important;
+        position: relative !important;
+        bottom: auto !important;
+        left: auto !important;
+        transform: none !important;
         z-index: 10 !important;
-        margin-top: 1.5rem !important;
+        margin-top: 2rem !important;
         display: flex !important;
         justify-content: center !important;
         align-items: center !important;
         gap: 1.5rem !important;
-        padding: 0.8rem 1.5rem !important;
+        padding: 0.9rem 1.8rem !important;
         background: rgba(255, 255, 255, 0.95) !important;
         backdrop-filter: blur(10px) !important;
         border-radius: 50px !important;
@@ -3684,30 +3673,33 @@ footer::after {
     }
     
     .artisan-nav-btn {
-        width: 50px !important;
-        height: 50px !important;
-        font-size: 1.2rem !important;
+        width: 52px !important;
+        height: 52px !important;
+        font-size: 1.3rem !important;
         border-radius: 50% !important;
         background: var(--tiffany-blue) !important;
         color: white !important;
-        border: none;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: transform 0.15s ease;
-        flex-shrink: 0;
+        border: none !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        cursor: pointer !important;
+        transition: all 0.2s ease !important;
+        flex-shrink: 0 !important;
+        box-shadow: 0 4px 12px rgba(80, 200, 120, 0.3) !important;
     }
     
     .artisan-nav-btn:active {
-        transform: scale(0.92);
+        transform: scale(0.92) !important;
+        box-shadow: 0 2px 8px rgba(80, 200, 120, 0.4) !important;
     }
     
     .artisan-counter {
-        font-size: 1rem;
-        font-weight: 600;
-        min-width: 60px;
-        text-align: center;
+        font-size: 1.05rem !important;
+        font-weight: 600 !important;
+        min-width: 65px !important;
+        text-align: center !important;
+        color: #2a2a2a !important;
     }
     
     .craftsman-card {
@@ -4183,7 +4175,7 @@ footer::after {
     .bento-map {
         height: auto;
         max-height: none;
-        min-height: 300px;
+        min-height: 280px;
         position: relative;
         top: 0;
         padding: 1rem;
@@ -4193,7 +4185,7 @@ footer::after {
         height: 220px !important;
         min-height: 220px !important;
         max-height: 220px !important;
-        border-radius: 10px;
+        border-radius: 12px;
     }
     
     .map-legend {
@@ -4406,76 +4398,79 @@ footer::after {
         border-radius: 12px !important;
     }
     
-    /* MOBILE: Compact vertical layout with AUTO-SCROLL */
+    /* MOBILE: Horizontal scroll grid like Instagram Stories */
     .bento-products {
         display: grid !important;
-        grid-template-columns: 1fr !important;
-        gap: 1.2rem !important;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 220px)) !important;
+        grid-auto-flow: column !important;
+        gap: 0.9rem !important;
         padding: 1.5rem 1rem !important;
-        height: 600px !important;
-        max-height: 600px !important;
-        overflow-y: auto !important;
-        overflow-x: hidden !important;
+        height: auto !important;
+        max-height: none !important;
+        overflow-y: hidden !important;
+        overflow-x: auto !important;
         scroll-behavior: smooth !important;
+        scroll-snap-type: x mandatory !important;
         -webkit-overflow-scrolling: touch !important;
     }
     
     .bento-products.collapsed {
-        height: 300px !important;
-        max-height: 300px !important;
+        display: none !important;
     }
     
     .bento-products .product-card {
-        width: 100% !important;
+        width: 220px !important;
         height: auto !important;
-        min-height: 380px !important;
+        min-height: 320px !important;
+        flex-shrink: 0 !important;
+        scroll-snap-align: start !important;
         box-sizing: border-box !important;
     }
     
-    .product-info {
-        padding: 1.2rem 1rem 1.2rem !important;
+    .bento-products .product-info {
+        padding: 0.8rem 0.7rem 0.9rem !important;
     }
     
-    .product-image {
-        height: 220px !important;
+    .bento-products .product-image {
+        height: 150px !important;
         object-fit: cover !important;
     }
     
-    .product-name {
-        font-size: 1.15rem !important;
-        margin-bottom: 0.4rem !important;
+    .bento-products .product-name {
+        font-size: 0.9rem !important;
+        margin-bottom: 0.3rem !important;
         line-height: 1.3 !important;
     }
     
-    .product-artisan {
-        font-size: 0.9rem !important;
-        margin-bottom: 0.3rem !important;
+    .bento-products .product-artisan {
+        font-size: 0.7rem !important;
+        margin-bottom: 0.2rem !important;
     }
     
-    .product-location {
-        font-size: 0.85rem !important;
+    .bento-products .product-location {
+        font-size: 0.65rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    .bento-products .product-price-large {
+        font-size: 1rem !important;
         margin-bottom: 0.6rem !important;
-    }
-    
-    .product-price-large {
-        font-size: 1.3rem !important;
-        margin-bottom: 0.8rem !important;
         font-weight: 700 !important;
     }
     
-    .product-actions {
+    .bento-products .product-actions {
         display: flex !important;
-        gap: 0.8rem !important;
+        gap: 0.5rem !important;
         width: 100% !important;
-        margin-top: 0.8rem !important;
+        margin-top: 0.5rem !important;
     }
     
-    .product-stripe-btn,
-    .product-cart-btn {
+    .bento-products .product-stripe-btn,
+    .bento-products .product-cart-btn {
         flex: 1 !important;
-        padding: 1.1rem 0.9rem !important;
-        font-size: 0.95rem !important;
-        min-height: 52px !important;
+        padding: 0.7rem 0.7rem !important;
+        font-size: 0.75rem !important;
+        min-height: 42px !important;
         border-radius: 8px !important;
     }
 }
