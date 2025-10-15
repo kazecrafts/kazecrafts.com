@@ -808,7 +808,17 @@ function displaySpotlightArtisan(index) {
     const portrait = document.getElementById('spotlightPortrait');
     portrait.innerHTML = `<img src="${artisan.image}" alt="${artisan.name}" loading="lazy" onerror="this.src='face1.jpg'">`;
     
-    // Mobile-optimized version (no products, simplified)
+    // Get artisan products for both mobile and desktop
+    let artisanProducts = products.filter(p => p.artisan === artisan.name);
+    
+    if (artisanProducts.length === 0) {
+        const randomProducts = [...products].sort(() => 0.5 - Math.random()).slice(0, 3);
+        artisanProducts = randomProducts;
+    } else if (artisanProducts.length > 3) {
+        artisanProducts = artisanProducts.slice(0, 3);
+    }
+    
+    // Mobile-optimized version (NOW WITH PRODUCTS!)
     if (isMobile) {
         const details = document.getElementById('spotlightDetails');
         details.innerHTML = `
@@ -826,21 +836,29 @@ function displaySpotlightArtisan(index) {
                     <span class="meta-value">${artisan.years} Years</span>
                 </div>
             </div>
+            
+            <!-- Featured Works on Mobile -->
+            <div class="artisan-products-preview mobile-products">
+                <h4>Featured Works</h4>
+                <div class="artisan-products-grid mobile-grid">
+                    ${artisanProducts.map(product => `
+                        <div class="artisan-product-mini" onclick="openProductById(${product.id})">
+                            <img src="${product.image}" alt="${product.name}" loading="lazy" onerror="this.src='pot1.webp'">
+                            <div class="product-mini-info">
+                                <div class="product-mini-name">${product.name}</div>
+                                <div class="product-mini-price">¥${product.price.toLocaleString()}</div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+            
             <button class="spotlight-cta ripple" onclick="openCraftsmanModal(${artisan.id})">
                 View Full Story
             </button>
         `;
     } else {
         // Desktop version with products
-        let artisanProducts = products.filter(p => p.artisan === artisan.name);
-        
-        if (artisanProducts.length === 0) {
-            const randomProducts = [...products].sort(() => 0.5 - Math.random()).slice(0, 3);
-            artisanProducts = randomProducts;
-        } else if (artisanProducts.length > 3) {
-            artisanProducts = artisanProducts.slice(0, 3);
-        }
-        
         const details = document.getElementById('spotlightDetails');
         details.innerHTML = `
             <div class="spotlight-craft-label">${artisan.craft}</div>
@@ -1817,6 +1835,19 @@ function toggleWishlist() {
     showNotification('Wishlist feature coming soon!');
 }
 
+// Mobile menu toggle
+function toggleMobileMenu() {
+    const mobileMenu = document.getElementById('mobileMenu');
+    mobileMenu.classList.toggle('active');
+    
+    // Prevent body scroll when menu is open
+    if (mobileMenu.classList.contains('active')) {
+        document.body.style.overflow = 'hidden';
+    } else {
+        document.body.style.overflow = 'auto';
+    }
+}
+
 // Initialize partner section with Japanese default
 function initPartnerLanguage() {
     // Set Japanese as default
@@ -2173,72 +2204,109 @@ function initMobileOptimizations() {
     }
 }
 
-// Auto-scrolling Products - Continuous smooth scroll
-document.addEventListener('DOMContentLoaded', function() {
+// Auto-scrolling Products - Continuous smooth scroll (DESKTOP ONLY)
+function initProductAutoScroll() {
     const productsGrid = document.getElementById('productsGrid');
     
-    // Enable auto-scroll for desktop AND mobile
-    if (productsGrid) {
-        let scrollDirection = 1; // 1 = right, -1 = left
-        let isScrolling = true;
-        let animationFrame;
-        
-        // Smooth auto-scroll function
-        function autoScroll() {
-            if (!isScrolling) return;
-            
-            const maxScroll = productsGrid.scrollWidth - productsGrid.clientWidth;
-            const currentScroll = productsGrid.scrollLeft;
-            
-            // Scroll speed - adjust based on screen size
-            const scrollSpeed = window.innerWidth < 768 ? 0.4 : 0.3;
-            
-            // Check boundaries and reverse direction
-            if (currentScroll >= maxScroll - 1) {
-                scrollDirection = -1; // Start scrolling left
-            } else if (currentScroll <= 1) {
-                scrollDirection = 1; // Start scrolling right
-            }
-            
-            // Apply scroll
-            productsGrid.scrollLeft += scrollSpeed * scrollDirection;
-            
-            // Continue animation
-            animationFrame = requestAnimationFrame(autoScroll);
+    // Only enable auto-scroll for DESKTOP (mobile uses vertical grid now)
+    if (!productsGrid || window.innerWidth < 1024) return;
+    
+    let scrollDirection = 1; // 1 = right, -1 = left
+    let isScrolling = true;
+    let animationFrame = null;
+    let isPageVisible = true;
+    
+    // Smooth auto-scroll function
+    function autoScroll() {
+        if (!isScrolling || !isPageVisible) {
+            animationFrame = null;
+            return;
         }
         
-        // Pause on hover
-        productsGrid.addEventListener('mouseenter', function() {
-            isScrolling = false;
-            if (animationFrame) {
-                cancelAnimationFrame(animationFrame);
-            }
-        });
+        const maxScroll = productsGrid.scrollWidth - productsGrid.clientWidth;
+        const currentScroll = productsGrid.scrollLeft;
         
-        // Resume on mouse leave
-        productsGrid.addEventListener('mouseleave', function() {
-            isScrolling = true;
-            autoScroll();
-        });
+        // Scroll speed - adjust based on screen size
+        const scrollSpeed = window.innerWidth < 768 ? 0.4 : 0.3;
         
-        // Start auto-scrolling
-        setTimeout(() => {
-            autoScroll();
-        }, 1000); // Start after 1 second delay
+        // Check boundaries and reverse direction
+        if (currentScroll >= maxScroll - 1) {
+            scrollDirection = -1; // Start scrolling left
+        } else if (currentScroll <= 1) {
+            scrollDirection = 1; // Start scrolling right
+        }
         
-        // Handle visibility change (pause when tab not visible)
-        document.addEventListener('visibilitychange', function() {
-            if (document.hidden) {
-                isScrolling = false;
-                if (animationFrame) {
-                    cancelAnimationFrame(animationFrame);
-                }
-            } else {
-                isScrolling = true;
-                autoScroll();
-            }
-        });
+        // Apply scroll
+        productsGrid.scrollLeft += scrollSpeed * scrollDirection;
+        
+        // Continue animation
+        animationFrame = requestAnimationFrame(autoScroll);
     }
+    
+    function startScrolling() {
+        if (animationFrame) return; // Already running
+        isScrolling = true;
+        autoScroll();
+    }
+    
+    function stopScrolling() {
+        isScrolling = false;
+        if (animationFrame) {
+            cancelAnimationFrame(animationFrame);
+            animationFrame = null;
+        }
+    }
+    
+    // Pause on hover (desktop only)
+    productsGrid.addEventListener('mouseenter', stopScrolling);
+    
+    // Resume on mouse leave
+    productsGrid.addEventListener('mouseleave', startScrolling);
+    
+    // Pause on touch start (mobile)
+    productsGrid.addEventListener('touchstart', stopScrolling, { passive: true });
+    
+    // Resume after touch end with delay
+    productsGrid.addEventListener('touchend', function() {
+        setTimeout(startScrolling, 2000);
+    }, { passive: true });
+    
+    // Handle visibility change (pause when tab not visible)
+    function handleVisibilityChange() {
+        isPageVisible = !document.hidden;
+        if (isPageVisible) {
+            startScrolling();
+        } else {
+            stopScrolling();
+        }
+    }
+    
+    // Listen for visibility changes
+    if (typeof document.hidden !== 'undefined') {
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+    }
+    
+    // Start auto-scrolling after delay
+    setTimeout(startScrolling, 1000);
+    
+    // Return cleanup function
+    return function cleanup() {
+        stopScrolling();
+        productsGrid.removeEventListener('mouseenter', stopScrolling);
+        productsGrid.removeEventListener('mouseleave', startScrolling);
+        productsGrid.removeEventListener('touchstart', stopScrolling);
+        productsGrid.removeEventListener('touchend', startScrolling);
+        document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+}
+
+// Initialize auto-scroll when products are loaded
+let autoScrollCleanup = null;
+document.addEventListener('DOMContentLoaded', function() {
+    // Wait for products to be displayed
+    setTimeout(function() {
+        autoScrollCleanup = initProductAutoScroll();
+    }, 2000);
 });
 
 // Auto-play Artistry in Motion videos when they come into view
