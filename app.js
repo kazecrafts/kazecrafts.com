@@ -1306,32 +1306,34 @@ function openProductModal(product) {
     const modal = document.getElementById('productModal');
     const modalInner = document.getElementById('modalInner');
     
+    const isMobile = window.innerWidth <= 768;
+    
     modalInner.innerHTML = `
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; padding: 2rem;">
+        <div style="display: grid; grid-template-columns: ${isMobile ? '1fr' : '1fr 1fr'}; gap: ${isMobile ? '1rem' : '1.5rem'}; padding: ${isMobile ? '1rem' : '1.5rem'};">
             <div>
                 <img src="${product.image}" alt="${product.name}" style="width: 100%; border-radius: 8px;" onerror="this.src='pot1.webp'">
             </div>
-            <div style="padding: 1rem;">
-                <div style="display: inline-block; background: #000000; color: white; padding: 0.4rem 1rem; font-size: 0.7rem; margin-bottom: 1rem; border-radius: 3px;">${product.badge}</div>
-                <h2 style="font-family: 'Cinzel', serif; font-size: 2.5rem; margin-bottom: 1rem; color: #000000;">${product.name}</h2>
-                <p style="font-family: 'Noto Serif JP', serif; font-size: 1.1rem; color: #666; margin-bottom: 0.5rem;">By ${product.artisan}</p>
-                <p style="color: #000000; font-weight: 600; margin-bottom: 2rem;">📍 ${product.location}</p>
+            <div style="padding: ${isMobile ? '0' : '0.5rem'};">
+                <div style="display: inline-block; background: #000000; color: white; padding: 0.3rem 0.8rem; font-size: 0.65rem; margin-bottom: 0.8rem; border-radius: 3px;">${product.badge}</div>
+                <h2 style="font-family: 'Cinzel', serif; font-size: ${isMobile ? '1.5rem' : '2rem'}; margin-bottom: 0.8rem; color: #000000; line-height: 1.2;">${product.name}</h2>
+                <p style="font-family: 'Noto Serif JP', serif; font-size: ${isMobile ? '0.9rem' : '1rem'}; color: #666; margin-bottom: 0.3rem;">By ${product.artisan}</p>
+                <p style="color: #000000; font-weight: 600; margin-bottom: 1rem; font-size: ${isMobile ? '0.85rem' : '0.95rem'};">📍 ${product.location}</p>
                 
-                <div style="background: var(--cream); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
-                    <h3 style="margin-bottom: 1rem; color: #000000;">About</h3>
-                    <p style="line-height: 1.8; margin-bottom: 1rem; color: #333;">${product.description}</p>
-                    <div style="display: grid; gap: 0.8rem; font-size: 0.9rem; color: #333;">
+                <div style="background: #f5f5f5; padding: ${isMobile ? '1rem' : '1.2rem'}; border-radius: 8px; margin-bottom: 1rem;">
+                    <h3 style="margin-bottom: 0.8rem; color: #000000; font-size: ${isMobile ? '1rem' : '1.1rem'};">About</h3>
+                    <p style="line-height: 1.6; margin-bottom: 0.8rem; color: #333; font-size: ${isMobile ? '0.85rem' : '0.95rem'};">${product.description}</p>
+                    <div style="display: grid; gap: 0.5rem; font-size: ${isMobile ? '0.8rem' : '0.85rem'}; color: #333;">
                         <div><strong>Materials:</strong> ${product.materials}</div>
                         <div><strong>Dimensions:</strong> ${product.dimensions}</div>
                     </div>
                 </div>
                 
-                <div style="display: flex; flex-direction: column; gap: 1rem; padding-top: 1.5rem; border-top: 2px solid #ddd;">
-                    <div style="font-size: 2rem; font-weight: 700; color: #000000;">¥${product.price.toLocaleString()}</div>
-                    <button onclick="initiateStripeCheckout(${product.id})" style="padding: 1.2rem 2rem; background: #635BFF; color: white; border: none; font-size: 0.95rem; cursor: pointer; border-radius: 6px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                <div style="display: flex; flex-direction: column; gap: 0.8rem; padding-top: 1rem; border-top: 2px solid #ddd;">
+                    <div style="font-size: ${isMobile ? '1.5rem' : '1.8rem'}; font-weight: 700; color: #000000;">¥${product.price.toLocaleString()}</div>
+                    <button onclick="initiateStripeCheckout(${product.id})" style="padding: ${isMobile ? '1rem 1.5rem' : '1.1rem 1.8rem'}; background: #635BFF; color: white; border: none; font-size: ${isMobile ? '0.85rem' : '0.9rem'}; cursor: pointer; border-radius: 6px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
                         <i class="fas fa-lock"></i> Buy Now
                     </button>
-                    <button onclick="addToCart(${product.id}); closeProductModal();" style="padding: 1rem 2rem; background: #000000; color: white; border: none; font-size: 0.9rem; cursor: pointer; border-radius: 6px; font-weight: 600;">
+                    <button onclick="addToCart(${product.id}); closeProductModal();" style="padding: ${isMobile ? '0.9rem 1.5rem' : '1rem 1.8rem'}; background: #000000; color: white; border: none; font-size: ${isMobile ? '0.8rem' : '0.85rem'}; cursor: pointer; border-radius: 6px; font-weight: 600;">
                         Add to Cart
                     </button>
                 </div>
