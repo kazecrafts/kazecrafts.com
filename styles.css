@@ -3160,32 +3160,50 @@ footer::after {
         height: 7px;
     }
     
-    /* MOBILE: COMPLETELY RE-ENGINEERED - SIMPLE FLEXBOX APPROACH */
+    /* MOBILE: TWO-ROW HORIZONTAL SCROLL LAYOUT */
     .bento-products {
         display: flex !important;
-        flex-wrap: wrap !important;
+        flex-direction: column !important;
         gap: 0.8rem !important;
         padding: 1rem !important;
         height: 580px !important;
         max-height: 580px !important;
-        overflow-x: auto !important;
-        overflow-y: hidden !important;
-        scroll-behavior: smooth !important;
-        scroll-snap-type: x mandatory !important;
-        scroll-padding: 1rem !important;
+        overflow: hidden !important;
         background: rgba(255, 255, 255, 0.5);
         backdrop-filter: blur(8px);
         border-radius: 16px;
         box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
         border: 1px solid rgba(0, 0, 0, 0.08);
+    }
+    
+    /* Create two horizontal scrolling rows */
+    .bento-products .product-row {
+        display: flex !important;
+        gap: 0.8rem !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        scroll-behavior: smooth !important;
+        scroll-snap-type: x mandatory !important;
+        scroll-padding: 0 0.5rem !important;
         -webkit-overflow-scrolling: touch;
-        align-content: flex-start;
+        flex: 1;
+        padding: 0 0.5rem;
+    }
+    
+    /* First row */
+    .bento-products .product-row:first-child {
+        margin-bottom: 0.4rem;
+    }
+    
+    /* Second row */
+    .bento-products .product-row:last-child {
+        margin-top: 0.4rem;
     }
     
     .bento-products.collapsed {
         height: 580px !important;
         display: flex !important;
-        flex-wrap: wrap !important;
+        flex-direction: column !important;
     }
     
     .bento-products .product-card {
