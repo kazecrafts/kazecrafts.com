@@ -2239,3 +2239,41 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+// Auto-play Artistry in Motion videos when they come into view
+document.addEventListener('DOMContentLoaded', function() {
+    const videos = document.querySelectorAll('.craft-video');
+    
+    if (videos.length === 0) return;
+    
+    // Create intersection observer to detect when videos are visible
+    const videoObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            const video = entry.target;
+            
+            if (entry.isIntersecting) {
+                // Video is visible - start playing
+                video.play().catch(err => {
+                    // Handle autoplay restrictions
+                    console.log('Video autoplay prevented:', err);
+                });
+            } else {
+                // Video is not visible - pause it
+                video.pause();
+            }
+        });
+    }, {
+        threshold: 0.5, // Trigger when 50% of video is visible
+        rootMargin: '0px'
+    });
+    
+    // Observe all craft videos
+    videos.forEach(video => {
+        // Set video to muted (required for autoplay)
+        video.muted = true;
+        video.setAttribute('muted', '');
+        
+        // Observe the video
+        videoObserver.observe(video);
+    });
+});
