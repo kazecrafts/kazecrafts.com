@@ -2172,3 +2172,70 @@ function initMobileOptimizations() {
         }
     }
 }
+
+// Auto-scrolling Products - Continuous smooth scroll
+document.addEventListener('DOMContentLoaded', function() {
+    const productsGrid = document.getElementById('productsGrid');
+    
+    if (productsGrid && window.innerWidth >= 1024) {
+        let scrollDirection = 1; // 1 = right, -1 = left
+        let isScrolling = true;
+        let animationFrame;
+        
+        // Smooth auto-scroll function
+        function autoScroll() {
+            if (!isScrolling) return;
+            
+            const maxScroll = productsGrid.scrollWidth - productsGrid.clientWidth;
+            const currentScroll = productsGrid.scrollLeft;
+            
+            // Scroll speed - adjust this value (pixels per frame)
+            const scrollSpeed = 0.3;
+            
+            // Check boundaries and reverse direction
+            if (currentScroll >= maxScroll - 1) {
+                scrollDirection = -1; // Start scrolling left
+            } else if (currentScroll <= 1) {
+                scrollDirection = 1; // Start scrolling right
+            }
+            
+            // Apply scroll
+            productsGrid.scrollLeft += scrollSpeed * scrollDirection;
+            
+            // Continue animation
+            animationFrame = requestAnimationFrame(autoScroll);
+        }
+        
+        // Pause on hover
+        productsGrid.addEventListener('mouseenter', function() {
+            isScrolling = false;
+            if (animationFrame) {
+                cancelAnimationFrame(animationFrame);
+            }
+        });
+        
+        // Resume on mouse leave
+        productsGrid.addEventListener('mouseleave', function() {
+            isScrolling = true;
+            autoScroll();
+        });
+        
+        // Start auto-scrolling
+        setTimeout(() => {
+            autoScroll();
+        }, 1000); // Start after 1 second delay
+        
+        // Handle visibility change (pause when tab not visible)
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                isScrolling = false;
+                if (animationFrame) {
+                    cancelAnimationFrame(animationFrame);
+                }
+            } else {
+                isScrolling = true;
+                autoScroll();
+            }
+        });
+    }
+});
