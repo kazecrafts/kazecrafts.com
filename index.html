@@ -55,6 +55,9 @@
         </ul>
 
         <div class="nav-right">
+            <div class="nav-icon mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars"></i>
+            </div>
             <div class="nav-icon" onclick="toggleSearch()">
                 <i class="fas fa-search"></i>
             </div>
@@ -67,6 +70,25 @@
             </div>
         </div>
     </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <div class="mobile-menu-logo">
+                <img src="kazeblank.png" alt="Kaze Crafts">
+            </div>
+            <div class="mobile-menu-close" onclick="toggleMobileMenu()">
+                <i class="fas fa-times"></i>
+            </div>
+        </div>
+        <ul class="mobile-menu-links">
+            <li><a href="#collections" onclick="toggleMobileMenu()">Marketplace</a></li>
+            <li><a href="#artisans" onclick="toggleMobileMenu()">Artisans</a></li>
+            <li><a href="#video" onclick="toggleMobileMenu()">Stories</a></li>
+            <li><a href="#partner" onclick="toggleMobileMenu()">Partner</a></li>
+            <li><a href="#contact" onclick="toggleMobileMenu()">Contact</a></li>
+        </ul>
+    </div>
 
     <!-- Hero - Minimal Centered Design -->
     <section class="hero-minimal">
@@ -81,17 +103,9 @@
         <!-- Centered Content -->
         <div class="hero-main">
             <div class="hero-layout">
-                <button class="btn-explore btn-side" onclick="document.getElementById('collections').scrollIntoView({behavior: 'smooth'})">
-                    Explore Collection
-                </button>
-                
                 <div class="hero-logo-container">
                     <img src="blacklogocropped.png" alt="Kaze Crafts" class="hero-logo">
                 </div>
-                
-                <button class="btn-artisans btn-side" onclick="document.getElementById('artisans').scrollIntoView({behavior: 'smooth'})">
-                    Meet Artisans
-                </button>
             </div>
         </div>
     </section>
