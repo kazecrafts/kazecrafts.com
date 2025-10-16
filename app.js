@@ -2117,13 +2117,18 @@ function initSmoothScroll() {
 function initAnimations() {
     gsap.registerPlugin(ScrollTrigger);
     
+    // Reduce animations on mobile for performance
+    const isMobile = window.innerWidth <= 768;
+    const animDuration = isMobile ? 0.5 : 1;
+    const animDelay = isMobile ? 0.05 : 0.2;
+    
     // Animate section headers with stagger
     gsap.utils.toArray('.section-header, .artisans-header-luxury, .video-header-cinematic, .marketplace-header-luxury').forEach(header => {
         gsap.from(header.children, {
-            y: 50,
+            y: isMobile ? 20 : 50,
             opacity: 0,
-            stagger: 0.2,
-            duration: 1,
+            stagger: animDelay,
+            duration: animDuration,
             scrollTrigger: {
                 trigger: header,
                 start: 'top 80%',
@@ -2136,7 +2141,7 @@ function initAnimations() {
     gsap.from('#japanMap', {
         scale: 0.95,
         opacity: 0,
-        duration: 1.2,
+        duration: isMobile ? 0.6 : 1.2,
         scrollTrigger: {
             trigger: '#japanMap',
             start: 'top 80%',
@@ -2144,17 +2149,19 @@ function initAnimations() {
         }
     });
     
-    // Parallax effect for craftsman element
-    gsap.to('.craftsman-element', {
-        yPercent: 30,
-        ease: 'none',
-        scrollTrigger: {
-            trigger: '.hero-minimalist',
-            start: 'top top',
-            end: 'bottom top',
-            scrub: 1
-        }
-    });
+    // Parallax effect for craftsman element (disabled on mobile)
+    if (!isMobile) {
+        gsap.to('.craftsman-element', {
+            yPercent: 30,
+            ease: 'none',
+            scrollTrigger: {
+                trigger: '.hero-minimalist',
+                start: 'top top',
+                end: 'bottom top',
+                scrub: 1
+            }
+        });
+    }
     
     // Stagger animation for grid items
     gsap.utils.toArray('.artisans-masonry-grid .craftsman-card').forEach((card, index) => {
@@ -2504,8 +2511,15 @@ window.addEventListener('load', function() {
     }
 });
 
-// Auto-play Artistry in Motion videos when they come into view
+// Auto-play Artistry in Motion videos when they come into view (DISABLED ON MOBILE FOR PERFORMANCE)
 document.addEventListener('DOMContentLoaded', function() {
+    // Skip video autoplay on mobile to prevent crashes
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) {
+        console.log('Video autoplay disabled on mobile for performance');
+        return;
+    }
+    
     const videos = document.querySelectorAll('.craft-video');
     
     if (videos.length === 0) return;
@@ -2516,19 +2530,21 @@ document.addEventListener('DOMContentLoaded', function() {
             const video = entry.target;
             
             if (entry.isIntersecting) {
-                // Video is visible - start playing
-                video.play().catch(err => {
-                    // Handle autoplay restrictions
-                    console.log('Video autoplay prevented:', err);
-                });
+                // Video is visible - start playing (with delay to prevent simultaneous loading)
+                setTimeout(() => {
+                    video.play().catch(err => {
+                        // Handle autoplay restrictions
+                        console.log('Video autoplay prevented:', err);
+                    });
+                }, 200);
             } else {
                 // Video is not visible - pause it
                 video.pause();
             }
         });
     }, {
-        threshold: 0.5, // Trigger when 50% of video is visible
-        rootMargin: '0px'
+        threshold: 0.3, // Trigger when 30% of video is visible (less aggressive)
+        rootMargin: '50px' // Preload slightly before visible
     });
     
     // Observe all craft videos
@@ -2536,6 +2552,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Set video to muted (required for autoplay)
         video.muted = true;
         video.setAttribute('muted', '');
+        video.setAttribute('preload', 'metadata'); // Only load metadata on mobile
         
         // Observe the video
         videoObserver.observe(video);
