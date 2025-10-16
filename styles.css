@@ -515,7 +515,7 @@ nav.scrolled {
 /* ===== MINIMAL CENTERED HERO ===== */
 .hero-minimal {
     height: 100vh;
-    min-height: 700px;
+    min-height: 750px;
     position: relative;
     overflow: hidden;
     display: flex;
@@ -612,7 +612,7 @@ nav.scrolled {
 /* Mobile scroll indicator */
 @media (max-width: 768px) {
     .scroll-indicator {
-        bottom: 2.5rem;
+        bottom: 3rem;
         padding: 0 1.5rem;
     }
     
@@ -641,7 +641,7 @@ nav.scrolled {
 /* Extra small mobile screens */
 @media (max-width: 480px) {
     .scroll-indicator {
-        bottom: 2rem;
+        bottom: 2.5rem;
         padding: 0 1rem;
         max-width: 90%;
     }
@@ -665,6 +665,14 @@ nav.scrolled {
     .scroll-arrow {
         font-size: 1rem;
         margin-top: 0.5rem;
+    }
+    
+    .hero-logo {
+        margin-bottom: 8rem;
+    }
+    
+    .hero-main {
+        padding-bottom: 10rem;
     }
 }
 
@@ -737,11 +745,10 @@ nav.scrolled {
     text-align: center;
     width: 100%;
     max-width: 1400px;
-    padding: 3rem 3rem 0 3rem;
+    padding: 5rem 3rem 10rem 3rem;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
-    padding-top: 0.5rem;
     margin-bottom: 0;
 }
 
@@ -787,6 +794,7 @@ nav.scrolled {
     flex: 1;
     position: relative;
     z-index: 100;
+    margin-top: 3rem;
 }
 
 /* hero-rotating-text removed */
@@ -847,6 +855,7 @@ nav.scrolled {
     filter: brightness(0) invert(1) drop-shadow(0 10px 40px rgba(0, 0, 0, 0.3));
     flex-shrink: 0;
     margin-top: 0;
+    margin-bottom: 8rem;
     position: relative;
     z-index: 100;
     animation: 
@@ -868,6 +877,7 @@ nav.scrolled {
     .hero-logo {
         height: 480px;
         margin-top: 0;
+        margin-bottom: 7rem;
     }
 }
 
@@ -875,6 +885,7 @@ nav.scrolled {
     .hero-logo {
         height: 400px;
         margin-top: 0;
+        margin-bottom: 6rem;
     }
 }
 
@@ -883,6 +894,7 @@ nav.scrolled {
         height: 250px;
         max-width: 90%;
         margin-top: 0;
+        margin-bottom: 8rem;
         /* Lighter animation for mobile performance - side to side only */
         animation: 
             logoSway 10s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
@@ -908,16 +920,27 @@ nav.scrolled {
 @media (max-width: 768px) {
     .hero-logo {
         height: 220px;
+        margin-bottom: 7rem;
     }
     
     .hero-logo-container {
-        margin-bottom: 5rem;
+        margin-bottom: 0;
+        margin-top: 0;
+    }
+    
+    .hero-main {
+        padding-bottom: 12rem;
     }
 }
 
 @media (max-width: 600px) {
     .hero-logo {
         height: 200px;
+        margin-bottom: 7rem;
+    }
+    
+    .hero-main {
+        padding-bottom: 11rem;
     }
 }
 
@@ -1215,7 +1238,8 @@ nav.scrolled {
 
 .marker-pottery { border-color: var(--warm-brown); }
 .marker-kimono { border-color: var(--tiffany-blue-light); }
-.marker-knife { border-color: var(--charcoal); }
+.marker-cutlery { border-color: var(--charcoal); }
+.marker-woodcraft { border-color: #8b4513; }
 .marker-textile { border-color: var(--tiffany-blue); }
 
 /* Location Popup Styling */
@@ -3563,7 +3587,8 @@ footer::after {
     /* Hero Section */
     .hero-main {
         padding: 2rem 1rem;
-        min-height: 70vh;
+        padding-bottom: 10rem;
+        min-height: 80vh;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -3571,12 +3596,14 @@ footer::after {
     
     .hero-logo-container {
         gap: 1rem;
-        margin-bottom: 6rem;
+        margin-bottom: 0;
+        margin-top: 0;
     }
     
     .hero-logo {
         height: 180px;
         margin-top: 0;
+        margin-bottom: 8rem;
     }
     
     
@@ -4540,7 +4567,8 @@ footer::after {
     /* Small mobile screens */
     .hero-main {
         padding: 1.5rem 0.75rem;
-        min-height: 70vh;
+        padding-bottom: 10rem;
+        min-height: 80vh;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -4557,13 +4585,15 @@ footer::after {
     .hero-logo-container {
         flex: 0 1 auto;
         max-width: 100%;
-        margin-bottom: 6rem;
+        margin-bottom: 0;
+        margin-top: 0;
     }
     
     .hero-logo {
         height: 180px;
         max-width: 90%;
         margin-top: 0;
+        margin-bottom: 8rem;
     }
     
     /* Partner Section - Extra compact */
@@ -4616,6 +4646,23 @@ footer::after {
         font-size: 1.8rem !important;
         margin-bottom: 2rem !important;
         line-height: 1.3 !important;
+    }
+    
+    .form-construction-notice {
+        flex-direction: column;
+        gap: 0.3rem;
+        padding: 0.8rem 1rem;
+        font-size: 0.75rem;
+        text-align: center;
+    }
+    
+    .form-construction-notice i {
+        font-size: 0.8rem;
+    }
+    
+    .construction-jp {
+        margin-left: 0;
+        font-size: 0.7rem;
     }
     
     .partner-form .form-group {
@@ -5255,6 +5302,71 @@ footer::after {
     font-weight: 400;
 }
 
+/* Marketplace Disclaimer */
+.marketplace-disclaimer {
+    max-width: 900px;
+    margin: 2rem auto 1rem;
+    padding: 1.5rem 2rem;
+    background: transparent;
+    border: 1px solid rgba(42, 42, 42, 0.15);
+    border-left: 3px solid var(--black);
+    border-radius: 8px;
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.disclaimer-icon {
+    flex-shrink: 0;
+    font-size: 1.8rem;
+    color: var(--black);
+    margin-top: 0.2rem;
+}
+
+.disclaimer-content {
+    flex: 1;
+    text-align: left;
+}
+
+.disclaimer-content p {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--black);
+}
+
+.disclaimer-en {
+    margin-bottom: 1rem !important;
+    font-family: 'Cinzel', serif;
+}
+
+.disclaimer-jp {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.9rem !important;
+    opacity: 0.85;
+}
+
+.disclaimer-content strong {
+    color: var(--black);
+    font-weight: 600;
+}
+
+/* Artisan Section Disclaimer */
+.artisan-disclaimer {
+    max-width: 900px;
+    margin: 2rem auto 0;
+    padding: 1.5rem 2rem;
+    background: transparent;
+    border: 1px solid rgba(42, 42, 42, 0.15);
+    border-left: 3px solid var(--black);
+    border-radius: 8px;
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
 /* Filter Bar Attached to Products Section */
 .filter-bar-attached {
     max-width: 1600px;
@@ -5294,6 +5406,40 @@ footer::after {
         font-size: 1rem;
         margin-bottom: 0;
         line-height: 1.6;
+    }
+    
+    .marketplace-disclaimer {
+        margin: 1.5rem 1rem 1rem;
+        padding: 1.2rem 1.5rem;
+        gap: 1rem;
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .disclaimer-icon {
+        font-size: 1.5rem;
+        margin: 0 auto;
+    }
+    
+    .disclaimer-content {
+        text-align: center;
+    }
+    
+    .disclaimer-content p {
+        font-size: 0.85rem;
+        line-height: 1.5;
+    }
+    
+    .disclaimer-jp {
+        font-size: 0.8rem !important;
+    }
+    
+    .artisan-disclaimer {
+        margin: 1.5rem 1rem 0;
+        padding: 1.2rem 1.5rem;
+        gap: 1rem;
+        flex-direction: column;
+        text-align: center;
     }
     
     .filter-bar-attached {
@@ -6189,6 +6335,36 @@ footer::after {
     transform: scale(1.15) rotate(10deg);
     background: var(--tiffany-blue);
     color: #ffffff;
+}
+
+/* Form Construction Notice */
+.form-construction-notice {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1rem 0.6rem 1.2rem;
+    margin-bottom: 1.5rem;
+    background: rgba(42, 42, 42, 0.04);
+    border: 1px solid rgba(42, 42, 42, 0.1);
+    border-left: 2px solid rgba(42, 42, 42, 0.2);
+    border-radius: 6px;
+    font-size: 0.85rem;
+    color: rgba(42, 42, 42, 0.7);
+    font-family: 'Cinzel', serif;
+}
+
+.form-construction-notice i {
+    font-size: 0.9rem;
+    color: rgba(42, 42, 42, 0.5);
+}
+
+.construction-jp {
+    margin-left: 0.3rem;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.8rem;
+    opacity: 0.8;
 }
 
 .partner-form {
