@@ -3650,43 +3650,43 @@ footer::after {
     }
     
     .bento-products .product-image {
-        height: 150px !important;
+        height: 180px !important;
         flex-shrink: 0;
         object-fit: cover;
     }
     
     .bento-products .product-info {
-        padding: 0.8rem 0.7rem 0.9rem !important;
+        padding: 0.6rem 0.6rem 0.7rem !important;
         min-height: auto;
         display: flex;
         flex-direction: column;
-        gap: 0.2rem;
+        gap: 0.15rem;
     }
     
     .bento-products .product-name {
-        font-size: 0.9rem !important;
-        line-height: 1.3;
-        margin-bottom: 0.3rem;
-    }
-    
-    .bento-products .product-artisan {
-        font-size: 0.7rem !important;
+        font-size: 0.8rem !important;
+        line-height: 1.2;
         margin-bottom: 0.2rem;
     }
     
-    .bento-products .product-location {
-        font-size: 0.65rem !important;
-        margin-bottom: 0.5rem;
+    .bento-products .product-artisan {
+        font-size: 0.6rem !important;
+        margin-bottom: 0.15rem;
     }
     
-    .bento-products .product-category-label {
-        font-size: 0.65rem;
+    .bento-products .product-location {
+        font-size: 0.58rem !important;
         margin-bottom: 0.3rem;
     }
     
+    .bento-products .product-category-label {
+        font-size: 0.58rem;
+        margin-bottom: 0.2rem;
+    }
+    
     .bento-products .product-price-large {
-        font-size: 1rem !important;
-        margin-bottom: 0.6rem;
+        font-size: 0.9rem !important;
+        margin-bottom: 0.4rem;
         margin-top: auto;
     }
     
@@ -4032,38 +4032,42 @@ footer::after {
     
     .video-card-cinematic {
         margin-bottom: 0;
-        border-radius: 16px;
-        overflow: hidden;
-    }
-    
-    .craft-video {
-        height: 280px;
-        width: 100%;
-        border-radius: 0;
-    }
-    
-    .video-wrapper-cinematic {
         border-radius: 12px;
         overflow: hidden;
     }
     
+    .craft-video {
+        height: 240px;
+        width: 100%;
+        border-radius: 0;
+        object-fit: cover;
+    }
+    
+    .video-wrapper-cinematic {
+        border-radius: 0;
+        overflow: hidden;
+        padding-bottom: 0 !important;
+        height: 240px;
+    }
+    
     .video-info-cinematic {
-        padding: 2rem 1.5rem;
+        padding: 1.2rem 1rem;
     }
     
     .video-card-title {
-        font-size: 1.5rem;
-        margin-bottom: 0.8rem;
+        font-size: 1.1rem;
+        margin-bottom: 0.4rem;
+        line-height: 1.3;
     }
     
     .video-card-subtitle {
-        font-size: 1rem;
-        margin-bottom: 0.8rem;
+        font-size: 0.8rem;
+        margin-bottom: 0.4rem;
     }
     
     .video-card-description {
-        font-size: 1rem;
-        line-height: 1.6;
+        font-size: 0.85rem;
+        line-height: 1.5;
     }
     
     /* Partner Section */
@@ -5304,24 +5308,24 @@ footer::after {
 
 /* Marketplace Disclaimer */
 .marketplace-disclaimer {
-    max-width: 900px;
-    margin: 2rem auto 1rem;
-    padding: 1.5rem 2rem;
+    max-width: 800px;
+    margin: 1.5rem auto 1rem;
+    padding: 0.8rem 1.2rem;
     background: transparent;
-    border: 1px solid rgba(42, 42, 42, 0.15);
-    border-left: 3px solid var(--black);
-    border-radius: 8px;
+    border: 1px solid rgba(42, 42, 42, 0.1);
+    border-left: 2px solid rgba(42, 42, 42, 0.25);
+    border-radius: 6px;
     display: flex;
-    gap: 1.5rem;
+    gap: 0.8rem;
     align-items: flex-start;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    box-shadow: none;
 }
 
 .disclaimer-icon {
     flex-shrink: 0;
-    font-size: 1.8rem;
-    color: var(--black);
-    margin-top: 0.2rem;
+    font-size: 1rem;
+    color: rgba(42, 42, 42, 0.6);
+    margin-top: 0.1rem;
 }
 
 .disclaimer-content {
@@ -5331,40 +5335,40 @@ footer::after {
 
 .disclaimer-content p {
     margin: 0;
-    font-size: 0.95rem;
-    line-height: 1.6;
-    color: var(--black);
+    font-size: 0.75rem;
+    line-height: 1.5;
+    color: rgba(42, 42, 42, 0.7);
 }
 
 .disclaimer-en {
-    margin-bottom: 1rem !important;
+    margin-bottom: 0.5rem !important;
     font-family: 'Cinzel', serif;
 }
 
 .disclaimer-jp {
     font-family: 'Noto Serif JP', serif;
-    font-size: 0.9rem !important;
-    opacity: 0.85;
+    font-size: 0.7rem !important;
+    opacity: 0.75;
 }
 
 .disclaimer-content strong {
-    color: var(--black);
+    color: rgba(42, 42, 42, 0.8);
     font-weight: 600;
 }
 
 /* Artisan Section Disclaimer */
 .artisan-disclaimer {
-    max-width: 900px;
-    margin: 2rem auto 0;
-    padding: 1.5rem 2rem;
+    max-width: 800px;
+    margin: 1.5rem auto 0;
+    padding: 0.8rem 1.2rem;
     background: transparent;
-    border: 1px solid rgba(42, 42, 42, 0.15);
-    border-left: 3px solid var(--black);
-    border-radius: 8px;
+    border: 1px solid rgba(42, 42, 42, 0.1);
+    border-left: 2px solid rgba(42, 42, 42, 0.25);
+    border-radius: 6px;
     display: flex;
-    gap: 1.5rem;
+    gap: 0.8rem;
     align-items: flex-start;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    box-shadow: none;
 }
 
 /* Filter Bar Attached to Products Section */
@@ -5409,37 +5413,37 @@ footer::after {
     }
     
     .marketplace-disclaimer {
-        margin: 1.5rem 1rem 1rem;
-        padding: 1.2rem 1.5rem;
-        gap: 1rem;
-        flex-direction: column;
-        text-align: center;
+        margin: 1rem 1rem 0.8rem;
+        padding: 0.6rem 1rem;
+        gap: 0.6rem;
+        flex-direction: row;
+        text-align: left;
     }
     
     .disclaimer-icon {
-        font-size: 1.5rem;
-        margin: 0 auto;
+        font-size: 0.85rem;
+        margin: 0;
     }
     
     .disclaimer-content {
-        text-align: center;
+        text-align: left;
     }
     
     .disclaimer-content p {
-        font-size: 0.85rem;
-        line-height: 1.5;
+        font-size: 0.65rem;
+        line-height: 1.4;
     }
     
     .disclaimer-jp {
-        font-size: 0.8rem !important;
+        font-size: 0.6rem !important;
     }
     
     .artisan-disclaimer {
-        margin: 1.5rem 1rem 0;
-        padding: 1.2rem 1.5rem;
-        gap: 1rem;
-        flex-direction: column;
-        text-align: center;
+        margin: 1rem 1rem 0;
+        padding: 0.6rem 1rem;
+        gap: 0.6rem;
+        flex-direction: row;
+        text-align: left;
     }
     
     .filter-bar-attached {
