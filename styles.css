@@ -1160,6 +1160,9 @@ nav.scrolled {
 .section-header {
     text-align: center;
     margin-bottom: 4rem;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .section-label {
@@ -4701,48 +4704,76 @@ footer::after {
     /* CONTACT SECTION - COMPLETELY RE-ENGINEERED FOR MOBILE */
     .contact-section {
         padding: 3rem 1rem !important;
+        width: 100vw !important;
+        max-width: 100vw !important;
+        box-sizing: border-box !important;
+        overflow-x: hidden !important;
+    }
+    
+    .section-header {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 auto 2rem !important;
     }
     
     .section-title {
         font-size: 1.8rem;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    
+    .section-label,
+    .section-title-jp {
+        width: 100% !important;
+        max-width: 100% !important;
     }
     
     .contact-content {
         grid-template-columns: 1fr !important;
-        gap: 2.5rem !important;
+        gap: 2rem !important;
         width: 100% !important;
         max-width: 100% !important;
         padding: 0 !important;
+        margin: 2rem 0 0 0 !important;
+        box-sizing: border-box !important;
     }
     
     .contact-info {
         width: 100% !important;
-        gap: 1rem !important;
+        max-width: 100% !important;
+        gap: 0.8rem !important;
+        padding: 0 !important;
     }
     
     .contact-item {
-        padding: 1.2rem !important;
-        gap: 1rem !important;
+        padding: 1rem !important;
+        gap: 0.8rem !important;
         min-height: auto !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
     }
     
     .contact-item i {
-        font-size: 1.5rem !important;
-        width: 36px !important;
-        height: 36px !important;
+        font-size: 1.2rem !important;
+        width: 32px !important;
+        height: 32px !important;
     }
     
     .contact-item h4 {
-        font-size: 1rem !important;
+        font-size: 0.95rem !important;
     }
     
     .contact-item p,
     .contact-item a {
-        font-size: 0.9rem !important;
+        font-size: 0.85rem !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
     }
     
     .contact-form {
-        padding: 2rem 1.5rem !important;
+        padding: 1.5rem 1rem !important;
         width: 100% !important;
         max-width: 100% !important;
         box-sizing: border-box !important;
@@ -4750,35 +4781,37 @@ footer::after {
     }
     
     .contact-form .form-group {
-        margin-bottom: 1.5rem !important;
+        margin-bottom: 1.2rem !important;
         width: 100% !important;
+        max-width: 100% !important;
     }
     
     .contact-form input,
     .contact-form textarea {
-        padding: 1.2rem 1rem !important;
-        font-size: 1rem !important;
-        min-height: 50px !important;
+        padding: 1rem 0.9rem !important;
+        font-size: 0.95rem !important;
+        min-height: 48px !important;
         width: 100% !important;
         max-width: 100% !important;
         box-sizing: border-box !important;
-        border-radius: 10px !important;
+        border-radius: 8px !important;
         border: 2px solid rgba(80, 200, 120, 0.3) !important;
     }
     
     .contact-form textarea {
-        min-height: 150px !important;
-        padding: 1.2rem 1rem !important;
+        min-height: 130px !important;
+        padding: 1rem 0.9rem !important;
         resize: vertical !important;
     }
     
     .contact-submit-btn {
-        padding: 1.3rem 1.5rem !important;
-        font-size: 1rem !important;
-        min-height: 54px !important;
+        padding: 1.2rem 1rem !important;
+        font-size: 0.95rem !important;
+        min-height: 50px !important;
         width: 100% !important;
+        max-width: 100% !important;
         box-sizing: border-box !important;
-        border-radius: 10px !important;
+        border-radius: 8px !important;
     }
     
     /* MOBILE: Horizontal scroll grid like Instagram Stories */
@@ -4861,11 +4894,19 @@ footer::after {
 /* Contact Section Mobile */
 @media (max-width: 968px) {
     .contact-section {
-        padding: 3rem 1.5rem;
+        padding: 3rem 1.2rem;
+        width: 100vw;
+        max-width: 100vw;
+        box-sizing: border-box;
+        overflow-x: hidden;
     }
     
     .section-header {
         margin-bottom: 2.5rem;
+        width: 100%;
+        max-width: 100%;
+        padding: 0 0.5rem;
+        box-sizing: border-box;
     }
     
     .section-label {
@@ -4886,10 +4927,16 @@ footer::after {
         grid-template-columns: 1fr;
         gap: 2.5rem;
         margin-top: 1.5rem;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        padding: 0;
     }
     
     .contact-info {
         gap: 1.2rem;
+        width: 100%;
+        max-width: 100%;
     }
     
     .contact-item {
@@ -4897,6 +4944,9 @@ footer::after {
         border-radius: 10px;
         border-width: 2px;
         gap: 1rem;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
     }
     
     .contact-item i {
@@ -4914,51 +4964,72 @@ footer::after {
     .contact-item p,
     .contact-item a {
         font-size: 0.85rem;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
     }
     
     /* CONTACT FORM - LARGE AND USABLE */
     .contact-section {
-        padding: 3rem 1rem !important;
+        padding: 3rem 0.8rem !important;
+        width: 100vw !important;
+        max-width: 100vw !important;
+        box-sizing: border-box !important;
+        overflow-x: hidden !important;
+    }
+    
+    .section-header {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 0.5rem !important;
+        margin: 0 auto 2rem !important;
     }
     
     .contact-content {
         grid-template-columns: 1fr !important;
-        gap: 2.5rem !important;
+        gap: 2rem !important;
         width: 100% !important;
         max-width: 100% !important;
-        margin-top: 2rem !important;
-        padding: 0 !important;
+        margin: 1.5rem 0 0 0 !important;
+        padding: 0 0.5rem !important;
+        box-sizing: border-box !important;
     }
     
     .contact-info {
         width: 100% !important;
-        gap: 1rem !important;
+        max-width: 100% !important;
+        gap: 0.8rem !important;
+        padding: 0 !important;
     }
     
     .contact-item {
-        padding: 1.2rem !important;
-        gap: 1rem !important;
+        padding: 0.9rem !important;
+        gap: 0.8rem !important;
         min-height: auto !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
     }
     
     .contact-item i {
-        font-size: 1.5rem !important;
-        width: 36px !important;
-        height: 36px !important;
+        font-size: 1.1rem !important;
+        width: 30px !important;
+        height: 30px !important;
     }
     
     .contact-item h4 {
-        font-size: 1rem !important;
+        font-size: 0.9rem !important;
     }
     
     .contact-item p,
     .contact-item a {
-        font-size: 0.9rem !important;
+        font-size: 0.8rem !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
     }
     
     .contact-form {
-        padding: 2rem 1.5rem !important;
-        border-radius: 12px !important;
+        padding: 1.5rem 1rem !important;
+        border-radius: 10px !important;
         width: 100% !important;
         max-width: 100% !important;
         box-sizing: border-box !important;
@@ -4966,17 +5037,18 @@ footer::after {
     }
     
     .contact-form .form-group {
-        margin-bottom: 1.5rem !important;
+        margin-bottom: 1.2rem !important;
         width: 100% !important;
+        max-width: 100% !important;
     }
     
     .contact-form .form-group input,
     .contact-form .form-group textarea,
     .contact-form .form-group select {
-        padding: 1.2rem 1rem !important;
-        font-size: 1rem !important;
-        border-radius: 10px !important;
-        min-height: 50px !important;
+        padding: 1rem 0.8rem !important;
+        font-size: 0.95rem !important;
+        border-radius: 8px !important;
+        min-height: 48px !important;
         width: 100% !important;
         max-width: 100% !important;
         box-sizing: border-box !important;
@@ -4984,18 +5056,18 @@ footer::after {
     }
     
     .contact-form textarea {
-        min-height: 150px !important;
+        min-height: 130px !important;
         resize: vertical !important;
     }
     
     .contact-submit-btn {
-        padding: 1.3rem 1.5rem !important;
-        font-size: 1rem !important;
-        min-height: 54px !important;
+        padding: 1.2rem 1rem !important;
+        font-size: 0.95rem !important;
+        min-height: 50px !important;
         width: 100% !important;
         max-width: 100% !important;
         box-sizing: border-box !important;
-        border-radius: 10px !important;
+        border-radius: 8px !important;
     }
 }
 
@@ -6558,12 +6630,16 @@ footer::after {
     gap: 4rem;
     max-width: 1400px;
     margin: 4rem auto 0;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .contact-info {
     display: flex;
     flex-direction: column;
     gap: 2rem;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .contact-item {
@@ -6577,6 +6653,8 @@ footer::after {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border: 1px solid rgba(0, 0, 0, 0.08);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .contact-item:hover {
@@ -6617,6 +6695,9 @@ footer::after {
 .contact-item p {
     color: #000000;
     font-weight: 500;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
 }
 
 .contact-item a {
@@ -6624,6 +6705,9 @@ footer::after {
     text-decoration: none;
     font-weight: 600;
     transition: all 0.3s ease;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
 }
 
 .contact-item a:hover {
