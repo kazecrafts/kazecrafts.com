@@ -73,8 +73,7 @@ const craftsmen = [
         specialty: "Traditional Raku Tea Bowls",
         years: 35,
         story: "Born into a family of potters in Kyoto, Master Tanaka has dedicated his life to perfecting the ancient art of Raku-yaki. His tea bowls are renowned for their spontaneous beauty and spiritual depth, embodying the wabi-sabi aesthetic. Each piece is fired in a traditional anagama kiln, where flames dance and create unique patterns that cannot be replicated.",
-        quote: "Clay remembers the hands that shaped it, fire reveals its true nature.",
-        video: "https://www.youtube.com/embed/U4fErC9skHE"
+        quote: "Clay remembers the hands that shaped it, fire reveals its true nature."
     },
     {
         id: 2,
@@ -87,8 +86,7 @@ const craftsmen = [
         specialty: "Hand-Painted Porcelain",
         years: 28,
         story: "Master Yamamoto is one of the few female masters in the male-dominated world of Kiyomizu pottery. Her delicate hand-painted designs featuring seasonal flowers have won numerous awards. She combines traditional techniques with contemporary aesthetics, creating pieces that honor the past while embracing the future.",
-        quote: "Every brushstroke carries 300 years of tradition, yet speaks to today.",
-        video: "https://www.youtube.com/embed/U4fErC9skHE"
+        quote: "Every brushstroke carries 300 years of tradition, yet speaks to today."
     },
     {
         id: 3,
@@ -101,8 +99,7 @@ const craftsmen = [
         specialty: "Unglazed Stoneware",
         years: 42,
         story: "Fourth-generation Bizen master, Kazuo fires his works for 10 days straight in a climbing kiln fueled by red pine. The natural ash glaze and fire markings create patterns impossible to plan, making each piece unique. His works are collected by museums worldwide.",
-        quote: "The kiln and I are partners in creation; fire is the final artist.",
-        video: "https://www.youtube.com/embed/U4fErC9skHE"
+        quote: "The kiln and I are partners in creation; fire is the final artist."
     },
     {
         id: 4,
@@ -115,8 +112,7 @@ const craftsmen = [
         specialty: "Blue & White Porcelain",
         years: 31,
         story: "Heir to a 400-year-old Arita porcelain workshop, Master Kato creates the finest sometsuke (blue and white) porcelain using cobalt oxide imported from the same mines as his ancestors. His intricate patterns require years of training to master.",
-        quote: "Porcelain is frozen moonlight; cobalt is the sky captured in clay.",
-        video: "https://www.youtube.com/embed/U4fErC9skHE"
+        quote: "Porcelain is frozen moonlight; cobalt is the sky captured in clay."
     },
     {
         id: 5,
@@ -129,8 +125,7 @@ const craftsmen = [
         specialty: "Overglaze Enamel Decoration",
         years: 26,
         story: "Renowned for her intricate overglaze enamel work in vibrant reds, blues, and gold. Master Shimizu's Imari pieces are instantly recognizable for their elaborate patterns and perfect symmetry. She fires each piece multiple times to achieve the brilliant colors.",
-        quote: "Color is emotion crystallized; pattern is poetry written in porcelain.",
-        video: "https://www.youtube.com/embed/U4fErC9skHE"
+        quote: "Color is emotion crystallized; pattern is poetry written in porcelain."
     },
     {
         id: 6,
@@ -143,8 +138,7 @@ const craftsmen = [
         specialty: "Natural Ash Glaze",
         years: 38,
         story: "Master Nakamura specializes in Shigaraki's characteristic orange-brown clay with natural ash glazing. His large vessels and sculptural works are favored by tea masters and collectors. The spontaneous beauty of his work embodies the Japanese concept of 'natural beauty.'",
-        quote: "I shape the clay, but nature decorates it through fire and ash.",
-        video: "https://www.youtube.com/embed/U4fErC9skHE"
+        quote: "I shape the clay, but nature decorates it through fire and ash."
     },
     {
         id: 7,
@@ -157,8 +151,7 @@ const craftsmen = [
         specialty: "Five-Color Overglaze",
         years: 22,
         story: "Young master of Kutani's famous five-color technique (green, yellow, red, purple, and navy blue). Yumi's bold designs honor tradition while pushing boundaries. Her work has been exhibited in New York, Paris, and Dubai.",
-        quote: "Kutani's five colors are the voice of Japanese seasons speaking eternally.",
-        video: "https://www.youtube.com/embed/U4fErC9skHE"
+        quote: "Kutani's five colors are the voice of Japanese seasons speaking eternally."
     },
     {
         id: 8,
@@ -171,13 +164,12 @@ const craftsmen = [
         specialty: "Folk Pottery",
         years: 29,
         story: "Carrying on the mingei (folk craft) tradition of Mashiko, Master Watanabe creates functional pottery for everyday use. His thick glazes and earthy tones reflect the democratic ideals of the mingei movement - beauty in utility.",
-        quote: "The best pottery is meant to be used, not just admired from afar.",
-        video: "https://www.youtube.com/embed/U4fErC9skHE"
+        quote: "The best pottery is meant to be used, not just admired from afar."
     },
     {
         id: 9,
         name: "Hayashi Yuki",
-        nameJp: "林 武",
+        nameJp: "林 雪",
         craft: "Karatsu-yaki",
         craftJp: "唐津焼",
         location: "Saga",
@@ -185,8 +177,7 @@ const craftsmen = [
         specialty: "Korean-Style Pottery",
         years: 33,
         story: "Master Hayashi preserves the 400-year-old tradition of Karatsu pottery, influenced by Korean ceramic techniques. His simple, rustic vessels are beloved by tea ceremony practitioners for their humble elegance and perfect imperfections.",
-        quote: "In simplicity lies sophistication; in roughness, refinement.",
-        video: "pottery2.mp4"
+        quote: "In simplicity lies sophistication; in roughness, refinement."
     },
     {
         id: 10,
@@ -199,8 +190,7 @@ const craftsmen = [
         specialty: "Teapots & Red Clay",
         years: 24,
         story: "Specialist in Tokoname's famous red clay teapots. Master Fujiwara's kyusu (teapots) are prized by tea enthusiasts worldwide for their ability to enhance tea flavor. The iron-rich clay develops a unique patina over time, improving with use.",
-        quote: "A teapot is a vessel for not just tea, but for moments of peace.",
-        video: "https://www.youtube.com/embed/U4fErC9skHE"
+        quote: "A teapot is a vessel for not just tea, but for moments of peace."
     },
     {
         id: 11,
@@ -213,8 +203,7 @@ const craftsmen = [
         specialty: "Glazed Ceramics",
         years: 40,
         story: "From one of Japan's oldest pottery regions, Master Ito is a glaze specialist with over 200 glaze recipes in his collection. Each glaze is made from natural materials gathered from mountains and rivers around Seto. His pieces range from traditional to avant-garde.",
-        quote: "Glaze is liquid stone transformed by fire into frozen waterfalls.",
-        video: "https://www.youtube.com/embed/U4fErC9skHE"
+        quote: "Glaze is liquid stone transformed by fire into frozen waterfalls."
     },
     {
         id: 12,
@@ -227,8 +216,7 @@ const craftsmen = [
         specialty: "Tea Ceremony Ware",
         years: 27,
         story: "Hagi pottery is known for changing color over time as tea seeps into its porous clay - a phenomenon called 'nanabake' (seven changes). Master Takahashi creates tea bowls that become more beautiful with each tea ceremony, embodying the passage of time.",
-        quote: "True beauty reveals itself slowly, through patient use and time's passage.",
-        video: "https://www.youtube.com/embed/U4fErC9skHE"
+        quote: "True beauty reveals itself slowly, through patient use and time's passage."
     },
 
     // OTHER CRAFT MASTERS
@@ -243,8 +231,7 @@ const craftsmen = [
         specialty: "Damascus Kitchen Knives",
         years: 36,
         story: "Fourth-generation bladesmith from Seki, the legendary knife-making city. Master Fujiwara forge-welds 67 layers of steel to create stunning Damascus patterns. Each knife takes 2 weeks to complete and is sharpened to a 15-degree edge.",
-        quote: "Steel has memory; respect it, and it will serve for generations.",
-        video: "https://www.youtube.com/embed/d2rqpMJyLi8"
+        quote: "Steel has memory; respect it, and it will serve for generations."
     },
     {
         id: 14,
@@ -257,8 +244,7 @@ const craftsmen = [
         specialty: "Hand-Painted Yuzen",
         years: 32,
         story: "Master of Kyo-yuzen, the ancient art of hand-painting silk. Michiko can paint 1000 cherry blossoms without repeating a single petal. Her kimono take 6-12 months to complete and are worn by celebrities and traditional performers worldwide.",
-        quote: "Silk is like poetry - delicate yet powerful, temporary yet eternal.",
-        video: "https://www.youtube.com/embed/qvPugcb7QGE"
+        quote: "Silk is like poetry - delicate yet powerful, temporary yet eternal."
     },
     {
         id: 15,
@@ -271,8 +257,7 @@ const craftsmen = [
         specialty: "Traditional Furniture",
         years: 41,
         story: "Master woodworker specializing in joinery techniques that require no nails or screws. His furniture uses only natural wood connections that tighten with age. Each piece is made from trees he personally selects and seasons for years.",
-        quote: "Wood speaks if you listen; it tells you where it wants to be cut.",
-        video: "https://www.youtube.com/embed/U4fErC9skHE"
+        quote: "Wood speaks if you listen; it tells you where it wants to be cut."
     }
 ];
 
@@ -284,7 +269,7 @@ const products = [
         name: "Midnight Moon Bowl",
         artisan: "Tanaka Hiroshi",
         location: "Kyoto",
-        price: 85000,
+        price: 18500,
         image: "pot1.webp",
         badge: "Master Craft",
         category: "pottery",
@@ -294,10 +279,10 @@ const products = [
     },
     {
         id: 2,
-        name: "Bizen Tea Set",
+        name: "Bizen Floral Vase",
         artisan: "Mori Kazuo",
         location: "Okayama",
-        price: 95000,
+        price: 22000,
         image: "pot2.jpg",
         badge: "Limited",
         category: "pottery",
@@ -307,10 +292,10 @@ const products = [
     },
     {
         id: 3,
-        name: "Arita Blue Vase",
+        name: "Arita Cup",
         artisan: "Kato Noboru",
         location: "Saga",
-        price: 55000,
+        price: 14500,
         image: "pot3.jpg",
         badge: "Classic",
         category: "pottery",
@@ -320,10 +305,10 @@ const products = [
     },
     {
         id: 4,
-        name: "Imari Dinner Set",
+        name: "Imari Dinner Plate",
         artisan: "Shimizu Akiko",
         location: "Saga",
-        price: 125000,
+        price: 22000,
         image: "pot4.avif",
         badge: "Exclusive",
         category: "pottery",
@@ -333,10 +318,10 @@ const products = [
     },
     {
         id: 5,
-        name: "Shigaraki Sake Set",
+        name: "Shigaraki Rice Bowl",
         artisan: "Nakamura Tetsuya",
         location: "Shiga",
-        price: 42000,
+        price: 12800,
         image: "pot5.webp",
         badge: "New",
         category: "pottery",
@@ -348,26 +333,26 @@ const products = [
     // KIMONO & TEXTILES
     {
         id: 6,
-        name: "Golden Crane Kimono",
+        name: "Edo Flower Pot",
         artisan: "Sato Michiko",
         location: "Tokyo",
-        price: 250000,
+        price: 22000,
         image: "pot6.webp",
         badge: "Masterpiece",
-        category: "kimono",
+        category: "pottery",
         description: "Hand-painted silk kimono featuring golden cranes in flight.",
         materials: "100% Silk, natural dyes, gold thread",
         dimensions: "160cm length, fits sizes S-L"
     },
     {
         id: 7,
-        name: "Sakura Silk Obi",
+        name: "Nami Tea Pot",
         artisan: "Sato Michiko",
         location: "Tokyo",
-        price: 88000,
+        price: 19800,
         image: "pot7.webp",
         badge: "Heritage",
-        category: "kimono",
+        category: "pottery",
         description: "Premium woven silk obi belt with cherry blossom patterns.",
         materials: "100% Silk, natural dyes",
         dimensions: "360cm × 30cm"
@@ -376,26 +361,26 @@ const products = [
     // CUTLERY
     {
         id: 8,
-        name: "Damascus Chef Knife",
+        name: "Satsuma Vase (Hana)",
         artisan: "Fujiwara Takeshi",
         location: "Gifu",
-        price: 120000,
+        price: 21500,
         image: "pot8.webp",
         badge: "Featured",
-        category: "knife",
+        category: "pottery",
         description: "67-layer Damascus steel gyuto knife with octagonal ebony handle.",
         materials: "VG-10 core, Damascus steel, African Blackwood handle",
         dimensions: "24cm blade length"
     },
     {
         id: 9,
-        name: "Santoku Kitchen Knife",
+        name: "Satsuma Vase (Ryu:)",
         artisan: "Fujiwara Takeshi",
         location: "Gifu",
-        price: 45000,
+        price: 16800,
         image: "pot9.jpg",
         badge: "Popular",
-        category: "knife",
+        category: "pottery",
         description: "All-purpose santoku knife with VG-10 steel core.",
         materials: "VG-10 steel, Magnolia wood handle",
         dimensions: "17cm blade length"
@@ -404,10 +389,10 @@ const products = [
     // CHOPSTICKS
     {
         id: 10,
-        name: "Ebony Chopsticks Set",
+        name: "Authentic Bamboo Chopsticks",
         artisan: "Okamoto Kenji",
         location: "Gifu",
-        price: 15000,
+        price: 11500,
         image: "pot10.jpg",
         badge: "Elegant",
         category: "chopsticks",
@@ -420,7 +405,7 @@ const products = [
         name: "Lacquered Chopsticks",
         artisan: "Okamoto Kenji",
         location: "Gifu",
-        price: 12000,
+        price: 9800,
         image: "pot23.jpeg",
         badge: "Traditional",
         category: "chopsticks",
@@ -432,49 +417,49 @@ const products = [
     // HAND FANS
     {
         id: 12,
-        name: "Sensu Folding Fan",
+        name: "Nippon Chef Knife",
         artisan: "Sato Michiko",
         location: "Tokyo",
-        price: 18000,
+        price: 13200,
         image: "pot12.jpg",
         badge: "Art Piece",
-        category: "fan",
+        category: "cutlery",
         description: "Hand-painted silk sensu with bamboo ribs and sakura motif.",
         materials: "Silk, bamboo, natural pigments",
         dimensions: "21cm when folded, 38cm spread"
     },
     {
         id: 13,
-        name: "Uchiwa Round Fan",
+        name: "Hana Yukata",
         artisan: "Sato Michiko",
         location: "Tokyo",
-        price: 12000,
+        price: 8900,
         image: "pot13.png",
         badge: "Summer",
-        category: "fan",
+        category: "kimono",
         description: "Traditional non-folding fan with hand-dyed washi paper.",
         materials: "Washi paper, bamboo frame",
         dimensions: "24cm diameter"
     },
     {
         id: 14,
-        name: "Artisan Tea Bowl",
+        name: "White Tsukesage",
         artisan: "Tanaka Hiroshi",
         location: "Kyoto",
-        price: 68000,
+        price: 15800,
         image: "pot14.jpg",
         badge: "Handcrafted",
-        category: "pottery",
+        category: "kimono",
         description: "Unique hand-thrown tea bowl with natural glaze variations.",
         materials: "Stoneware clay, ash glaze",
         dimensions: "11cm diameter × 7cm height"
     },
     {
         id: 15,
-        name: "Ceramic Sake Bottle",
+        name: "Ceramic Sake Bottle (Sakana)",
         artisan: "Mori Kazuo",
         location: "Okayama",
-        price: 52000,
+        price: 14200,
         image: "pot15.jpg",
         badge: "Traditional",
         category: "pottery",
@@ -484,36 +469,36 @@ const products = [
     },
     {
         id: 16,
-        name: "Handcrafted Bowl Set",
+        name: "Hana Yuka (Blue Garden)",
         artisan: "Kato Noboru",
         location: "Saga",
-        price: 78000,
+        price: 17500,
         image: "pot16.jpg",
         badge: "Set",
-        category: "pottery",
+        category: "kimono",
         description: "Set of 4 handcrafted bowls with unique patterns.",
         materials: "Porcelain, hand-painted glaze",
         dimensions: "15cm diameter each"
     },
     {
         id: 17,
-        name: "Decorative Vase",
+        name: "Great Wave Handcrafted",
         artisan: "Shimizu Akiko",
         location: "Saga",
-        price: 95000,
+        price: 19500,
         image: "pot17.jpg",
         badge: "Art Piece",
-        category: "pottery",
+        category: "artworks",
         description: "Stunning decorative vase with intricate detailing.",
         materials: "Fine porcelain, overglaze",
         dimensions: "35cm height"
     },
     {
         id: 18,
-        name: "Tea Ceremony Set",
+        name: "Shigaraki Rice Bowl (Hana)",
         artisan: "Nakamura Tetsuya",
         location: "Shiga",
-        price: 145000,
+        price: 22000,
         image: "pot5.webp",
         badge: "Premium",
         category: "pottery",
@@ -523,52 +508,52 @@ const products = [
     },
     {
         id: 19,
-        name: "Artisan Teapot",
+        name: "Hakone Yorikizaiku",
         artisan: "Tanaka Hiroshi",
-        location: "Kyoto",
-        price: 72000,
+        location: "Hakone",
+        price: 16200,
         image: "pot19.webp",
         badge: "Handmade",
-        category: "pottery",
+        category: "woodcraft",
         description: "Traditional teapot with elegant spout and handle design.",
         materials: "Stoneware clay, natural glaze",
         dimensions: "18cm width × 12cm height"
     },
     {
         id: 20,
-        name: "Ceramic Plate Set",
+        name: "Okayama Origami",
         artisan: "Mori Kazuo",
         location: "Okayama",
-        price: 58000,
+        price: 15500,
         image: "pot20.jpg",
         badge: "Classic",
-        category: "pottery",
+        category: "artworks",
         description: "Set of 6 handcrafted plates with traditional patterns.",
         materials: "Bizen clay, wood ash finish",
         dimensions: "25cm diameter each"
     },
     {
         id: 21,
-        name: "Decorative Bowl",
+        name: "Saga City Log Carving",
         artisan: "Kato Noboru",
         location: "Saga",
-        price: 48000,
+        price: 13800,
         image: "pot21.jpg",
         badge: "Elegant",
-        category: "pottery",
+        category: "woodcraft",
         description: "Beautiful decorative bowl with intricate glaze work.",
         materials: "Fine porcelain, cobalt oxide",
         dimensions: "20cm diameter × 10cm height"
     },
     {
         id: 22,
-        name: "Master's Collection Vase",
+        name: "Tengu Mask (Yokai)",
         artisan: "Shimizu Akiko",
         location: "Saga",
-        price: 185000,
+        price: 21800,
         image: "pot22.webp",
         badge: "Masterpiece",
-        category: "pottery",
+        category: "artworks",
         description: "Exquisite vase from master artisan's premium collection.",
         materials: "Fine porcelain, hand-painted overglaze",
         dimensions: "40cm height × 18cm diameter"
@@ -577,26 +562,26 @@ const products = [
     // WOODCRAFT
     {
         id: 14,
-        name: "Cedar Jewelry Box",
+        name: "Gifu Oriagmi",
         artisan: "Okamoto Kenji",
         location: "Gifu",
         price: 65000,
         image: "pot20.jpg",
         badge: "Handcrafted",
-        category: "woodcraft",
+        category: "artworks",
         description: "Intricate joinery jewelry box made without nails or glue.",
         materials: "Japanese cedar, natural beeswax finish",
         dimensions: "20cm × 15cm × 12cm"
     },
     {
         id: 15,
-        name: "Wooden Serving Tray",
+        name: "Authentic Bamboo Chopsticks",
         artisan: "Okamoto Kenji",
         location: "Gifu",
         price: 28000,
         image: "pot10.jpg",
         badge: "Functional Art",
-        category: "woodcraft",
+        category: "chopsticks",
         description: "Minimalist serving tray with live edge and handles.",
         materials: "Walnut wood, food-safe oil",
         dimensions: "45cm × 30cm"
@@ -605,26 +590,26 @@ const products = [
     // LIQUOR
     {
         id: 16,
-        name: "Junmai Daiginjo Sake",
+        name: "Imari Dinner Plate",
         artisan: "Takahashi Brewery",
         location: "Niigata",
         price: 18000,
         image: "pot4.avif",
         badge: "Premium",
-        category: "liquor",
+        category: "pottery",
         description: "Ultra-premium sake brewed with 35% polished rice.",
         materials: "Yamada Nishiki rice, mountain spring water",
         dimensions: "720ml bottle"
     },
     {
         id: 17,
-        name: "Aged Shochu",
+        name: "Nami Tea Pot",
         artisan: "Takahashi Brewery",
         location: "Kyushu",
         price: 22000,
         image: "pot7.webp",
         badge: "Rare",
-        category: "liquor",
+        category: "pottery",
         description: "10-year aged barley shochu in ceramic bottle.",
         materials: "Premium barley, koji rice",
         dimensions: "750ml ceramic bottle"
@@ -983,22 +968,10 @@ function openCraftsmanModal(id) {
     const modal = document.getElementById('craftsmanModal');
     const inner = document.getElementById('craftsmanModalInner');
     
-    const isLocalVideo = craftsman.video && (craftsman.video.includes('.mp4') || craftsman.video.includes('.mov') || craftsman.video.includes('.webm'));
-    
     inner.innerHTML = `
         <div class="craftsman-modal-grid">
             <div class="craftsman-modal-left">
                 <img src="${craftsman.image}" alt="${craftsman.name}" class="craftsman-modal-image" onerror="this.src='face1.jpg'">
-                <div class="craftsman-modal-video">
-                    ${isLocalVideo 
-                        ? `<video controls autoplay loop muted playsinline class="craftsman-video" onerror="this.style.display='none'">
-                            <source src="${craftsman.video}" type="video/mp4">
-                            <source src="pottery.mp4" type="video/mp4">
-                            Your browser does not support the video tag.
-                           </video>`
-                        : `<iframe src="${craftsman.video}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
-                    }
-                </div>
             </div>
             <div class="craftsman-modal-right">
                 <div class="craftsman-modal-label">${craftsman.craft}</div>
@@ -1083,7 +1056,7 @@ const craftLocations = [
         type: "pottery",
         icon: "🏺",
         specialty: "Kyo-yaki & Raku Pottery",
-        products: 45
+        products: 3
     },
     {
         name: "Tokyo",
@@ -1093,17 +1066,17 @@ const craftLocations = [
         type: "kimono",
         icon: "👘",
         specialty: "Edo Kimono & Yuzen",
-        products: 78
+        products: 4
     },
     {
         name: "Gifu",
         nameJp: "岐阜",
         lat: 35.3912,
         lng: 136.7223,
-        type: "knife",
+        type: "cutlery",
         icon: "🔪",
-        specialty: "Seki Cutlery",
-        products: 92
+        specialty: "Seki Cutlery & Crafts",
+        products: 6
     },
     {
         name: "Saga",
@@ -1113,7 +1086,7 @@ const craftLocations = [
         type: "pottery",
         icon: "🏺",
         specialty: "Arita & Imari Porcelain",
-        products: 108
+        products: 6
     },
     {
         name: "Okayama",
@@ -1123,7 +1096,87 @@ const craftLocations = [
         type: "pottery",
         icon: "🏺",
         specialty: "Bizen Pottery",
-        products: 63
+        products: 3
+    },
+    {
+        name: "Shiga",
+        nameJp: "滋賀",
+        lat: 35.0045,
+        lng: 135.8686,
+        type: "pottery",
+        icon: "🏺",
+        specialty: "Shigaraki Pottery",
+        products: 2
+    },
+    {
+        name: "Ishikawa",
+        nameJp: "石川",
+        lat: 36.5946,
+        lng: 136.6256,
+        type: "pottery",
+        icon: "🏺",
+        specialty: "Kutani-yaki",
+        products: 1
+    },
+    {
+        name: "Tochigi",
+        nameJp: "栃木",
+        lat: 36.5658,
+        lng: 139.8836,
+        type: "pottery",
+        icon: "🏺",
+        specialty: "Mashiko Pottery",
+        products: 1
+    },
+    {
+        name: "Aichi",
+        nameJp: "愛知",
+        lat: 35.1802,
+        lng: 136.9066,
+        type: "pottery",
+        icon: "🏺",
+        specialty: "Tokoname & Seto",
+        products: 2
+    },
+    {
+        name: "Yamaguchi",
+        nameJp: "山口",
+        lat: 34.1858,
+        lng: 131.4706,
+        type: "pottery",
+        icon: "🏺",
+        specialty: "Hagi-yaki",
+        products: 1
+    },
+    {
+        name: "Hakone",
+        nameJp: "箱根",
+        lat: 35.2320,
+        lng: 139.1066,
+        type: "woodcraft",
+        icon: "🪵",
+        specialty: "Yosegi Woodcraft",
+        products: 1
+    },
+    {
+        name: "Niigata",
+        nameJp: "新潟",
+        lat: 37.9026,
+        lng: 139.0236,
+        type: "pottery",
+        icon: "🍶",
+        specialty: "Premium Sake",
+        products: 1
+    },
+    {
+        name: "Kyushu",
+        nameJp: "九州",
+        lat: 33.2382,
+        lng: 130.6460,
+        type: "pottery",
+        icon: "🍶",
+        specialty: "Aged Shochu",
+        products: 1
     }
 ];
 
@@ -1387,10 +1440,11 @@ function filterProducts(category) {
         'all': 'All Items',
         'pottery': 'Pottery',
         'kimono': 'Kimono & Textiles',
-        'knife': 'Cutlery',
+        'cutlery': 'Cutlery',
         'chopsticks': 'Chopsticks',
         'fan': 'Hand Fans',
         'woodcraft': 'Woodcraft',
+        'artworks': 'Artworks',
         'liquor': 'Sake & Spirits'
     };
     showNotification(`Showing ${filtered.length} ${categoryNames[category] || category}`);
