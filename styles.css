@@ -612,52 +612,59 @@ nav.scrolled {
 /* Mobile scroll indicator */
 @media (max-width: 768px) {
     .scroll-indicator {
-        bottom: 2rem;
+        bottom: 2.5rem;
+        padding: 0 1.5rem;
     }
     
     .scroll-text {
-        font-size: 0.75rem;
+        font-size: 0.8rem;
+        line-height: 1.3;
     }
     
     .scroll-text-bold {
-        font-size: 1rem;
+        font-size: 1.1rem;
+        line-height: 1.2;
+        margin-bottom: 0.3rem;
     }
     
     .scroll-text-small {
-        font-size: 0.75rem;
+        font-size: 0.8rem;
+        line-height: 1.3;
     }
     
     .scroll-arrow {
         font-size: 1.2rem;
+        margin-top: 0.4rem;
     }
 }
 
 /* Extra small mobile screens */
 @media (max-width: 480px) {
     .scroll-indicator {
-        bottom: 1.5rem;
+        bottom: 2rem;
         padding: 0 1rem;
+        max-width: 90%;
     }
     
     .scroll-text {
-        font-size: 0.65rem;
-        line-height: 1.2;
+        font-size: 0.7rem;
+        line-height: 1.3;
     }
     
     .scroll-text-bold {
-        font-size: 0.85rem;
-        line-height: 1.1;
-        margin-bottom: 0.2rem;
+        font-size: 0.95rem;
+        line-height: 1.2;
+        margin-bottom: 0.3rem;
     }
     
     .scroll-text-small {
-        font-size: 0.65rem;
-        line-height: 1.2;
+        font-size: 0.7rem;
+        line-height: 1.3;
     }
     
     .scroll-arrow {
         font-size: 1rem;
-        margin-top: 0.3rem;
+        margin-top: 0.5rem;
     }
 }
 
@@ -895,6 +902,22 @@ nav.scrolled {
         75% {
             transform: translateX(5px) rotate(1deg) scale(1);
         }
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-logo {
+        height: 220px;
+    }
+    
+    .hero-logo-container {
+        margin-bottom: 5rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .hero-logo {
+        height: 200px;
     }
 }
 
@@ -3540,16 +3563,20 @@ footer::after {
     /* Hero Section */
     .hero-main {
         padding: 2rem 1rem;
-        min-height: 60vh;
+        min-height: 70vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
     
     .hero-logo-container {
         gap: 1rem;
+        margin-bottom: 6rem;
     }
     
     .hero-logo {
-        height: 72px;
-        margin-top: -30px;
+        height: 180px;
+        margin-top: 0;
     }
     
     
@@ -4514,6 +4541,9 @@ footer::after {
     .hero-main {
         padding: 1.5rem 0.75rem;
         min-height: 70vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
     
     .hero-layout {
@@ -4527,10 +4557,11 @@ footer::after {
     .hero-logo-container {
         flex: 0 1 auto;
         max-width: 100%;
+        margin-bottom: 6rem;
     }
     
     .hero-logo {
-        height: auto;
+        height: 180px;
         max-width: 90%;
         margin-top: 0;
     }
