@@ -127,6 +127,21 @@
         <div class="products-section-intro" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
             <h2 class="products-main-title" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">Marketplace</h2>
             <p class="products-description" data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">Discover authentic Japanese craftsmanship from master artisans across Japan</p>
+            
+            <!-- Prototype Disclaimer -->
+            <div class="marketplace-disclaimer" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
+                <div class="disclaimer-icon">
+                    <i class="fas fa-info-circle"></i>
+                </div>
+                <div class="disclaimer-content">
+                    <p class="disclaimer-en">
+                        <strong>Prototype Notice:</strong> The images and products displayed are stock references for demonstration purposes only. They are intended to showcase how authentic artisan products will appear in our marketplace to prospective partners and artisans.
+                    </p>
+                    <p class="disclaimer-jp">
+                        <strong>プロトタイプのお知らせ：</strong>表示されている画像と製品は、デモンストレーション目的のみの参考画像です。これらは、将来のパートナーや職人の皆様に、本物の職人製品がマーケットプレイスでどのように表示されるかを示すためのものです。
+                    </p>
+                </div>
+            </div>
         </div>
 
         <!-- Filter Bar Attached to Products -->
@@ -135,11 +150,10 @@
                 <button class="filter-chip active ripple" onclick="filterProducts('all')">All</button>
                 <button class="filter-chip ripple" onclick="filterProducts('pottery')">Pottery</button>
                 <button class="filter-chip ripple" onclick="filterProducts('kimono')">Kimono</button>
-                <button class="filter-chip ripple" onclick="filterProducts('knife')">Cutlery</button>
+                <button class="filter-chip ripple" onclick="filterProducts('cutlery')">Cutlery</button>
                 <button class="filter-chip ripple" onclick="filterProducts('chopsticks')">Chopsticks</button>
-                <button class="filter-chip ripple" onclick="filterProducts('fan')">Fans</button>
                 <button class="filter-chip ripple" onclick="filterProducts('woodcraft')">Wood</button>
-                <button class="filter-chip ripple" onclick="filterProducts('liquor')">Sake</button>
+                <button class="filter-chip ripple" onclick="filterProducts('artworks')">Artworks</button>
                 <div class="filter-count">
                     <span id="productsCount">17</span> items
                 </div>
@@ -165,7 +179,7 @@
                 <div class="map-legend-bento">
                     <span class="legend-bento clickable" onclick="filterProducts('pottery')"><span class="dot pottery"></span>Pottery</span>
                     <span class="legend-bento clickable" onclick="filterProducts('kimono')"><span class="dot kimono"></span>Kimono</span>
-                    <span class="legend-bento clickable" onclick="filterProducts('knife')"><span class="dot cutlery"></span>Cutlery</span>
+                    <span class="legend-bento clickable" onclick="filterProducts('cutlery')"><span class="dot cutlery"></span>Cutlery</span>
                     <span class="legend-bento clickable" onclick="filterProducts('all')"><span class="dot textiles"></span>All Items</span>
                 </div>
             </div>
@@ -301,6 +315,21 @@
             <span class="showcase-label">Our Artisans</span>
             <h2 class="showcase-title">Masters of Tradition</h2>
             <p class="showcase-subtitle">職人たち - Guardians of Japanese Craftsmanship</p>
+            
+            <!-- Artisan Prototype Disclaimer -->
+            <div class="artisan-disclaimer" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+                <div class="disclaimer-icon">
+                    <i class="fas fa-info-circle"></i>
+                </div>
+                <div class="disclaimer-content">
+                    <p class="disclaimer-en">
+                        <strong>Prototype Notice:</strong> The artisan profiles and images displayed are representative examples for demonstration purposes only. They are intended to showcase how authentic artisan partnerships will be featured in our marketplace to prospective craftspeople and partners.
+                    </p>
+                    <p class="disclaimer-jp">
+                        <strong>プロトタイプのお知らせ：</strong>表示されている職人プロフィールと画像は、デモンストレーション目的のみの代表的な例です。これらは、将来の職人や協力者の皆様に、本物の職人パートナーシップがマーケットプレイスでどのように紹介されるかを示すためのものです。
+                    </p>
+                </div>
+            </div>
         </div>
         
         <div class="artisan-spotlight-container">
@@ -401,6 +430,11 @@
             <div class="partner-right">
                 <form class="partner-form" id="partnerForm" onsubmit="submitPartnerForm(event)">
                     <h3 data-jp="パートナー職人として応募" data-en="Apply as Partner Artisan">パートナー職人として応募</h3>
+                    <div class="form-construction-notice">
+                        <i class="fas fa-tools"></i>
+                        <span>Form currently under development</span>
+                        <span class="construction-jp">フォーム開発中</span>
+                    </div>
                     <div class="form-group">
                         <input type="text" placeholder="お名前 *" data-placeholder-jp="お名前 *" data-placeholder-en="Your Name *" required>
                     </div>
@@ -453,7 +487,7 @@
                     <i class="fas fa-envelope"></i>
                     <div>
                         <h4>Email</h4>
-                        <p>info@kazecrafts.com</p>
+                        <p>contact@kazecrafts.com</p>
                     </div>
                 </div>
                 <div class="contact-item">
@@ -479,6 +513,11 @@
                 </div>
             </div>
             <form class="contact-form" onsubmit="submitContactForm(event)">
+                <div class="form-construction-notice">
+                    <i class="fas fa-tools"></i>
+                    <span>Form currently under development</span>
+                    <span class="construction-jp">フォーム開発中</span>
+                </div>
                 <div class="form-group">
                     <input type="text" placeholder="Your Name *" required>
                 </div>
@@ -515,7 +554,7 @@
                 <a href="https://twitter.com/kaze_crafts" target="_blank" class="social-link" title="Twitter">
                     <i class="fab fa-twitter"></i>
                 </a>
-                <a href="mailto:info@kazecrafts.com" class="social-link" title="Email">
+                <a href="mailto:contact@kazecrafts.com" class="social-link" title="Email">
                     <i class="far fa-envelope"></i>
                 </a>
             </div>
