@@ -27,6 +27,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
     <script src="firebase-config.js?v=5"></script>
     <script src="firebase-auth.js?v=5"></script>
     <script src="firebase-user-features.js?v=5"></script>
@@ -226,8 +227,8 @@
         
         <!-- Products Section Header with Animation -->
         <div class="products-section-intro" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
-            <h2 class="products-main-title" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">Marketplace</h2>
-            <p class="products-description" data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">Discover authentic Japanese craftsmanship from master artisans across Japan</p>
+            <h2 class="products-main-title" data-edit-key="collections.title" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">Marketplace</h2>
+            <p class="products-description" data-edit-key="collections.subtitle" data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">Discover authentic Japanese craftsmanship from master artisans across Japan</p>
             
             <!-- Prototype Disclaimer -->
             <div class="marketplace-disclaimer" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
@@ -413,8 +414,8 @@
     <!-- Meet Our Artisans - Revamped -->
     <section class="artisans-showcase" id="artisans">
         <div class="artisans-showcase-header" data-aos="fade-up">
-            <span class="showcase-label">Our Artisans</span>
-            <h2 class="showcase-title">Masters of Tradition</h2>
+            <span class="showcase-label" data-edit-key="artisans.label">Our Artisans</span>
+            <h2 class="showcase-title" data-edit-key="artisans.title">Masters of Tradition</h2>
             <p class="showcase-subtitle">職人たち - Guardians of Japanese Craftsmanship</p>
             
             <!-- Artisan Prototype Disclaimer -->
@@ -945,6 +946,7 @@
     </div>
 
     <script src="app.js?v=1760509489"></script>
+    <script src="firebase-cms.js?v=1"></script>
 </body>
 </html>
 
