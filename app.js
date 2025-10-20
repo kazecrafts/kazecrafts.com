@@ -1288,6 +1288,9 @@ function displayProducts(productsToShow) {
             <div class="product-image">
                 <img src="${product.image}" alt="${product.name}" onerror="this.src='pot1.webp'">
                 ${product.badge && product.badge.toLowerCase() === 'new' ? `<div class="product-badge">${product.badge}</div>` : ''}
+                <button class="product-wishlist-btn" onclick="event.stopPropagation(); addToWishlist(${product.id})" title="Add to wishlist">
+                    <i class="far fa-heart"></i>
+                </button>
             </div>
             <div class="product-info">
                 <div class="product-category-label">${product.category.toUpperCase()}</div>
@@ -1861,6 +1864,35 @@ async function createPaymentIntent(amount, paymentMethodId, metadata) {
 
 function showSuccessMessage(name, email, total) {
     closeCheckout();
+    
+    // Save order to Firebase if user is logged in
+    if (typeof saveOrder === 'function' && cart.length > 0) {
+        const orderData = {
+            items: cart.map(item => ({
+                id: item.id,
+                name: item.name,
+                artisan: item.artisan,
+                price: item.price,
+                image: item.image
+            })),
+            total: total,
+            shipping: {
+                name: name,
+                email: email,
+                address: document.getElementById('address')?.value || '',
+                city: document.getElementById('city')?.value || '',
+                postalCode: document.getElementById('postalCode')?.value || '',
+                country: document.getElementById('country')?.value || ''
+            }
+        };
+        
+        saveOrder(orderData).then(orderId => {
+            console.log('✅ Order saved to history:', orderId);
+        }).catch(error => {
+            console.error('Failed to save order:', error);
+        });
+    }
+    
     const successHtml = `
         <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10000; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px);" id="successOverlay">
             <div style="background: white; padding: 3rem; border-radius: 12px; text-align: center; max-width: 500px;">
