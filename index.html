@@ -27,11 +27,11 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-    <script src="firebase-config.js?v=3"></script>
-    <script src="firebase-auth.js?v=3"></script>
-    <script src="firebase-user-features.js?v=1"></script>
+    <script src="firebase-config.js?v=5"></script>
+    <script src="firebase-auth.js?v=5"></script>
+    <script src="firebase-user-features.js?v=5"></script>
     
-    <link rel="stylesheet" href="styles.css?v=1760509487">
+    <link rel="stylesheet" href="styles.css?v=1760509489">
 </head>
 <body>
     <!-- Background Elements -->
@@ -131,6 +131,57 @@
                 <i class="fas fa-times"></i>
             </div>
         </div>
+        
+        <!-- User Section in Mobile Menu -->
+        <div class="mobile-menu-user-section">
+            <!-- Not Logged In -->
+            <div id="mobileMenuLoginBtn" class="mobile-menu-login-btn" onclick="openAuthModal('login'); toggleMobileMenu();">
+                <div class="mobile-login-icon">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <div class="mobile-login-info">
+                    <div class="mobile-login-title">Sign In / Sign Up</div>
+                    <div class="mobile-login-subtitle">Access your account</div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+            </div>
+            
+            <!-- Logged In -->
+            <div id="mobileMenuUserProfile" class="mobile-menu-user-profile" style="display: none;">
+                <div class="mobile-user-header">
+                    <div class="mobile-user-avatar">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="mobile-user-info">
+                        <div class="mobile-user-name" id="mobileUserName">User</div>
+                        <div class="mobile-user-email" id="mobileUserEmail">email@example.com</div>
+                    </div>
+                </div>
+                <div class="mobile-user-actions">
+                    <a href="#" class="mobile-user-action" onclick="viewMyOrders(event); toggleMobileMenu();">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span>My Orders</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                    <a href="#" class="mobile-user-action" onclick="viewProfile(event); toggleMobileMenu();">
+                        <i class="fas fa-user"></i>
+                        <span>Profile Settings</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                    <a href="#" class="mobile-user-action" onclick="viewWishlist(event); toggleMobileMenu();">
+                        <i class="fas fa-heart"></i>
+                        <span>My Wishlist</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                    <a href="#" class="mobile-user-action logout" onclick="handleLogout(event); toggleMobileMenu();">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
         <ul class="mobile-menu-links">
             <li><a href="#collections" onclick="toggleMobileMenu()">Marketplace</a></li>
             <li><a href="#artisans" onclick="toggleMobileMenu()">Artisans</a></li>
@@ -893,7 +944,7 @@
         </div>
     </div>
 
-    <script src="app.js?v=1760509487"></script>
+    <script src="app.js?v=1760509489"></script>
 </body>
 </html>
 
