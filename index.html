@@ -22,6 +22,13 @@
     
     <!-- CRITICAL: Stripe for payments - NO DEFER (must load before app.js) -->
     <script src="https://js.stripe.com/v3/"></script>
+    
+    <!-- FIREBASE SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script defer src="firebase-config.js"></script>
+    <script defer src="firebase-auth.js"></script>
+    
     <link rel="stylesheet" href="styles.css?v=1760509487">
 </head>
 <body>
@@ -67,6 +74,47 @@
             <div class="nav-icon" onclick="toggleCart()">
                 <i class="fas fa-shopping-bag"></i>
                 <span class="cart-count" id="cartCount">0</span>
+            </div>
+            
+            <!-- User Account Section -->
+            <div class="nav-user-section" id="navUserSection">
+                <!-- Not logged in -->
+                <div class="nav-login-btn" id="navLoginBtn" onclick="openAuthModal('login')">
+                    <i class="fas fa-user"></i>
+                    <span class="login-text">Login</span>
+                </div>
+                
+                <!-- Logged in (hidden by default) -->
+                <div class="nav-user-dropdown" id="navUserDropdown" style="display: none;">
+                    <div class="nav-user-avatar" onclick="toggleUserMenu()">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="user-dropdown-menu" id="userDropdownMenu">
+                        <div class="user-dropdown-header">
+                            <div class="user-avatar-large">
+                                <i class="fas fa-user-circle"></i>
+                            </div>
+                            <div class="user-info">
+                                <div class="user-name" id="userDisplayName">User</div>
+                                <div class="user-email" id="userEmail">email@example.com</div>
+                            </div>
+                        </div>
+                        <div class="user-dropdown-divider"></div>
+                        <a href="#" class="user-dropdown-item" onclick="viewMyOrders(event)">
+                            <i class="fas fa-shopping-bag"></i> My Orders
+                        </a>
+                        <a href="#" class="user-dropdown-item" onclick="viewProfile(event)">
+                            <i class="fas fa-user"></i> Profile Settings
+                        </a>
+                        <a href="#" class="user-dropdown-item" onclick="viewWishlist(event)">
+                            <i class="fas fa-heart"></i> My Wishlist
+                        </a>
+                        <div class="user-dropdown-divider"></div>
+                        <a href="#" class="user-dropdown-item logout" onclick="handleLogout(event)">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
@@ -534,6 +582,138 @@
             </form>
         </div>
     </section>
+
+    <!-- Authentication Modal -->
+    <div class="auth-modal" id="authModal">
+        <div class="auth-modal-content">
+            <span class="close-auth-modal" onclick="closeAuthModal()">&times;</span>
+            
+            <!-- Login Form -->
+            <div class="auth-form-container" id="loginForm">
+                <div class="auth-header">
+                    <h2>Welcome Back</h2>
+                    <p class="auth-subtitle">ようこそ</p>
+                </div>
+                
+                <div class="auth-provider-buttons">
+                    <button class="auth-provider-btn google-btn" onclick="signInWithGoogle()">
+                        <i class="fab fa-google"></i>
+                        Continue with Google
+                    </button>
+                </div>
+                
+                <div class="auth-divider">
+                    <span>or continue with email</span>
+                </div>
+                
+                <form onsubmit="handleEmailLogin(event)">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="loginEmail" required placeholder="your@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="loginPassword" required placeholder="Enter your password">
+                    </div>
+                    <div class="auth-options">
+                        <label class="remember-me">
+                            <input type="checkbox" id="rememberMe">
+                            <span>Remember me</span>
+                        </label>
+                        <a href="#" class="forgot-password" onclick="openPasswordReset(event)">Forgot password?</a>
+                    </div>
+                    <div class="auth-error" id="loginError"></div>
+                    <button type="submit" class="auth-submit-btn" id="loginBtn">
+                        <i class="fas fa-sign-in-alt"></i> Log In
+                    </button>
+                </form>
+                
+                <div class="auth-switch">
+                    Don't have an account? <a href="#" onclick="switchToSignup(event)">Sign up</a>
+                </div>
+            </div>
+            
+            <!-- Signup Form -->
+            <div class="auth-form-container" id="signupForm" style="display: none;">
+                <div class="auth-header">
+                    <h2>Create Account</h2>
+                    <p class="auth-subtitle">アカウント作成</p>
+                </div>
+                
+                <div class="auth-provider-buttons">
+                    <button class="auth-provider-btn google-btn" onclick="signInWithGoogle()">
+                        <i class="fab fa-google"></i>
+                        Sign up with Google
+                    </button>
+                </div>
+                
+                <div class="auth-divider">
+                    <span>or sign up with email</span>
+                </div>
+                
+                <form onsubmit="handleEmailSignup(event)">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="signupName" required placeholder="Your name">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="signupEmail" required placeholder="your@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="signupPassword" required placeholder="At least 6 characters" minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm Password</label>
+                        <input type="password" id="signupPasswordConfirm" required placeholder="Confirm your password">
+                    </div>
+                    <div class="auth-terms">
+                        <label>
+                            <input type="checkbox" id="agreeTerms" required>
+                            <span>I agree to the <a href="#" onclick="event.preventDefault()">Terms of Service</a> and <a href="#" onclick="event.preventDefault()">Privacy Policy</a></span>
+                        </label>
+                    </div>
+                    <div class="auth-error" id="signupError"></div>
+                    <button type="submit" class="auth-submit-btn" id="signupBtn">
+                        <i class="fas fa-user-plus"></i> Create Account
+                    </button>
+                </form>
+                
+                <div class="auth-switch">
+                    Already have an account? <a href="#" onclick="switchToLogin(event)">Log in</a>
+                </div>
+            </div>
+            
+            <!-- Password Reset Form -->
+            <div class="auth-form-container" id="resetPasswordForm" style="display: none;">
+                <div class="auth-header">
+                    <h2>Reset Password</h2>
+                    <p class="auth-subtitle">パスワードをリセット</p>
+                </div>
+                
+                <p style="text-align: center; margin-bottom: 1.5rem; color: #666;">
+                    Enter your email address and we'll send you a link to reset your password.
+                </p>
+                
+                <form onsubmit="handlePasswordReset(event)">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="resetEmail" required placeholder="your@email.com">
+                    </div>
+                    <div class="auth-error" id="resetError"></div>
+                    <div class="auth-success" id="resetSuccess" style="display: none;"></div>
+                    <button type="submit" class="auth-submit-btn" id="resetBtn">
+                        <i class="fas fa-paper-plane"></i> Send Reset Link
+                    </button>
+                </form>
+                
+                <div class="auth-switch">
+                    <a href="#" onclick="switchToLogin(event)">Back to login</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer>
