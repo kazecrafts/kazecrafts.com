@@ -31,22 +31,37 @@ function updateUIForAuthState(user) {
     const userDisplayName = document.getElementById('userDisplayName');
     const userEmail = document.getElementById('userEmail');
     
+    // Mobile menu elements
+    const mobileLoginBtn = document.getElementById('mobileMenuLoginBtn');
+    const mobileUserProfile = document.getElementById('mobileMenuUserProfile');
+    const mobileUserName = document.getElementById('mobileUserName');
+    const mobileUserEmail = document.getElementById('mobileUserEmail');
+    
     if (user) {
         // User is signed in
+        const displayName = user.displayName || user.email.split('@')[0];
+        const email = user.email;
+        
+        // Update navbar
         if (loginBtn) loginBtn.style.display = 'none';
         if (userDropdown) userDropdown.style.display = 'block';
+        if (userDisplayName) userDisplayName.textContent = displayName;
+        if (userEmail) userEmail.textContent = email;
         
-        // Update user info
-        if (userDisplayName) {
-            userDisplayName.textContent = user.displayName || user.email.split('@')[0];
-        }
-        if (userEmail) {
-            userEmail.textContent = user.email;
-        }
+        // Update mobile menu
+        if (mobileLoginBtn) mobileLoginBtn.style.display = 'none';
+        if (mobileUserProfile) mobileUserProfile.style.display = 'block';
+        if (mobileUserName) mobileUserName.textContent = displayName;
+        if (mobileUserEmail) mobileUserEmail.textContent = email;
+        
     } else {
         // User is signed out
         if (loginBtn) loginBtn.style.display = 'flex';
         if (userDropdown) userDropdown.style.display = 'none';
+        
+        // Update mobile menu
+        if (mobileLoginBtn) mobileLoginBtn.style.display = 'flex';
+        if (mobileUserProfile) mobileUserProfile.style.display = 'none';
     }
 }
 
