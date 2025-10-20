@@ -1,13 +1,24 @@
 (function(){
-	if (typeof firebase === 'undefined') return;
+	if (typeof firebase === 'undefined') {
+		alert('Firebase not loaded. Please check your internet connection and refresh.');
+		return;
+	}
 
 	const el = (id) => document.getElementById(id);
 	const qs = (sel) => document.querySelector(sel);
 	const qsa = (sel) => Array.from(document.querySelectorAll(sel));
 
+	// Initialize login form
+	window.addEventListener('load', () => {
+		const loginForm = el('adminLoginForm');
+		if (loginForm) {
+			loginForm.addEventListener('submit', handleAdminLogin);
+		}
+	});
+
 	// Auth gate
 	firebase.auth().onAuthStateChanged(async (user) => {
-		if (!user) return showDenied('Please sign in first');
+		if (!user) return showLoginScreen();
 		if (!db) return showDenied('Firebase not initialized');
 		
 		try {
@@ -41,8 +52,15 @@
 		}
 	});
 
+	function showLoginScreen(){
+		el('adminApp').style.display = 'none';
+		el('denied').style.display = 'none';
+		el('loginScreen').style.display = 'flex';
+	}
+
 	function showDenied(message = 'Access restricted', userEmail = ''){
 		el('adminApp').style.display = 'none';
+		el('loginScreen').style.display = 'none';
 		const d = el('denied');
 		const card = d.querySelector('.denied-card');
 		
@@ -64,10 +82,13 @@
 					<code style="color:#5c7cfa">setRole('${userEmail}', 'admin')</code>
 				</div>
 			</div>
-			<button id="goHome" class="btn" style="margin-top:1.5rem"><i class="fas fa-home"></i> Go to Site</button>
+			<button id="adminLogoutBtn2" class="btn" style="margin-top:1rem"><i class="fas fa-sign-out-alt"></i> Logout</button>
+			<button id="goHome" class="btn" style="margin-top:0.5rem"><i class="fas fa-home"></i> Go to Site</button>
 		`;
 		
 		d.style.display = 'flex';
+		const logoutBtn = el('adminLogoutBtn2');
+		if (logoutBtn) logoutBtn.onclick = () => { auth.signOut().then(() => location.reload()); };
 		const btn = el('goHome');
 		if (btn) btn.onclick = () => { window.location.href = 'index.html'; };
 	}
@@ -87,11 +108,63 @@
 		}
 	};
 
+	// Login handler
+	async function handleAdminLogin(e) {
+		e.preventDefault();
+		const email = el('adminEmail').value;
+		const password = el('adminPassword').value;
+		const loginBtn = el('adminLoginBtn');
+		const errorDiv = el('loginError');
+		
+		errorDiv.style.display = 'none';
+		loginBtn.disabled = true;
+		loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in...';
+		
+		try {
+			await auth.signInWithEmailAndPassword(email, password);
+			// Auth state change will trigger and show admin or denied
+		} catch (error) {
+			console.error('Login error:', error);
+			errorDiv.textContent = getErrorMessage(error.code);
+			errorDiv.style.display = 'block';
+			loginBtn.disabled = false;
+			loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In';
+		}
+	}
+
+	// Google sign in
+	window.signInWithGoogle = async function() {
+		try {
+			const provider = new firebase.auth.GoogleAuthProvider();
+			await auth.signInWithPopup(provider);
+			// Auth state change will handle the rest
+		} catch (error) {
+			console.error('Google sign in error:', error);
+			if (error.code !== 'auth/popup-closed-by-user' && error.code !== 'auth/cancelled-popup-request') {
+				alert('Sign in failed: ' + getErrorMessage(error.code));
+			}
+		}
+	};
+
+	function getErrorMessage(code) {
+		const messages = {
+			'auth/invalid-email': 'Invalid email address',
+			'auth/user-disabled': 'This account has been disabled',
+			'auth/user-not-found': 'No account found with this email',
+			'auth/wrong-password': 'Incorrect password',
+			'auth/invalid-credential': 'Invalid email or password',
+			'auth/too-many-requests': 'Too many failed attempts. Try again later.',
+			'auth/network-request-failed': 'Network error. Check your connection.'
+		};
+		return messages[code] || 'Login failed. Please try again.';
+	}
+
 	function initAdmin(user, role){
 		el('denied').style.display = 'none';
+		el('loginScreen').style.display = 'none';
 		el('adminApp').style.display = 'block';
 		el('adminUserEmail').textContent = user.email + ' (' + role + ')';
-		el('adminLogoutBtn').onclick = () => auth.signOut();
+		el('adminLogoutBtn').onclick = () => auth.signOut().then(() => location.reload());
 		// Tabs
 		qsa('.tab-btn').forEach(btn => btn.addEventListener('click', () => switchTab(btn.dataset.tab)));
 		// Products
