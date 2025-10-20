@@ -23,11 +23,18 @@ try {
         firebaseApp = firebase.initializeApp(firebaseConfig);
         auth = firebase.auth();
         db = firebase.firestore();
-        storage = firebase.storage();
+        
+        // Only initialize storage if it's available
+        if (firebase.storage) {
+            storage = firebase.storage();
+            console.log('🗂️ Firebase Storage ready');
+        } else {
+            console.warn('⚠️ Firebase Storage not loaded - image uploads will be disabled');
+        }
+        
         console.log('✅ Firebase initialized successfully!');
         console.log('🔥 Firebase Auth ready');
         console.log('💾 Firebase Firestore ready');
-        console.log('🗂️ Firebase Storage ready');
     } else {
         console.error('❌ Firebase SDK not loaded');
     }
