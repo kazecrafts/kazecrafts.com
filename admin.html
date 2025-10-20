@@ -143,9 +143,36 @@
 
 	<div id="denied" class="denied" style="display:none;">
 		<div class="denied-card">
-			<h2>Access restricted</h2>
-			<p>You must be signed in with an editor or admin account to access the admin panel.</p>
-			<button id="goHome" class="btn"><i class="fas fa-home"></i> Go to Site</button>
+			<!-- Content will be injected by JS -->
+		</div>
+	</div>
+
+	<!-- Login Form -->
+	<div id="loginScreen" class="denied" style="display:flex;">
+		<div class="denied-card">
+			<h2>🔐 Admin Login</h2>
+			<p style="margin-bottom:1.5rem;color:#9aa4b2">Sign in with your editor or admin account</p>
+			
+			<form id="adminLoginForm" style="max-width:400px;margin:0 auto">
+				<div style="margin-bottom:1rem">
+					<input type="email" id="adminEmail" placeholder="Email" required style="width:100%;padding:12px;border-radius:8px;border:1px solid #2a2f3a;background:#0c0f14;color:#e6ebf0">
+				</div>
+				<div style="margin-bottom:1rem">
+					<input type="password" id="adminPassword" placeholder="Password" required style="width:100%;padding:12px;border-radius:8px;border:1px solid #2a2f3a;background:#0c0f14;color:#e6ebf0">
+				</div>
+				<div id="loginError" style="color:#e11d48;margin-bottom:1rem;display:none;font-size:0.9rem"></div>
+				<button type="submit" class="btn primary" id="adminLoginBtn" style="width:100%;padding:12px">
+					<i class="fas fa-sign-in-alt"></i> Sign In
+				</button>
+			</form>
+			
+			<div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid #232734">
+				<button class="btn" onclick="signInWithGoogle()"><i class="fab fa-google"></i> Sign in with Google</button>
+			</div>
+			
+			<div style="margin-top:1.5rem">
+				<a href="index.html" style="color:#9aa4b2;text-decoration:none">← Back to main site</a>
+			</div>
 		</div>
 	</div>
 
