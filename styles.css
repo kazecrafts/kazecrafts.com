@@ -482,6 +482,168 @@ nav.scrolled {
     background: rgba(80, 200, 120, 0.05);
 }
 
+/* ===== MOBILE MENU USER SECTION ===== */
+.mobile-menu-user-section {
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(80, 200, 120, 0.2);
+}
+
+/* Login Button (Not Logged In) */
+.mobile-menu-login-btn {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.2rem;
+    background: linear-gradient(135deg, rgba(80, 200, 120, 0.1), rgba(80, 200, 120, 0.05));
+    border: 2px solid var(--tiffany-blue);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.mobile-menu-login-btn:hover {
+    background: linear-gradient(135deg, rgba(80, 200, 120, 0.2), rgba(80, 200, 120, 0.1));
+    transform: translateX(5px);
+    box-shadow: 0 4px 15px rgba(80, 200, 120, 0.3);
+}
+
+.mobile-login-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--tiffany-blue), var(--tiffany-blue-dark));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #2a2a2a;
+    font-size: 1.8rem;
+}
+
+.mobile-login-info {
+    flex: 1;
+}
+
+.mobile-login-title {
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    font-size: 1rem;
+    color: #1a1a1a;
+    margin-bottom: 0.3rem;
+}
+
+.mobile-login-subtitle {
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.mobile-menu-login-btn > i:last-child {
+    color: var(--tiffany-blue);
+    font-size: 1.2rem;
+}
+
+/* User Profile (Logged In) */
+.mobile-menu-user-profile {
+    display: none;
+}
+
+.mobile-user-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.2rem;
+    background: linear-gradient(135deg, rgba(80, 200, 120, 0.1), rgba(80, 200, 120, 0.05));
+    border-radius: 12px;
+    margin-bottom: 1rem;
+}
+
+.mobile-user-avatar {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--tiffany-blue), var(--tiffany-blue-dark));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #2a2a2a;
+    font-size: 2rem;
+}
+
+.mobile-user-info {
+    flex: 1;
+}
+
+.mobile-user-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #1a1a1a;
+    margin-bottom: 0.3rem;
+}
+
+.mobile-user-email {
+    font-size: 0.85rem;
+    color: #666;
+}
+
+/* User Actions List */
+.mobile-user-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.mobile-user-action {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.2rem;
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+    text-decoration: none;
+    color: #333;
+    transition: all 0.3s ease;
+}
+
+.mobile-user-action:hover {
+    background: rgba(80, 200, 120, 0.05);
+    border-color: var(--tiffany-blue);
+    transform: translateX(5px);
+    box-shadow: 0 2px 10px rgba(80, 200, 120, 0.2);
+}
+
+.mobile-user-action i:first-child {
+    width: 24px;
+    font-size: 1.2rem;
+    color: var(--tiffany-blue);
+}
+
+.mobile-user-action span {
+    flex: 1;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.mobile-user-action i:last-child {
+    color: #ccc;
+    font-size: 0.9rem;
+}
+
+.mobile-user-action.logout {
+    background: rgba(220, 53, 69, 0.05);
+    border-color: rgba(220, 53, 69, 0.2);
+    color: #dc3545;
+}
+
+.mobile-user-action.logout:hover {
+    background: rgba(220, 53, 69, 0.1);
+    border-color: #dc3545;
+}
+
+.mobile-user-action.logout i:first-child {
+    color: #dc3545;
+}
+
 /* Mobile Menu Overlay */
 .mobile-menu-overlay {
     position: fixed;
@@ -8126,48 +8288,101 @@ footer::after {
     }
 }
 
-/* ===== WISHLIST BUTTON ON PRODUCT CARDS ===== */
+/* ===== WISHLIST BUTTON ON PRODUCT CARDS (Subtle) ===== */
 .product-wishlist-btn {
     position: absolute;
     top: 1rem;
     right: 1rem;
-    width: 45px;
-    height: 45px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    background: white;
+    background: transparent;
     border: none;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(5px);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 10;
     transition: all 0.3s ease;
+    opacity: 0;
+}
+
+/* Show on hover of product card */
+.product-card:hover .product-wishlist-btn {
+    opacity: 1;
 }
 
 .product-wishlist-btn i {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     color: #dc3545;
     transition: all 0.3s ease;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 }
 
 .product-wishlist-btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 20px rgba(220, 53, 69, 0.3);
-    background: #dc3545;
+    transform: scale(1.15);
+    background: rgba(220, 53, 69, 0.1);
+    backdrop-filter: blur(10px);
 }
 
 .product-wishlist-btn:hover i {
-    color: white;
+    color: #dc3545;
+    filter: drop-shadow(0 3px 6px rgba(220, 53, 69, 0.4));
 }
 
 .product-wishlist-btn:active {
     transform: scale(0.95);
 }
 
+/* Always show on mobile (can't hover) */
+@media (max-width: 768px) {
+    .product-wishlist-btn {
+        opacity: 0.7;
+        background: rgba(255, 255, 255, 0.9);
+    }
+    
+    .product-wishlist-btn:active {
+        opacity: 1;
+        background: rgba(220, 53, 69, 0.1);
+    }
+}
+
 /* Product image needs relative positioning for wishlist button */
 .bento-products .product-card > div:first-child {
     position: relative;
+}
+
+/* ===== WISHLIST BADGE (Navbar) ===== */
+.wishlist-count {
+    position: absolute;
+    top: -5px;
+    right: -8px;
+    background: linear-gradient(135deg, #dc3545, #c82333);
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    border: 2px solid white;
+    box-shadow: 0 2px 8px rgba(220, 53, 69, 0.4);
+    animation: wishlistPulse 0.3s ease;
+}
+
+@keyframes wishlistPulse {
+    0% {
+        transform: scale(0);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
 
 .footer-links a::after {
