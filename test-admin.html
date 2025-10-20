@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Admin Test - Firebase Debug</title>
+	<style>
+		body { font-family: monospace; padding: 20px; background: #0f1115; color: #e6ebf0; }
+		.status { padding: 10px; margin: 10px 0; border-radius: 5px; }
+		.success { background: #2e7d32; }
+		.error { background: #e11d48; }
+		.warning { background: #ff9f1c; }
+		button { padding: 10px 20px; margin: 5px; cursor: pointer; background: #5c7cfa; color: white; border: none; border-radius: 5px; }
+		input { padding: 10px; margin: 5px; background: #1d222b; color: #e6ebf0; border: 1px solid #2a2f3a; border-radius: 5px; }
+		pre { background: #1d222b; padding: 10px; border-radius: 5px; overflow-x: auto; }
+	</style>
+</head>
+<body>
+	<h1>🔍 Firebase Admin Test</h1>
+	<p>This page tests your Firebase configuration for the admin panel.</p>
+
+	<div id="status"></div>
+
+	<h2>Step 1: Test Login</h2>
+	<input type="email" id="testEmail" placeholder="Email">
+	<input type="password" id="testPassword" placeholder="Password">
+	<button onclick="testLogin()">Test Login</button>
+	<button onclick="testGoogleLogin()">Test Google Login</button>
+
+	<h2>Step 2: Check Role</h2>
+	<button onclick="checkRole()">Check My Role</button>
+
+	<h2>Step 3: Set Role</h2>
+	<input type="email" id="roleEmail" placeholder="Email">
+	<select id="roleSelect">
+		<option value="viewer">Viewer</option>
+		<option value="editor">Editor</option>
+		<option value="admin">Admin</option>
+	</select>
+	<button onclick="setUserRole()">Set Role</button>
+
+	<h2>Debug Info</h2>
+	<pre id="debugInfo">Loading...</pre>
+
+	<!-- Firebase SDKs -->
+	<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+	<script src="firebase-config.js"></script>
+
+	<script>
+		const statusDiv = document.getElementById('status');
+		const debugInfo = document.getElementById('debugInfo');
+
+		function addStatus(message, type = 'success') {
+			const div = document.createElement('div');
+			div.className = 'status ' + type;
+			div.textContent = message;
+			statusDiv.appendChild(div);
+			console.log(message);
+		}
+
+		// Initial checks
+		window.addEventListener('load', () => {
+			updateDebugInfo();
+
+			if (typeof firebase === 'undefined') {
+				addStatus('❌ Firebase not loaded!', 'error');
+			} else {
+				addStatus('✅ Firebase loaded', 'success');
+			}
+
+			if (!auth) {
+				addStatus('❌ Firebase Auth not initialized', 'error');
+			} else {
+				addStatus('✅ Firebase Auth initialized', 'success');
+			}
+
+			if (!db) {
+				addStatus('❌ Firestore not initialized', 'error');
+			} else {
+				addStatus('✅ Firestore initialized', 'success');
+			}
+
+			// Listen for auth changes
+			auth.onAuthStateChanged(user => {
+				if (user) {
+					addStatus(`✅ Logged in as: ${user.email}`, 'success');
+					updateDebugInfo();
+				} else {
+					addStatus('ℹ️ Not logged in', 'warning');
+				}
+			});
+		});
+
+		function updateDebugInfo() {
+			const user = auth.currentUser;
+			debugInfo.textContent = JSON.stringify({
+				firebase: typeof firebase !== 'undefined',
+				auth: !!auth,
+				db: !!db,
+				currentUser: user ? {
+					uid: user.uid,
+					email: user.email,
+					displayName: user.displayName
+				} : null,
+				config: {
+					apiKey: firebaseConfig.apiKey ? '✓ Set' : '✗ Missing',
+					authDomain: firebaseConfig.authDomain || '✗ Missing',
+					projectId: firebaseConfig.projectId || '✗ Missing'
+				}
+			}, null, 2);
+		}
+
+		async function testLogin() {
+			const email = document.getElementById('testEmail').value;
+			const password = document.getElementById('testPassword').value;
+
+			if (!email || !password) {
+				addStatus('⚠️ Please enter email and password', 'warning');
+				return;
+			}
+
+			try {
+				addStatus('🔄 Attempting login...', 'warning');
+				const result = await auth.signInWithEmailAndPassword(email, password);
+				addStatus(`✅ Login successful! User: ${result.user.email}`, 'success');
+				updateDebugInfo();
+			} catch (error) {
+				addStatus(`❌ Login failed: ${error.code} - ${error.message}`, 'error');
+			}
+		}
+
+		async function testGoogleLogin() {
+			try {
+				addStatus('🔄 Opening Google sign-in popup...', 'warning');
+				const provider = new firebase.auth.GoogleAuthProvider();
+				const result = await auth.signInWithPopup(provider);
+				addStatus(`✅ Google login successful! User: ${result.user.email}`, 'success');
+				updateDebugInfo();
+			} catch (error) {
+				addStatus(`❌ Google login failed: ${error.code} - ${error.message}`, 'error');
+			}
+		}
+
+		async function checkRole() {
+			const user = auth.currentUser;
+			if (!user) {
+				addStatus('⚠️ Please login first', 'warning');
+				return;
+			}
+
+			try {
+				addStatus('🔄 Checking role...', 'warning');
+				const doc = await db.collection('users').doc(user.uid).get();
+				
+				if (!doc.exists) {
+					addStatus('⚠️ User document does not exist in Firestore', 'warning');
+					addStatus('Creating user document...', 'warning');
+					await db.collection('users').doc(user.uid).set({
+						email: user.email,
+						displayName: user.displayName || user.email.split('@')[0],
+						role: 'viewer',
+						createdAt: firebase.firestore.FieldValue.serverTimestamp()
+					});
+					addStatus('✅ User document created with role: viewer', 'success');
+				} else {
+					const role = doc.data().role || 'viewer';
+					addStatus(`✅ Your role: ${role}`, role === 'viewer' ? 'warning' : 'success');
+					
+					if (role === 'viewer') {
+						addStatus('ℹ️ You need editor or admin role to access admin panel', 'warning');
+					}
+				}
+			} catch (error) {
+				addStatus(`❌ Error checking role: ${error.message}`, 'error');
+			}
+		}
+
+		async function setUserRole() {
+			const email = document.getElementById('roleEmail').value;
+			const role = document.getElementById('roleSelect').value;
+
+			if (!email) {
+				addStatus('⚠️ Please enter an email address', 'warning');
+				return;
+			}
+
+			try {
+				addStatus('🔄 Setting role...', 'warning');
+				const usersSnap = await db.collection('users').where('email', '==', email).limit(1).get();
+				
+				if (usersSnap.empty) {
+					addStatus(`❌ User not found: ${email}`, 'error');
+					addStatus('ℹ️ User must sign in at least once first', 'warning');
+					return;
+				}
+
+				await usersSnap.docs[0].ref.update({ role });
+				addStatus(`✅ Role updated to "${role}" for ${email}`, 'success');
+				addStatus('🔄 Refresh admin.html to see changes', 'success');
+			} catch (error) {
+				addStatus(`❌ Error setting role: ${error.message}`, 'error');
+			}
+		}
+	</script>
+</body>
+</html>
+
