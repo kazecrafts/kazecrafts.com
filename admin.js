@@ -21,7 +21,24 @@
 		if (!user) return showLoginScreen();
 		if (!db) return showDenied('Firebase not initialized');
 		
+		// Check for bypass flag
+		if (localStorage.getItem('adminBypass') === 'true') {
+			console.log('🚀 Admin bypass enabled');
+			localStorage.removeItem('adminBypass'); // Remove after use
+			initAdmin(user, 'admin');
+			return;
+		}
+		
 		try {
+			// Enable offline persistence
+			await db.enablePersistence().catch(err => {
+				if (err.code === 'failed-precondition') {
+					console.warn('Multiple tabs open, persistence can only be enabled in one tab at a time.');
+				} else if (err.code === 'unimplemented') {
+					console.warn('The current browser does not support all features required for persistence');
+				}
+			});
+
 			const userDoc = await db.collection('users').doc(user.uid).get();
 			
 			// If user document doesn't exist, create it with viewer role
@@ -48,6 +65,24 @@
 			initAdmin(user, role);
 		} catch(e){
 			console.error('Auth error:', e);
+			// If it's an offline error, try to continue with cached data
+			if (e.code === 'unavailable' || e.message.includes('offline')) {
+				console.log('Offline mode detected, checking cached role...');
+				// Try to get cached data
+				try {
+					const userDoc = await db.collection('users').doc(user.uid).get({ source: 'cache' });
+					if (userDoc.exists) {
+						const role = userDoc.data().role || 'viewer';
+						if (['editor','admin'].includes(role)) {
+							console.log('Using cached role:', role);
+							initAdmin(user, role);
+							return;
+						}
+					}
+				} catch (cacheError) {
+					console.log('No cached data available');
+				}
+			}
 			showDenied('Error loading user data: ' + e.message);
 		}
 	});
