@@ -29,8 +29,11 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
 label{display:flex;flex-direction:column;gap:6px;margin:8px 0}
 input,textarea{background:#0c0f14;color:var(--text);border:1px solid #2a2f3a;border-radius:8px;padding:10px}
 .form-actions{display:flex;gap:10px;margin-top:12px}
-.denied{min-height:100vh;display:flex;align-items:center;justify-content:center}
-.denied-card{background:var(--panel);border:1px solid #232734;border-radius:12px;padding:22px;max-width:480px;text-align:center}
+.denied{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.denied-card{background:var(--panel);border:1px solid #232734;border-radius:12px;padding:28px;max-width:600px;text-align:center}
+.denied-card code{background:#0c0f14;padding:2px 6px;border-radius:4px;color:#5c7cfa;font-size:0.9em}
+.denied-card ol{text-align:left}
+.denied-card strong{color:#e6ebf0}
 @media (max-width: 900px){.grid{grid-template-columns:1fr}}
 
 
