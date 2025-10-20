@@ -15,6 +15,7 @@ const firebaseConfig = {
 let firebaseApp = null;
 let auth = null;
 let db = null;
+let storage = null;
 
 try {
     // Check if Firebase is loaded
@@ -22,9 +23,11 @@ try {
         firebaseApp = firebase.initializeApp(firebaseConfig);
         auth = firebase.auth();
         db = firebase.firestore();
+        storage = firebase.storage();
         console.log('✅ Firebase initialized successfully!');
         console.log('🔥 Firebase Auth ready');
         console.log('💾 Firebase Firestore ready');
+        console.log('🗂️ Firebase Storage ready');
     } else {
         console.error('❌ Firebase SDK not loaded');
     }
