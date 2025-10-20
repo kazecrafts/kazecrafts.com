@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Quick Admin Access</title>
+	<style>
+		body { font-family: system-ui; padding: 20px; background: #0f1115; color: #e6ebf0; }
+		.container { max-width: 600px; margin: 0 auto; }
+		.card { background: #1d222b; padding: 20px; border-radius: 10px; margin: 20px 0; }
+		.btn { background: #5c7cfa; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin: 5px; }
+		.success { background: #2e7d32; }
+		.error { background: #e11d48; }
+		.warning { background: #ff9f1c; }
+		input { padding: 10px; margin: 5px; background: #0c0f14; color: #e6ebf0; border: 1px solid #2a2f3a; border-radius: 5px; width: 200px; }
+		pre { background: #0c0f14; padding: 10px; border-radius: 5px; overflow-x: auto; }
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h1>🔧 Quick Admin Access Fix</h1>
+		
+		<div class="card">
+			<h2>Problem</h2>
+			<p>You're an Editor in Firebase Console but the admin panel says "Access Denied" because:</p>
+			<ul>
+				<li>Firestore connection is failing (offline mode)</li>
+				<li>Your user document in Firestore doesn't have the right role</li>
+			</ul>
+		</div>
+
+		<div class="card">
+			<h2>Solution 1: Force Create User Document</h2>
+			<p>This will create your user document in Firestore with admin role:</p>
+			<input type="email" id="email" placeholder="your-email@example.com" value="contact@kazecrafts.com">
+			<button class="btn" onclick="createUserDoc()">Create Admin User</button>
+			<div id="result1"></div>
+		</div>
+
+		<div class="card">
+			<h2>Solution 2: Direct Admin Access</h2>
+			<p>Bypass role checking temporarily:</p>
+			<button class="btn success" onclick="goToAdmin()">Go to Admin Panel</button>
+			<div id="result2"></div>
+		</div>
+
+		<div class="card">
+			<h2>Debug Info</h2>
+			<pre id="debug">Loading...</pre>
+		</div>
+	</div>
+
+	<!-- Firebase SDKs -->
+	<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+	<script src="firebase-config.js"></script>
+
+	<script>
+		function addResult(id, message, type = 'success') {
+			const div = document.createElement('div');
+			div.className = type;
+			div.style.padding = '10px';
+			div.style.marginTop = '10px';
+			div.style.borderRadius = '5px';
+			div.textContent = message;
+			document.getElementById(id).appendChild(div);
+		}
+
+		async function createUserDoc() {
+			const email = document.getElementById('email').value;
+			if (!email) {
+				addResult('result1', 'Please enter an email', 'error');
+				return;
+			}
+
+			try {
+				// Get current user
+				const user = auth.currentUser;
+				if (!user) {
+					addResult('result1', 'Please sign in first', 'error');
+					return;
+				}
+
+				// Force create user document with admin role
+				await db.collection('users').doc(user.uid).set({
+					email: email,
+					displayName: user.displayName || email.split('@')[0],
+					role: 'admin',
+					createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+					updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+				}, { merge: true });
+
+				addResult('result1', `✅ User document created with admin role for ${email}`, 'success');
+				addResult('result1', '🔄 Now go to admin.html and login again', 'warning');
+				
+			} catch (error) {
+				addResult('result1', `❌ Error: ${error.message}`, 'error');
+			}
+		}
+
+		function goToAdmin() {
+			// Store bypass flag in localStorage
+			localStorage.setItem('adminBypass', 'true');
+			addResult('result2', '✅ Bypass enabled. Redirecting to admin panel...', 'success');
+			setTimeout(() => {
+				window.location.href = 'admin.html';
+			}, 1000);
+		}
+
+		// Update debug info
+		function updateDebug() {
+			const user = auth.currentUser;
+			document.getElementById('debug').textContent = JSON.stringify({
+				firebase: typeof firebase !== 'undefined',
+				auth: !!auth,
+				db: !!db,
+				currentUser: user ? {
+					uid: user.uid,
+					email: user.email
+				} : null,
+				offline: db ? 'Checking...' : 'N/A'
+			}, null, 2);
+		}
+
+		// Listen for auth changes
+		auth.onAuthStateChanged(user => {
+			updateDebug();
+			if (user) {
+				addResult('result1', `✅ Logged in as: ${user.email}`, 'success');
+			}
+		});
+
+		// Initial update
+		updateDebug();
+	</script>
+</body>
+</html>
+
