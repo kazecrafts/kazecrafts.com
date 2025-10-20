@@ -48,6 +48,20 @@ function updateUIForAuthState(user) {
         if (userDisplayName) userDisplayName.textContent = displayName;
         if (userEmail) userEmail.textContent = email;
         
+        // Check role and show Admin link if editor/admin
+        if (db) {
+            db.collection('users').doc(user.uid).get().then(doc => {
+                const role = doc.exists ? (doc.data().role || 'viewer') : 'viewer';
+                const adminLink = document.getElementById('adminLink');
+                if (adminLink) {
+                    adminLink.style.display = ['editor','admin'].includes(role) ? 'block' : 'none';
+                }
+            }).catch(() => {
+                const adminLink = document.getElementById('adminLink');
+                if (adminLink) adminLink.style.display = 'none';
+            });
+        }
+
         // Update mobile menu
         if (mobileLoginBtn) mobileLoginBtn.style.display = 'none';
         if (mobileUserProfile) mobileUserProfile.style.display = 'block';
