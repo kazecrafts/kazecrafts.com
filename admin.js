@@ -208,12 +208,20 @@
 		el('resetProductBtn').onclick = resetProductForm;
 		el('deleteProductBtn').onclick = onDeleteProduct;
 		el('productSearch').oninput = filterProductsList;
+		// Add preview listeners for products
+		qsa('#productForm input, #productForm textarea').forEach(input => {
+			input.addEventListener('input', updateProductPreview);
+		});
 		// Artisans
 		el('btnNewArtisan').onclick = resetArtisanForm;
 		el('artisanForm').onsubmit = onSaveArtisan;
 		el('resetArtisanBtn').onclick = resetArtisanForm;
 		el('deleteArtisanBtn').onclick = onDeleteArtisan;
 		el('artisanSearch').oninput = filterArtisansList;
+		// Add preview listeners for artisans
+		qsa('#artisanForm input, #artisanForm textarea').forEach(input => {
+			input.addEventListener('input', updateArtisanPreview);
+		});
 		// Content
 		el('btnNewContent').onclick = () => { el('contentKey').value=''; el('contentText').value=''; el('deleteContentBtn').style.display='none'; };
 		el('contentForm').onsubmit = onSaveContent;
@@ -257,6 +265,7 @@
 		el('productForm').reset();
 		el('productDocId').value = '';
 		el('deleteProductBtn').style.display = 'none';
+		updateProductPreview(); // Clear preview when resetting form
 	}
 	function loadProductIntoForm(id){
 		const p = productsDocs.find(x=>x.id===id); if(!p) return;
@@ -272,6 +281,7 @@
 		el('productDimensions').value = p.dimensions||'';
 		el('productImage').value = p.image||'';
 		el('deleteProductBtn').style.display = 'inline-flex';
+		updateProductPreview(); // Update preview when loading existing product
 	}
 	async function onSaveProduct(e){
 		e.preventDefault();
@@ -341,6 +351,7 @@
 		el('artisanForm').reset();
 		el('artisanDocId').value = '';
 		el('deleteArtisanBtn').style.display = 'none';
+		updateArtisanPreview(); // Clear preview when resetting form
 	}
 	function loadArtisanIntoForm(id){
 		const a = artisansDocs.find(x=>x.id===id); if(!a) return;
@@ -356,6 +367,7 @@
 		el('artisanQuote').value = a.quote||'';
 		el('artisanImage').value = a.image||'';
 		el('deleteArtisanBtn').style.display = 'inline-flex';
+		updateArtisanPreview(); // Update preview when loading existing artisan
 	}
 	async function onSaveArtisan(e){
 		e.preventDefault();
@@ -444,6 +456,125 @@
 
 	async function refreshAll(){
 		await Promise.all([loadProducts(), loadArtisans(), loadContent()]);
+	}
+
+	// ===== Preview Functions =====
+	function updateProductPreview() {
+		const preview = el('productPreview');
+		const name = el('productName').value.trim();
+		const artisan = el('productArtisan').value.trim();
+		const location = el('productLocation').value.trim();
+		const category = el('productCategory').value.trim() || 'pottery';
+		const badge = el('productBadge').value.trim();
+		const price = Number(el('productPrice').value) || 0;
+		const description = el('productDescription').value.trim();
+		const materials = el('productMaterials').value.trim();
+		const dimensions = el('productDimensions').value.trim();
+		const image = el('productImage').value.trim();
+
+		if (!name) {
+			preview.innerHTML = `
+				<div class="preview-placeholder">
+					<i class="fas fa-eye"></i>
+					<p>Fill out the form to see preview</p>
+				</div>
+			`;
+			return;
+		}
+
+		preview.innerHTML = `
+			<div style="font-family: system-ui, -apple-system, sans-serif; color: #333; max-width: 300px;">
+				<div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+					<div style="position: relative;">
+						<div style="width: 100%; height: 200px; background: #f8f9fa; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+							${image ? `<img src="${image}" alt="${name}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+								<div style="display: none; flex-direction: column; align-items: center; justify-content: center; color: #999; font-size: 14px;">
+									<i class="fas fa-image" style="font-size: 24px; margin-bottom: 8px;"></i>
+									<span>No Image</span>
+								</div>` : `
+								<div style="display: flex; flex-direction: column; align-items: center; justify-content: center; color: #999; font-size: 14px;">
+									<i class="fas fa-image" style="font-size: 24px; margin-bottom: 8px;"></i>
+									<span>No Image</span>
+								</div>
+							`}
+						</div>
+						${badge ? `<div style="position: absolute; top: 12px; left: 12px; background: #635BFF; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;">${badge}</div>` : ''}
+						<div style="position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,0.7); color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;">
+							¥${price.toLocaleString()}
+						</div>
+					</div>
+					<div style="padding: 16px;">
+						<h3 style="margin: 0 0 8px 0; font-size: 18px; font-weight: 600; color: #1a1a1a;">${name}</h3>
+						${artisan ? `<p style="margin: 0 0 8px 0; font-size: 14px; color: #666;">by ${artisan}</p>` : ''}
+						${location ? `<p style="margin: 0 0 8px 0; font-size: 12px; color: #999;">📍 ${location}</p>` : ''}
+						${description ? `<p style="margin: 0 0 8px 0; font-size: 14px; color: #555; line-height: 1.4;">${description}</p>` : ''}
+						<div style="display: flex; gap: 12px; margin-top: 12px; font-size: 12px; color: #666;">
+							${category ? `<span style="background: #f0f0f0; padding: 4px 8px; border-radius: 4px;">${category}</span>` : ''}
+							${materials ? `<span style="background: #f0f0f0; padding: 4px 8px; border-radius: 4px;">${materials}</span>` : ''}
+						</div>
+						${dimensions ? `<p style="margin: 8px 0 0 0; font-size: 12px; color: #999;">📏 ${dimensions}</p>` : ''}
+					</div>
+				</div>
+			</div>
+		`;
+	}
+
+	function updateArtisanPreview() {
+		const preview = el('artisanPreview');
+		const name = el('artisanName').value.trim();
+		const nameJp = el('artisanNameJp').value.trim();
+		const craft = el('artisanCraft').value.trim();
+		const craftJp = el('artisanCraftJp').value.trim();
+		const location = el('artisanLocation').value.trim();
+		const years = Number(el('artisanYears').value) || 0;
+		const specialty = el('artisanSpecialty').value.trim();
+		const story = el('artisanStory').value.trim();
+		const quote = el('artisanQuote').value.trim();
+		const image = el('artisanImage').value.trim();
+
+		if (!name) {
+			preview.innerHTML = `
+				<div class="preview-placeholder">
+					<i class="fas fa-eye"></i>
+					<p>Fill out the form to see preview</p>
+				</div>
+			`;
+			return;
+		}
+
+		preview.innerHTML = `
+			<div style="font-family: system-ui, -apple-system, sans-serif; color: #333; max-width: 300px;">
+				<div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+					<div style="position: relative;">
+						<div style="width: 100%; height: 200px; background: #f8f9fa; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+							${image ? `<img src="${image}" alt="${name}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+								<div style="display: none; flex-direction: column; align-items: center; justify-content: center; color: #999; font-size: 14px;">
+									<i class="fas fa-user" style="font-size: 24px; margin-bottom: 8px;"></i>
+									<span>No Photo</span>
+								</div>` : `
+								<div style="display: flex; flex-direction: column; align-items: center; justify-content: center; color: #999; font-size: 14px;">
+									<i class="fas fa-user" style="font-size: 24px; margin-bottom: 8px;"></i>
+									<span>No Photo</span>
+								</div>
+							`}
+						</div>
+					</div>
+					<div style="padding: 16px;">
+						<h3 style="margin: 0 0 4px 0; font-size: 18px; font-weight: 600; color: #1a1a1a;">${name}</h3>
+						${nameJp ? `<p style="margin: 0 0 8px 0; font-size: 14px; color: #666; font-style: italic;">${nameJp}</p>` : ''}
+						${craft ? `<p style="margin: 0 0 4px 0; font-size: 16px; color: #635BFF; font-weight: 600;">${craft}</p>` : ''}
+						${craftJp ? `<p style="margin: 0 0 8px 0; font-size: 14px; color: #666; font-style: italic;">${craftJp}</p>` : ''}
+						<div style="display: flex; gap: 12px; margin-bottom: 12px; font-size: 12px; color: #666;">
+							${location ? `<span style="background: #f0f0f0; padding: 4px 8px; border-radius: 4px;">📍 ${location}</span>` : ''}
+							${years ? `<span style="background: #f0f0f0; padding: 4px 8px; border-radius: 4px;">${years} years</span>` : ''}
+						</div>
+						${specialty ? `<p style="margin: 0 0 8px 0; font-size: 14px; color: #555; font-weight: 600;">Specialty: ${specialty}</p>` : ''}
+						${story ? `<p style="margin: 0 0 8px 0; font-size: 14px; color: #555; line-height: 1.4;">${story}</p>` : ''}
+						${quote ? `<blockquote style="margin: 8px 0 0 0; padding: 8px 12px; background: #f8f9fa; border-left: 3px solid #635BFF; font-style: italic; color: #555; font-size: 14px;">"${quote}"</blockquote>` : ''}
+					</div>
+				</div>
+			</div>
+		`;
 	}
 
 })();
