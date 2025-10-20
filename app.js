@@ -1386,7 +1386,7 @@ function openProductModal(product) {
                     <button onclick="addToCart(${product.id}); closeProductModal();" style="padding: ${isMobile ? '0.9rem 1.5rem' : '1rem 1.8rem'}; background: #000000; color: white; border: none; font-size: ${isMobile ? '0.8rem' : '0.85rem'}; cursor: pointer; border-radius: 6px; font-weight: 600;">
                         <i class="fas fa-shopping-cart"></i> Add to Cart
                     </button>
-                    <button onclick="addToWishlist(${product.id}); closeProductModal();" style="padding: ${isMobile ? '0.9rem 1.5rem' : '1rem 1.8rem'}; background: linear-gradient(135deg, #dc3545, #c82333); color: white; border: none; font-size: ${isMobile ? '0.8rem' : '0.85rem'}; cursor: pointer; border-radius: 6px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                    <button onclick="addToWishlist(${product.id}); setTimeout(() => closeProductModal(), 100);" style="padding: ${isMobile ? '0.9rem 1.5rem' : '1rem 1.8rem'}; background: linear-gradient(135deg, #dc3545, #c82333); color: white; border: none; font-size: ${isMobile ? '0.8rem' : '0.85rem'}; cursor: pointer; border-radius: 6px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: all 0.3s ease;">
                         <i class="fas fa-heart"></i> Add to Wishlist
                     </button>
                 </div>
@@ -1891,6 +1891,11 @@ function showSuccessMessage(name, email, total) {
         
         saveOrder(orderData).then(orderId => {
             console.log('✅ Order saved to history:', orderId);
+            
+            // Clear cart from Firestore after successful order
+            if (typeof clearCartFromFirestore === 'function') {
+                clearCartFromFirestore();
+            }
         }).catch(error => {
             console.error('Failed to save order:', error);
         });
