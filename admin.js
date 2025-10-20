@@ -7,29 +7,90 @@
 
 	// Auth gate
 	firebase.auth().onAuthStateChanged(async (user) => {
-		if (!user || !db) return showDenied();
+		if (!user) return showDenied('Please sign in first');
+		if (!db) return showDenied('Firebase not initialized');
+		
 		try {
 			const userDoc = await db.collection('users').doc(user.uid).get();
-			const role = userDoc.exists ? (userDoc.data().role || 'viewer') : 'viewer';
-			if (!['editor','admin'].includes(role)) return showDenied();
-			initAdmin(user);
+			
+			// If user document doesn't exist, create it with viewer role
+			if (!userDoc.exists) {
+				console.log('Creating user document with viewer role...');
+				await db.collection('users').doc(user.uid).set({
+					email: user.email,
+					displayName: user.displayName || user.email.split('@')[0],
+					role: 'viewer',
+					createdAt: firebase.firestore.FieldValue.serverTimestamp()
+				});
+				return showDenied(`Account created. Please ask an admin to grant you editor access.`, user.email);
+			}
+			
+			const userData = userDoc.data();
+			const role = userData.role || 'viewer';
+			
+			console.log('User role:', role);
+			
+			if (!['editor','admin'].includes(role)) {
+				return showDenied(`Access denied. Your role: ${role}`, user.email);
+			}
+			
+			initAdmin(user, role);
 		} catch(e){
-			console.error(e); showDenied();
+			console.error('Auth error:', e);
+			showDenied('Error loading user data: ' + e.message);
 		}
 	});
 
-	function showDenied(){
+	function showDenied(message = 'Access restricted', userEmail = ''){
 		el('adminApp').style.display = 'none';
 		const d = el('denied');
+		const card = d.querySelector('.denied-card');
+		
+		card.innerHTML = `
+			<h2>Access Restricted</h2>
+			<p>${message}</p>
+			${userEmail ? `<p style="margin-top:1rem;opacity:0.7">Logged in as: <strong>${userEmail}</strong></p>` : ''}
+			<div style="margin-top:1.5rem;padding:1rem;background:#1d222b;border-radius:8px;text-align:left;font-size:0.9rem">
+				<strong>To grant yourself admin access:</strong>
+				<ol style="margin:0.5rem 0;padding-left:1.5rem">
+					<li>Open Firebase Console</li>
+					<li>Go to Firestore Database</li>
+					<li>Find users collection > your user document</li>
+					<li>Edit and set <code>role</code> to <code>editor</code> or <code>admin</code></li>
+					<li>Refresh this page</li>
+				</ol>
+				<div style="margin-top:1rem;padding:0.75rem;background:#0c0f14;border-radius:6px;font-family:monospace;font-size:0.85rem">
+					Or run in console:<br>
+					<code style="color:#5c7cfa">setRole('${userEmail}', 'admin')</code>
+				</div>
+			</div>
+			<button id="goHome" class="btn" style="margin-top:1.5rem"><i class="fas fa-home"></i> Go to Site</button>
+		`;
+		
 		d.style.display = 'flex';
 		const btn = el('goHome');
 		if (btn) btn.onclick = () => { window.location.href = 'index.html'; };
 	}
+	
+	// Helper function to set role (callable from console)
+	window.setRole = async function(email, role) {
+		if (!db) return console.error('Firebase not initialized');
+		try {
+			const usersSnap = await db.collection('users').where('email', '==', email).limit(1).get();
+			if (usersSnap.empty) return console.error('User not found');
+			await usersSnap.docs[0].ref.update({ role });
+			console.log(`✅ Role updated to ${role} for ${email}`);
+			console.log('Reloading page...');
+			setTimeout(() => location.reload(), 1000);
+		} catch(e) {
+			console.error('Error:', e);
+		}
+	};
 
-	function initAdmin(user){
+	function initAdmin(user, role){
 		el('denied').style.display = 'none';
 		el('adminApp').style.display = 'block';
-		el('adminUserEmail').textContent = user.email;
+		el('adminUserEmail').textContent = user.email + ' (' + role + ')';
 		el('adminLogoutBtn').onclick = () => auth.signOut();
 		// Tabs
 		qsa('.tab-btn').forEach(btn => btn.addEventListener('click', () => switchTab(btn.dataset.tab)));
