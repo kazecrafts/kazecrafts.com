@@ -209,6 +209,7 @@ async function handleEmailSignup(event) {
             await db.collection('users').doc(userCredential.user.uid).set({
                 displayName: name,
                 email: email,
+                role: 'viewer',
                 preferences: {
                     mailingList: mailingList,
                     promotions: promotions,
@@ -268,6 +269,7 @@ async function signInWithGoogle() {
                 displayName: user.displayName,
                 email: user.email,
                 photoURL: user.photoURL,
+                role: 'viewer',
                 preferences: {
                     mailingList: mailingList,
                     promotions: promotions,
