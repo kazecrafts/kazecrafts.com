@@ -6,35 +6,139 @@ let userWishlist = [];
 let userOrders = [];
 let userProfile = {};
 
+// ===== SHOPPING CART PERSISTENCE =====
+
+// Save cart to Firestore
+async function saveCartToFirestore() {
+    if (!currentUser || !db) {
+        // Fallback to localStorage only if not logged in
+        return;
+    }
+    
+    try {
+        // Save cart to Firestore
+        await db.collection('users').doc(currentUser.uid).set({
+            cart: cart.map(item => ({
+                id: item.id,
+                name: item.name,
+                artisan: item.artisan,
+                price: item.price,
+                image: item.image,
+                location: item.location,
+                category: item.category,
+                badge: item.badge,
+                description: item.description,
+                materials: item.materials,
+                dimensions: item.dimensions
+            })),
+            cartUpdatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        }, { merge: true });
+        
+        console.log('🛒 Cart saved to Firestore:', cart.length, 'items');
+    } catch (error) {
+        console.error('Error saving cart to Firestore:', error);
+    }
+}
+
+// Clear cart from Firestore (after checkout)
+async function clearCartFromFirestore() {
+    if (!currentUser || !db) return;
+    
+    try {
+        await db.collection('users').doc(currentUser.uid).update({
+            cart: [],
+            cartUpdatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        console.log('🛒 Cart cleared from Firestore');
+    } catch (error) {
+        console.error('Error clearing cart from Firestore:', error);
+    }
+}
+
+// Load cart from Firestore
+async function loadCartFromFirestore() {
+    if (!currentUser || !db) return;
+    
+    try {
+        const doc = await db.collection('users').doc(currentUser.uid).get();
+        
+        if (doc.exists && doc.data().cart) {
+            const firestoreCart = doc.data().cart;
+            
+            // Merge with local cart (in case items were added before login)
+            const localCart = [...cart];
+            
+            // Clear cart and add Firestore items
+            cart = [];
+            firestoreCart.forEach(item => {
+                const product = products.find(p => p.id === item.id);
+                if (product) {
+                    cart.push(product);
+                }
+            });
+            
+            // Add any local items that weren't in Firestore
+            localCart.forEach(item => {
+                if (!cart.some(c => c.id === item.id)) {
+                    cart.push(item);
+                }
+            });
+            
+            console.log('🛒 Cart loaded from Firestore:', cart.length, 'items');
+            
+            // Update UI and save merged cart
+            if (typeof updateCartUI === 'function') {
+                updateCartUI();
+            }
+            
+            // Save merged cart back to Firestore
+            if (cart.length > 0) {
+                saveCartToFirestore();
+            }
+        }
+    } catch (error) {
+        console.error('Error loading cart from Firestore:', error);
+    }
+}
+
 // ===== WISHLIST FUNCTIONS =====
 
 // Add item to wishlist
 async function addToWishlist(productId) {
     if (!currentUser) {
-        showNotification('Please log in to add items to your wishlist', 'info');
+        showNotification('Please log in to add items to your wishlist 💙', 'info');
         openAuthModal('login');
         return;
     }
     
     const product = products.find(p => p.id === productId);
-    if (!product) return;
+    if (!product) {
+        console.error('Product not found:', productId);
+        showNotification('Product not found', 'error');
+        return;
+    }
     
     // Check if already in wishlist
     if (userWishlist.some(item => item.id === productId)) {
-        showNotification('Item already in wishlist', 'info');
+        showNotification('✓ Already in your wishlist!', 'info');
+        // Still open wishlist to show them
+        openWishlistModal();
         return;
     }
     
     try {
-        // Add to Firestore
-        if (db) {
+        // Add to Firestore if available
+        if (db && currentUser) {
             await db.collection('users').doc(currentUser.uid).collection('wishlist').doc(String(productId)).set({
                 productId: productId,
                 productName: product.name,
                 productImage: product.image,
                 productPrice: product.price,
+                productArtisan: product.artisan,
+                productLocation: product.location,
                 addedAt: firebase.firestore.FieldValue.serverTimestamp()
             });
+            console.log('✅ Saved to Firestore');
         }
         
         // Add to local array
@@ -43,11 +147,17 @@ async function addToWishlist(productId) {
         showNotification(`❤️ ${product.name} added to wishlist!`, 'success');
         console.log('✅ Added to wishlist:', product.name);
         
-        // Update wishlist count if there's a badge
+        // Update wishlist count/badge
         updateWishlistBadge();
+        
+        // Auto-open wishlist modal to show the item
+        setTimeout(() => {
+            openWishlistModal();
+        }, 800);
+        
     } catch (error) {
         console.error('Error adding to wishlist:', error);
-        showNotification('Failed to add to wishlist', 'error');
+        showNotification('Failed to add to wishlist. Please try again.', 'error');
     }
 }
 
@@ -64,11 +174,13 @@ async function removeFromWishlist(productId) {
         // Remove from local array
         userWishlist = userWishlist.filter(item => item.id !== productId);
         
-        showNotification('Removed from wishlist', 'success');
+        showNotification('💔 Removed from wishlist', 'success');
         
-        // Refresh wishlist display
-        loadWishlist();
+        // Refresh wishlist display immediately
+        displayWishlist();
         updateWishlistBadge();
+        
+        console.log('✅ Removed from wishlist. Remaining:', userWishlist.length);
     } catch (error) {
         console.error('Error removing from wishlist:', error);
         showNotification('Failed to remove from wishlist', 'error');
@@ -137,8 +249,46 @@ function displayWishlist() {
 
 // Update wishlist badge count
 function updateWishlistBadge() {
-    // You can add a wishlist count badge similar to cart count
-    console.log('Wishlist items:', userWishlist.length);
+    const wishlistIcon = document.querySelector('.nav-icon[onclick*="toggleWishlist"]');
+    
+    if (!wishlistIcon) {
+        console.log('Wishlist items:', userWishlist.length);
+        return;
+    }
+    
+    // Check if badge already exists
+    let badge = wishlistIcon.querySelector('.wishlist-count');
+    
+    if (!badge) {
+        // Create badge
+        badge = document.createElement('span');
+        badge.className = 'wishlist-count';
+        badge.style.cssText = `
+            position: absolute;
+            top: -5px;
+            right: -8px;
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            border: 2px solid white;
+            box-shadow: 0 2px 8px rgba(220, 53, 69, 0.4);
+            animation: pulse 0.3s ease;
+        `;
+        wishlistIcon.appendChild(badge);
+    }
+    
+    // Update count
+    badge.textContent = userWishlist.length;
+    badge.style.display = userWishlist.length > 0 ? 'flex' : 'none';
+    
+    console.log('💙 Wishlist items:', userWishlist.length);
 }
 
 // ===== PROFILE SETTINGS FUNCTIONS =====
@@ -346,7 +496,7 @@ function displayOrders() {
 // Open Wishlist Modal
 function openWishlistModal() {
     if (!currentUser) {
-        showNotification('Please log in to view your wishlist', 'info');
+        showNotification('Please log in to view your wishlist 💙', 'info');
         openAuthModal('login');
         return;
     }
@@ -355,7 +505,10 @@ function openWishlistModal() {
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
     
-    displayWishlist();
+    // Load fresh data from Firestore and display
+    loadWishlist().then(() => {
+        displayWishlist();
+    });
 }
 
 function closeWishlistModal() {
@@ -437,17 +590,27 @@ if (typeof firebase !== 'undefined' && firebase.auth) {
         if (user) {
             // Load all user data
             await loadUserProfile();
+            await loadCartFromFirestore();
             await loadWishlist();
             await loadOrderHistory();
             
             console.log('✅ User data loaded for:', user.email);
         } else {
-            // Clear user data on logout
+            // Clear user data on logout (but keep cart in localStorage)
             userWishlist = [];
             userOrders = [];
             userProfile = {};
         }
     });
+}
+
+// Override existing cart functions to add Firestore sync
+if (typeof saveCart === 'function') {
+    const originalSaveCart = saveCart;
+    saveCart = function() {
+        originalSaveCart();
+        saveCartToFirestore();
+    };
 }
 
 // Override the existing toggleWishlist function
