@@ -211,6 +211,19 @@
 		// Add preview listeners for products
 		qsa('#productForm input, #productForm textarea').forEach(input => {
 			input.addEventListener('input', updateProductPreview);
+			input.addEventListener('change', updateProductPreview); // For file inputs and selects
+		});
+		// Handle image file preview
+		el('productImageFile').addEventListener('change', function(e) {
+			const file = e.target.files[0];
+			if (file) {
+				const reader = new FileReader();
+				reader.onload = function(event) {
+					el('productImage').value = event.target.result; // Set data URL
+					updateProductPreview();
+				};
+				reader.readAsDataURL(file);
+			}
 		});
 		// Artisans
 		el('btnNewArtisan').onclick = resetArtisanForm;
@@ -221,6 +234,19 @@
 		// Add preview listeners for artisans
 		qsa('#artisanForm input, #artisanForm textarea').forEach(input => {
 			input.addEventListener('input', updateArtisanPreview);
+			input.addEventListener('change', updateArtisanPreview); // For file inputs and selects
+		});
+		// Handle image file preview
+		el('artisanImageFile').addEventListener('change', function(e) {
+			const file = e.target.files[0];
+			if (file) {
+				const reader = new FileReader();
+				reader.onload = function(event) {
+					el('artisanImage').value = event.target.result; // Set data URL
+					updateArtisanPreview();
+				};
+				reader.readAsDataURL(file);
+			}
 		});
 		// Content
 		el('btnNewContent').onclick = () => { el('contentKey').value=''; el('contentText').value=''; el('deleteContentBtn').style.display='none'; };
@@ -470,7 +496,7 @@
 		const description = el('productDescription').value.trim();
 		const materials = el('productMaterials').value.trim();
 		const dimensions = el('productDimensions').value.trim();
-		const image = el('productImage').value.trim();
+		const image = el('productImage').value.trim() || 'pot1.webp';
 
 		if (!name) {
 			preview.innerHTML = `
@@ -482,37 +508,29 @@
 			return;
 		}
 
+		// Use EXACT structure from website's product cards
 		preview.innerHTML = `
-			<div style="font-family: system-ui, -apple-system, sans-serif; color: #333; max-width: 300px;">
-				<div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-					<div style="position: relative;">
-						<div style="width: 100%; height: 200px; background: #f8f9fa; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-							${image ? `<img src="${image}" alt="${name}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-								<div style="display: none; flex-direction: column; align-items: center; justify-content: center; color: #999; font-size: 14px;">
-									<i class="fas fa-image" style="font-size: 24px; margin-bottom: 8px;"></i>
-									<span>No Image</span>
-								</div>` : `
-								<div style="display: flex; flex-direction: column; align-items: center; justify-content: center; color: #999; font-size: 14px;">
-									<i class="fas fa-image" style="font-size: 24px; margin-bottom: 8px;"></i>
-									<span>No Image</span>
-								</div>
-							`}
-						</div>
-						${badge ? `<div style="position: absolute; top: 12px; left: 12px; background: #635BFF; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;">${badge}</div>` : ''}
-						<div style="position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,0.7); color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;">
-							¥${price.toLocaleString()}
-						</div>
-					</div>
-					<div style="padding: 16px;">
-						<h3 style="margin: 0 0 8px 0; font-size: 18px; font-weight: 600; color: #1a1a1a;">${name}</h3>
-						${artisan ? `<p style="margin: 0 0 8px 0; font-size: 14px; color: #666;">by ${artisan}</p>` : ''}
-						${location ? `<p style="margin: 0 0 8px 0; font-size: 12px; color: #999;">📍 ${location}</p>` : ''}
-						${description ? `<p style="margin: 0 0 8px 0; font-size: 14px; color: #555; line-height: 1.4;">${description}</p>` : ''}
-						<div style="display: flex; gap: 12px; margin-top: 12px; font-size: 12px; color: #666;">
-							${category ? `<span style="background: #f0f0f0; padding: 4px 8px; border-radius: 4px;">${category}</span>` : ''}
-							${materials ? `<span style="background: #f0f0f0; padding: 4px 8px; border-radius: 4px;">${materials}</span>` : ''}
-						</div>
-						${dimensions ? `<p style="margin: 8px 0 0 0; font-size: 12px; color: #999;">📏 ${dimensions}</p>` : ''}
+			<div class="product-card" style="max-width: 320px; margin: 0 auto; box-shadow: 0 8px 30px rgba(0,0,0,0.15);">
+				<div class="product-image">
+					<img src="${image}" alt="${name}" onerror="this.src='pot1.webp'">
+					${badge && badge.toLowerCase() === 'new' ? `<div class="product-badge">${badge}</div>` : ''}
+					<button class="product-wishlist-btn" onclick="return false;" title="Add to wishlist" style="pointer-events: none;">
+						<i class="far fa-heart"></i>
+					</button>
+				</div>
+				<div class="product-info">
+					<div class="product-category-label">${category.toUpperCase()}</div>
+					<div class="product-name">${name}</div>
+					<div class="product-artisan">${artisan}</div>
+					<div class="product-location">📍 ${location}</div>
+					<div class="product-price-large">¥${price.toLocaleString()}</div>
+					<div class="product-actions">
+						<button class="product-stripe-btn" onclick="return false;" style="pointer-events: none;">
+							<i class="fas fa-lock"></i> Buy Now
+						</button>
+						<button class="product-cart-btn" onclick="return false;" style="pointer-events: none;">
+							<i class="fas fa-shopping-cart"></i> Cart
+						</button>
 					</div>
 				</div>
 			</div>
@@ -530,7 +548,7 @@
 		const specialty = el('artisanSpecialty').value.trim();
 		const story = el('artisanStory').value.trim();
 		const quote = el('artisanQuote').value.trim();
-		const image = el('artisanImage').value.trim();
+		const image = el('artisanImage').value.trim() || 'face1.jpg';
 
 		if (!name) {
 			preview.innerHTML = `
@@ -542,36 +560,35 @@
 			return;
 		}
 
+		// Use EXACT structure from website's artisan modal/spotlight
 		preview.innerHTML = `
-			<div style="font-family: system-ui, -apple-system, sans-serif; color: #333; max-width: 300px;">
-				<div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-					<div style="position: relative;">
-						<div style="width: 100%; height: 200px; background: #f8f9fa; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-							${image ? `<img src="${image}" alt="${name}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-								<div style="display: none; flex-direction: column; align-items: center; justify-content: center; color: #999; font-size: 14px;">
-									<i class="fas fa-user" style="font-size: 24px; margin-bottom: 8px;"></i>
-									<span>No Photo</span>
-								</div>` : `
-								<div style="display: flex; flex-direction: column; align-items: center; justify-content: center; color: #999; font-size: 14px;">
-									<i class="fas fa-user" style="font-size: 24px; margin-bottom: 8px;"></i>
-									<span>No Photo</span>
-								</div>
-							`}
-						</div>
+			<div class="craftsman-modal-grid" style="display: grid; grid-template-columns: 1fr; gap: 2rem; max-width: 600px; margin: 0 auto;">
+				<div class="craftsman-modal-left" style="max-width: 100%;">
+					<img src="${image}" alt="${name}" class="craftsman-modal-image" style="width: 100%; height: auto; border-radius: 12px; object-fit: cover;" onerror="this.src='face1.jpg'">
+				</div>
+				<div class="craftsman-modal-right">
+					<div class="craftsman-modal-label">${craft}</div>
+					<h2 class="craftsman-modal-name">${name}</h2>
+					<p class="craftsman-modal-name-jp">${nameJp} | ${craftJp}</p>
+					<div class="craftsman-modal-meta">
+						<span>📍 ${location}</span>
+						<span>⏱️ ${years} years</span>
+						<span>✨ ${specialty}</span>
 					</div>
-					<div style="padding: 16px;">
-						<h3 style="margin: 0 0 4px 0; font-size: 18px; font-weight: 600; color: #1a1a1a;">${name}</h3>
-						${nameJp ? `<p style="margin: 0 0 8px 0; font-size: 14px; color: #666; font-style: italic;">${nameJp}</p>` : ''}
-						${craft ? `<p style="margin: 0 0 4px 0; font-size: 16px; color: #635BFF; font-weight: 600;">${craft}</p>` : ''}
-						${craftJp ? `<p style="margin: 0 0 8px 0; font-size: 14px; color: #666; font-style: italic;">${craftJp}</p>` : ''}
-						<div style="display: flex; gap: 12px; margin-bottom: 12px; font-size: 12px; color: #666;">
-							${location ? `<span style="background: #f0f0f0; padding: 4px 8px; border-radius: 4px;">📍 ${location}</span>` : ''}
-							${years ? `<span style="background: #f0f0f0; padding: 4px 8px; border-radius: 4px;">${years} years</span>` : ''}
-						</div>
-						${specialty ? `<p style="margin: 0 0 8px 0; font-size: 14px; color: #555; font-weight: 600;">Specialty: ${specialty}</p>` : ''}
-						${story ? `<p style="margin: 0 0 8px 0; font-size: 14px; color: #555; line-height: 1.4;">${story}</p>` : ''}
-						${quote ? `<blockquote style="margin: 8px 0 0 0; padding: 8px 12px; background: #f8f9fa; border-left: 3px solid #635BFF; font-style: italic; color: #555; font-size: 14px;">"${quote}"</blockquote>` : ''}
-					</div>
+					
+					${story ? `<div class="craftsman-modal-story">
+						<h3>The Story</h3>
+						<p>${story}</p>
+					</div>` : ''}
+					
+					${quote ? `<div class="craftsman-modal-quote">
+						<i class="fas fa-quote-left"></i>
+						<p>${quote}</p>
+					</div>` : ''}
+					
+					<button class="craftsman-modal-browse" onclick="return false;" style="pointer-events: none;">
+						Browse ${name}'s Works
+					</button>
 				</div>
 			</div>
 		`;
