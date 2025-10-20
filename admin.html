@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+	<title>Kaze Crafts Admin</title>
+	<link rel="stylesheet" href="admin.css?v=1">
+
+	<!-- Firebase SDKs -->
+	<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+	<script src="firebase-config.js?v=5"></script>
+
+	<!-- Icons -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+	<div id="adminApp" class="admin-app" style="display: none;">
+		<header class="admin-header">
+			<div class="brand">Kaze Crafts Admin</div>
+			<div class="spacer"></div>
+			<div class="user-info">
+				<span id="adminUserEmail"></span>
+				<button id="adminLogoutBtn" class="btn btn-text"><i class="fas fa-sign-out-alt"></i> Logout</button>
+			</div>
+		</header>
+
+		<nav class="admin-nav">
+			<button class="tab-btn active" data-tab="dashboard"><i class="fas fa-gauge"></i> Dashboard</button>
+			<button class="tab-btn" data-tab="products"><i class="fas fa-box"></i> Products</button>
+			<button class="tab-btn" data-tab="artisans"><i class="fas fa-user"></i> Artisans</button>
+			<button class="tab-btn" data-tab="content"><i class="fas fa-pen"></i> Content</button>
+		</nav>
+
+		<main class="admin-main">
+			<section id="tab-dashboard" class="tab active">
+				<h2>Welcome</h2>
+				<p>Use the tabs above to manage products, artisans, and site content.</p>
+				<div class="cards">
+					<div class="card"><div class="card-title">Products</div><div class="card-value" id="statProducts">—</div></div>
+					<div class="card"><div class="card-title">Artisans</div><div class="card-value" id="statArtisans">—</div></div>
+					<div class="card"><div class="card-title">Content Keys</div><div class="card-value" id="statContent">—</div></div>
+				</div>
+			</section>
+
+			<section id="tab-products" class="tab">
+				<div class="toolbar">
+					<h2>Products</h2>
+					<div class="spacer"></div>
+					<button class="btn" id="btnNewProduct"><i class="fas fa-plus"></i> New Product</button>
+				</div>
+				<div class="grid">
+					<div class="list-panel">
+						<input type="search" id="productSearch" placeholder="Search products…">
+						<div id="productsList" class="list"></div>
+					</div>
+					<div class="form-panel">
+						<form id="productForm">
+							<input type="hidden" id="productDocId">
+							<label>Name<input id="productName" required></label>
+							<label>Artisan<input id="productArtisan"></label>
+							<label>Location<input id="productLocation"></label>
+							<label>Category<input id="productCategory" placeholder="pottery, kimono, …"></label>
+							<label>Badge<input id="productBadge" placeholder="New, Masterpiece, …"></label>
+							<label>Price (JPY)<input id="productPrice" type="number" min="0" step="1" required></label>
+							<label>Description<textarea id="productDescription" rows="3"></textarea></label>
+							<label>Materials<input id="productMaterials"></label>
+							<label>Dimensions<input id="productDimensions"></label>
+							<label>Image URL<input id="productImage"></label>
+							<label>Upload Image<input id="productImageFile" type="file" accept="image/*"></label>
+							<div class="form-actions">
+								<button type="submit" class="btn primary" id="saveProductBtn"><i class="fas fa-save"></i> Save</button>
+								<button type="button" class="btn" id="resetProductBtn">Reset</button>
+								<button type="button" class="btn danger" id="deleteProductBtn" style="display:none;"><i class="fas fa-trash"></i> Delete</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</section>
+
+			<section id="tab-artisans" class="tab">
+				<div class="toolbar">
+					<h2>Artisans</h2>
+					<div class="spacer"></div>
+					<button class="btn" id="btnNewArtisan"><i class="fas fa-plus"></i> New Artisan</button>
+				</div>
+				<div class="grid">
+					<div class="list-panel">
+						<input type="search" id="artisanSearch" placeholder="Search artisans…">
+						<div id="artisansList" class="list"></div>
+					</div>
+					<div class="form-panel">
+						<form id="artisanForm">
+							<input type="hidden" id="artisanDocId">
+							<label>Name<input id="artisanName" required></label>
+							<label>Name (JP)<input id="artisanNameJp"></label>
+							<label>Craft<input id="artisanCraft"></label>
+							<label>Craft (JP)<input id="artisanCraftJp"></label>
+							<label>Location<input id="artisanLocation"></label>
+							<label>Years<input id="artisanYears" type="number" min="0" step="1"></label>
+							<label>Specialty<input id="artisanSpecialty"></label>
+							<label>Story<textarea id="artisanStory" rows="3"></textarea></label>
+							<label>Quote<input id="artisanQuote"></label>
+							<label>Image URL<input id="artisanImage"></label>
+							<label>Upload Image<input id="artisanImageFile" type="file" accept="image/*"></label>
+							<div class="form-actions">
+								<button type="submit" class="btn primary" id="saveArtisanBtn"><i class="fas fa-save"></i> Save</button>
+								<button type="button" class="btn" id="resetArtisanBtn">Reset</button>
+								<button type="button" class="btn danger" id="deleteArtisanBtn" style="display:none;"><i class="fas fa-trash"></i> Delete</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</section>
+
+			<section id="tab-content" class="tab">
+				<div class="toolbar">
+					<h2>Content</h2>
+					<div class="spacer"></div>
+					<button class="btn" id="btnNewContent"><i class="fas fa-plus"></i> New Key</button>
+				</div>
+				<div class="grid">
+					<div class="list-panel">
+						<input type="search" id="contentSearch" placeholder="Search content keys…">
+						<div id="contentList" class="list"></div>
+					</div>
+					<div class="form-panel">
+						<form id="contentForm">
+							<label>Key<input id="contentKey" required placeholder="e.g. collections.title"></label>
+							<label>Text<textarea id="contentText" rows="5" required></textarea></label>
+							<div class="form-actions">
+								<button type="submit" class="btn primary" id="saveContentBtn"><i class="fas fa-save"></i> Save</button>
+								<button type="button" class="btn danger" id="deleteContentBtn" style="display:none;"><i class="fas fa-trash"></i> Delete</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</section>
+		</main>
+	</div>
+
+	<div id="denied" class="denied" style="display:none;">
+		<div class="denied-card">
+			<h2>Access restricted</h2>
+			<p>You must be signed in with an editor or admin account to access the admin panel.</p>
+			<button id="goHome" class="btn"><i class="fas fa-home"></i> Go to Site</button>
+		</div>
+	</div>
+
+	<script src="admin.js?v=1"></script>
+</body>
+</html>
+
+
