@@ -158,6 +158,8 @@ async function handleEmailSignup(event) {
     const email = document.getElementById('signupEmail').value;
     const password = document.getElementById('signupPassword').value;
     const passwordConfirm = document.getElementById('signupPasswordConfirm').value;
+    const mailingList = document.getElementById('joinMailingList').checked;
+    const promotions = document.getElementById('receivePromotions').checked;
     const signupBtn = document.getElementById('signupBtn');
     const errorDiv = document.getElementById('signupError');
     
@@ -187,6 +189,21 @@ async function handleEmailSignup(event) {
             displayName: name
         });
         
+        // Save user preferences to Firestore
+        if (db) {
+            await db.collection('users').doc(userCredential.user.uid).set({
+                displayName: name,
+                email: email,
+                preferences: {
+                    mailingList: mailingList,
+                    promotions: promotions,
+                    orderUpdates: true
+                },
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            console.log('✅ User preferences saved');
+        }
+        
         showNotification('Account created successfully! Welcome to Kaze Crafts! 🎉', 'success');
         closeAuthModal();
         
@@ -212,13 +229,41 @@ async function signInWithGoogle() {
         return;
     }
     
+    // Get preferences (show them briefly before sign-in)
+    const prefsDiv = document.getElementById('googleSignInPreferences');
+    if (prefsDiv) {
+        prefsDiv.style.display = 'block';
+    }
+    
     const provider = new firebase.auth.GoogleAuthProvider();
     
     try {
         const result = await auth.signInWithPopup(provider);
-        console.log('✅ Google sign in successful:', result.user.email);
+        const user = result.user;
+        const isNewUser = result.additionalUserInfo?.isNewUser;
         
-        showNotification('Welcome! 👋', 'success');
+        console.log('✅ Google sign in successful:', user.email);
+        
+        // For new users, save preferences to Firestore
+        if (isNewUser && db) {
+            const mailingList = document.getElementById('googleMailingList')?.checked || true;
+            const promotions = document.getElementById('googlePromotions')?.checked || true;
+            
+            await db.collection('users').doc(user.uid).set({
+                displayName: user.displayName,
+                email: user.email,
+                photoURL: user.photoURL,
+                preferences: {
+                    mailingList: mailingList,
+                    promotions: promotions,
+                    orderUpdates: true
+                },
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            console.log('✅ New Google user preferences saved');
+        }
+        
+        showNotification(isNewUser ? 'Welcome to Kaze Crafts! 🎉' : 'Welcome back! 👋', 'success');
         closeAuthModal();
     } catch (error) {
         console.error('Google sign in error:', error);
