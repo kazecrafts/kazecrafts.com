@@ -198,10 +198,11 @@
 		el('denied').style.display = 'none';
 		el('loginScreen').style.display = 'none';
 		el('adminApp').style.display = 'block';
-		el('adminUserEmail').textContent = user.email + ' (' + role + ')';
+		el('adminUserEmail').textContent = user.email;
+		el('adminUserRole').textContent = role === 'admin' ? '管理者 | Admin' : '編集者 | Editor';
 		el('adminLogoutBtn').onclick = () => auth.signOut().then(() => location.reload());
 		// Tabs
-		qsa('.tab-btn').forEach(btn => btn.addEventListener('click', () => switchTab(btn.dataset.tab)));
+		qsa('.admin-tab-btn').forEach(btn => btn.addEventListener('click', () => switchTab(btn.dataset.tab)));
 		// Products
 		el('btnNewProduct').onclick = resetProductForm;
 		el('productForm').onsubmit = onSaveProduct;
@@ -258,9 +259,12 @@
 	}
 
 	function switchTab(tab){
-		qsa('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab===tab));
-		qsa('.tab').forEach(s => s.classList.toggle('active', s.id===`tab-${tab}`));
+		qsa('.admin-tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab===tab));
+		qsa('.admin-tab').forEach(s => s.classList.toggle('active', s.id===`tab-${tab}`));
 	}
+
+	// Make switchTab global for quick actions
+	window.switchToTab = switchTab;
 
 	// ===== Products =====
 	let productsDocs = [];
