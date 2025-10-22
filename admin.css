@@ -71,7 +71,7 @@ html, body {
 	position: relative;
 }
 
-/* ===== HEADER - WHITE FROSTED GLASS ===== */
+/* ===== HEADER - ULTRA COMPACT ===== */
 .admin-header-premium {
 	position: sticky;
 	top: 0;
@@ -80,16 +80,16 @@ html, body {
 	backdrop-filter: blur(30px);
 	-webkit-backdrop-filter: blur(30px);
 	border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
 .admin-header-content {
-	max-width: 1600px;
+	max-width: 1800px;
 	margin: 0 auto;
-	padding: 1.5rem 3rem;
+	padding: 0.75rem 2rem;
 	display: flex;
 	align-items: center;
-	gap: 2rem;
+	gap: 1.5rem;
 }
 
 .admin-brand {
@@ -105,26 +105,26 @@ html, body {
 }
 
 .admin-logo {
-	height: 50px;
+	height: 35px;
 	width: auto;
 }
 
 .admin-brand-text {
 	display: flex;
 	flex-direction: column;
-	gap: 0.25rem;
+	gap: 0.1rem;
 }
 
 .admin-brand-title {
 	font-family: 'Noto Serif JP', serif;
-	font-size: 1.3rem;
+	font-size: 1rem;
 	font-weight: 700;
 	color: var(--charcoal);
 }
 
 .admin-brand-subtitle {
 	font-family: 'Cinzel', serif;
-	font-size: 0.7rem;
+	font-size: 0.6rem;
 	color: #666;
 	letter-spacing: 0.15em;
 	text-transform: uppercase;
@@ -137,43 +137,43 @@ html, body {
 .admin-user-section {
 	display: flex;
 	align-items: center;
-	gap: 1.5rem;
+	gap: 1rem;
 }
 
 .admin-user-info {
 	display: flex;
 	align-items: center;
-	gap: 0.75rem;
+	gap: 0.6rem;
 }
 
 .admin-user-avatar {
-	width: 45px;
-	height: 45px;
+	width: 32px;
+	height: 32px;
 	border-radius: 50%;
 	background: linear-gradient(135deg, var(--tiffany-blue), var(--sky-blue));
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	color: white;
-	font-size: 1.5rem;
-	box-shadow: 0 4px 15px rgba(80, 200, 120, 0.3);
+	font-size: 1rem;
+	box-shadow: 0 2px 8px rgba(80, 200, 120, 0.3);
 }
 
 .admin-user-details {
 	display: flex;
 	flex-direction: column;
-	gap: 0.25rem;
+	gap: 0.1rem;
 }
 
 .admin-user-name {
 	font-family: 'Cinzel', serif;
-	font-size: 0.95rem;
+	font-size: 0.75rem;
 	font-weight: 600;
 	color: var(--charcoal);
 }
 
 .admin-user-role {
-	font-size: 0.75rem;
+	font-size: 0.65rem;
 	color: #666;
 	font-family: 'Noto Serif JP', serif;
 }
@@ -181,13 +181,13 @@ html, body {
 .admin-logout-btn {
 	display: flex;
 	align-items: center;
-	gap: 0.5rem;
-	padding: 0.7rem 1.5rem;
+	gap: 0.4rem;
+	padding: 0.5rem 1rem;
 	background: #f5f5f5;
 	border: 1px solid rgba(0, 0, 0, 0.1);
 	border-radius: 50px;
 	color: var(--charcoal);
-	font-size: 0.85rem;
+	font-size: 0.75rem;
 	font-weight: 600;
 	cursor: pointer;
 	transition: all 0.3s ease;
@@ -207,35 +207,35 @@ html, body {
 	font-family: 'Noto Serif JP', serif;
 }
 
-/* ===== NAVIGATION - EXACT FILTER CHIP STYLE ===== */
+/* ===== NAVIGATION - ULTRA COMPACT ===== */
 .admin-nav-premium {
 	background: transparent;
 	border-bottom: none;
 	padding: 0;
 	position: sticky;
-	top: 85px;
+	top: 50px;
 	z-index: 999;
 }
 
 .admin-nav-content {
-	max-width: 1600px;
+	max-width: 1800px;
 	margin: 0 auto;
 	display: flex;
-	gap: 1rem;
-	padding: 1.5rem 3rem;
+	gap: 0.75rem;
+	padding: 0.75rem 2rem;
 	flex-wrap: wrap;
 }
 
-/* EXACT filter chip styling from marketplace */
+/* EXACT filter chip styling from marketplace - COMPACT */
 .admin-tab-btn {
 	display: flex;
 	align-items: center;
-	gap: 0.5rem;
-	padding: 0.6rem 1.5rem;
+	gap: 0.4rem;
+	padding: 0.5rem 1rem;
 	background: #f5f5f5;
 	border: 1px solid rgba(0, 0, 0, 0.1);
 	color: #2a2a2a;
-	font-size: 0.85rem;
+	font-size: 0.75rem;
 	cursor: pointer;
 	transition: all 0.3s ease;
 	border-radius: 50px;
@@ -273,14 +273,14 @@ html, body {
 	text-transform: uppercase;
 }
 
-/* ===== MAIN CONTENT AREA - COMPACT ===== */
+/* ===== MAIN CONTENT AREA - ULTRA COMPACT ===== */
 .admin-main-premium {
 	max-width: 1800px;
 	margin: 0 auto;
-	padding: 1.5rem 2rem;
+	padding: 0.75rem 2rem 1rem;
 	position: relative;
 	z-index: 1;
-	min-height: calc(100vh - 200px);
+	min-height: calc(100vh - 140px);
 }
 
 .admin-tab {
@@ -303,11 +303,10 @@ html, body {
 	}
 }
 
-/* ===== PAGE HEADER - COMPACT (TRANSPARENT LIKE MARKETPLACE) ===== */
+/* ===== PAGE HEADER - ULTRA COMPACT ===== */
 .admin-page-header {
-	text-align: center;
-	margin-bottom: 1.5rem;
-	padding: 1.5rem 1rem;
+	margin-bottom: 0.75rem;
+	padding: 0.5rem 0;
 	background: transparent;
 	position: relative;
 	overflow: visible;
@@ -318,9 +317,8 @@ html, body {
 
 .page-header-main {
 	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
-	gap: 0.25rem;
+	align-items: baseline;
+	gap: 0.75rem;
 	position: relative;
 	z-index: 1;
 	flex: 1;
@@ -328,7 +326,7 @@ html, body {
 
 .admin-page-title-jp {
 	font-family: 'Noto Serif JP', serif;
-	font-size: 2rem;
+	font-size: 1.5rem;
 	font-weight: 700;
 	color: #000000;
 	letter-spacing: 0.05em;
@@ -337,8 +335,8 @@ html, body {
 
 .admin-page-title-en {
 	font-family: 'Cinzel', serif;
-	font-size: 0.75rem;
-	color: rgba(42, 42, 42, 0.6);
+	font-size: 0.65rem;
+	color: rgba(42, 42, 42, 0.5);
 	letter-spacing: 0.15em;
 	text-transform: uppercase;
 	margin: 0;
@@ -436,12 +434,12 @@ html, body {
 	opacity: 0.7;
 }
 
-/* ===== STATS GRID - COMPACT ===== */
+/* ===== STATS GRID - ULTRA COMPACT ===== */
 .admin-stats-grid {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-	gap: 1rem;
-	margin-bottom: 2rem;
+	grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+	gap: 0.75rem;
+	margin-bottom: 1rem;
 }
 
 .admin-stat-card {
@@ -449,12 +447,12 @@ html, body {
 	backdrop-filter: blur(10px);
 	-webkit-backdrop-filter: blur(10px);
 	border: 1px solid rgba(0, 0, 0, 0.08);
-	border-radius: 16px;
-	padding: 1.5rem;
+	border-radius: 12px;
+	padding: 1rem;
 	display: flex;
 	align-items: center;
-	gap: 1rem;
-	box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+	gap: 0.75rem;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 	transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 	position: relative;
 	overflow: hidden;
@@ -485,8 +483,8 @@ html, body {
 }
 
 .stat-icon {
-	width: 50px;
-	height: 50px;
+	width: 40px;
+	height: 40px;
 	border-radius: 50%;
 	background: #f5f5f5;
 	border: 1px solid rgba(0, 0, 0, 0.08);
@@ -494,21 +492,22 @@ html, body {
 	align-items: center;
 	justify-content: center;
 	color: var(--tiffany-blue);
-	font-size: 1.5rem;
-	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+	font-size: 1.2rem;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 	position: relative;
 	z-index: 1;
+	flex-shrink: 0;
 }
 
 .stat-content {
 	display: flex;
 	flex-direction: column;
-	gap: 0.25rem;
+	gap: 0.15rem;
 }
 
 .stat-value {
 	font-family: 'Cinzel', serif;
-	font-size: 2rem;
+	font-size: 1.5rem;
 	font-weight: 700;
 	color: var(--charcoal);
 	line-height: 1;
@@ -516,14 +515,14 @@ html, body {
 
 .stat-label-jp {
 	font-family: 'Noto Serif JP', serif;
-	font-size: 0.85rem;
+	font-size: 0.75rem;
 	color: #666;
 	font-weight: 500;
 }
 
 .stat-label-en {
 	font-family: 'Cinzel', serif;
-	font-size: 0.6rem;
+	font-size: 0.55rem;
 	color: #999;
 	text-transform: uppercase;
 	letter-spacing: 0.1em;
@@ -639,19 +638,21 @@ html, body {
 	text-align: center;
 }
 
-/* ===== WORKSPACE LAYOUT - CONDENSED & USABLE ===== */
+/* ===== WORKSPACE LAYOUT - FITS ON SCREEN ===== */
 .admin-workspace {
 	display: grid;
-	grid-template-columns: 240px 1fr 1fr;
-	gap: 1.5rem;
-	max-height: 85vh;
+	grid-template-columns: 220px 1fr 1fr;
+	gap: 1rem;
+	height: calc(100vh - 180px);
+	max-height: calc(100vh - 180px);
 }
 
 .admin-workspace-content {
 	display: grid;
-	grid-template-columns: 240px 1fr;
-	gap: 1.5rem;
-	max-height: 85vh;
+	grid-template-columns: 220px 1fr;
+	gap: 1rem;
+	height: calc(100vh - 180px);
+	max-height: calc(100vh - 180px);
 }
 
 /* ===== PANELS - EXACT BENTO MAP STYLING ===== */
@@ -691,7 +692,7 @@ html, body {
 }
 
 .panel-header {
-	padding: 1rem 1.5rem;
+	padding: 0.6rem 1rem;
 	border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 	background: rgba(255, 255, 255, 0.5);
 	backdrop-filter: blur(5px);
@@ -701,19 +702,20 @@ html, body {
 
 .panel-title-jp {
 	font-family: 'Noto Serif JP', serif;
-	font-size: 1rem;
+	font-size: 0.85rem;
 	font-weight: 700;
 	color: var(--charcoal);
-	margin: 0 0 0.15rem 0;
+	margin: 0;
 }
 
 .panel-title-en {
 	font-family: 'Cinzel', serif;
-	font-size: 0.65rem;
+	font-size: 0.6rem;
 	color: #666;
 	text-transform: uppercase;
 	letter-spacing: 0.15em;
 	margin: 0;
+	display: none; /* Hide to save vertical space */
 }
 
 /* ===== SEARCH - COMPACT ===== */
@@ -805,53 +807,54 @@ html, body {
 	height: 35px !important;
 }
 
-/* ===== FORM - COMPACT ===== */
+/* ===== FORM - ULTRA COMPACT ===== */
 .admin-form {
 	flex: 1;
 	overflow-y: auto;
-	padding: 1.5rem;
+	padding: 1rem;
 }
 
 .form-group-bilingual {
-	margin-bottom: 1rem;
+	margin-bottom: 0.75rem;
 }
 
 .form-label {
 	display: flex;
 	align-items: baseline;
-	gap: 0.4rem;
-	margin-bottom: 0.4rem;
+	gap: 0.3rem;
+	margin-bottom: 0.3rem;
 	font-weight: 600;
 }
 
 .label-jp {
 	font-family: 'Noto Serif JP', serif;
-	font-size: 0.8rem;
+	font-size: 0.75rem;
 	color: var(--charcoal);
 }
 
 .label-en {
 	font-family: 'Cinzel', serif;
-	font-size: 0.6rem;
+	font-size: 0.55rem;
 	color: #666;
 	text-transform: uppercase;
 	letter-spacing: 0.05em;
+	display: none; /* Hide to save space */
 }
 
 .label-required {
 	color: #e11d48;
-	font-size: 0.9rem;
+	font-size: 0.8rem;
 }
 
 .form-input,
 .form-textarea {
 	width: 100%;
-	padding: 0.7rem 1rem;
+	padding: 0.6rem 0.9rem;
 	border: 1px solid rgba(0, 0, 0, 0.1);
 	border-radius: 8px;
 	background: rgba(255, 255, 255, 0.9);
 	color: var(--charcoal);
-	font-size: 0.85rem;
+	font-size: 0.8rem;
 	font-family: 'Noto Serif JP', serif;
 	transition: all 0.3s ease;
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
@@ -870,14 +873,14 @@ html, body {
 
 .form-textarea {
 	resize: vertical;
-	min-height: 80px;
-	line-height: 1.5;
+	min-height: 60px;
+	line-height: 1.4;
 }
 
 .form-row {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
-	gap: 1rem;
+	gap: 0.75rem;
 }
 
 /* ===== FILE UPLOAD - COMPACT ===== */
@@ -896,9 +899,9 @@ html, body {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	gap: 0.5rem;
-	padding: 0.8rem 1rem;
-	border: 2px dashed rgba(80, 200, 120, 0.3);
+	gap: 0.4rem;
+	padding: 0.6rem 0.8rem;
+	border: 1px dashed rgba(80, 200, 120, 0.3);
 	border-radius: 8px;
 	background: rgba(255, 255, 255, 0.7);
 	cursor: pointer;
@@ -913,36 +916,37 @@ html, body {
 }
 
 .file-upload-label i {
-	font-size: 1.3rem;
+	font-size: 1rem;
 	color: var(--tiffany-blue);
 }
 
 .upload-text-jp {
 	font-family: 'Noto Serif JP', serif;
-	font-size: 0.8rem;
+	font-size: 0.75rem;
 	color: var(--charcoal);
 	font-weight: 500;
 }
 
 .upload-text-en {
 	font-family: 'Cinzel', serif;
-	font-size: 0.65rem;
+	font-size: 0.6rem;
 	color: #666;
+	display: none; /* Hide to save space */
 }
 
-/* ===== FORM ACTIONS - COMPACT ===== */
+/* ===== FORM ACTIONS - ULTRA COMPACT ===== */
 .form-actions-premium {
 	display: flex;
-	gap: 0.75rem;
-	padding: 1rem 1.5rem;
+	gap: 0.5rem;
+	padding: 0.75rem 1rem;
 	border-top: 1px solid rgba(0, 0, 0, 0.06);
 	background: rgba(255, 255, 255, 0.5);
 	backdrop-filter: blur(5px);
-	margin: 0 -1.5rem -1.5rem;
+	margin: 0 -1rem -1rem;
 	flex-shrink: 0;
 }
 
-/* ===== PREVIEW PANEL - BIG & CENTERED ===== */
+/* ===== PREVIEW PANEL - HUGE & PERFECTLY FIT ===== */
 .admin-preview-panel {
 	background: rgba(255, 255, 255, 0.98);
 }
@@ -950,22 +954,25 @@ html, body {
 .admin-preview-container {
 	flex: 1;
 	overflow-y: auto;
-	padding: 2rem;
+	overflow-x: hidden;
+	padding: 1.5rem;
 	background: white;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 }
 
-/* Scale up preview for better visibility */
+/* Scale up preview to fit panel perfectly */
 .admin-preview-container .product-card {
-	transform: scale(1.2);
-	margin: 3rem;
+	transform: scale(1.3);
+	margin: 2.5rem auto;
+	max-width: 100%;
 }
 
 .admin-preview-container .craftsman-modal-grid {
-	transform: scale(0.85);
-	margin: 2rem;
+	transform: scale(0.75);
+	margin: 1rem auto;
+	max-width: 100%;
 }
 
 .preview-placeholder {
@@ -1008,7 +1015,7 @@ html, body {
 }
 
 .admin-preview-container .product-card:hover {
-	transform: scale(1.2) !important; /* Keep scale, remove other transforms */
+	transform: scale(1.3) !important; /* Keep scale, remove other transforms */
 	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06) !important;
 }
 
@@ -1304,21 +1311,24 @@ html, body {
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1600px) {
 	.admin-workspace {
-		grid-template-columns: 220px 1fr 1fr;
+		grid-template-columns: 200px 1fr 1fr;
 	}
 	
-	.admin-header-content,
-	.admin-nav-content,
-	.admin-main-premium {
-		padding-left: 1.5rem;
-		padding-right: 1.5rem;
+	.admin-preview-container .product-card {
+		transform: scale(1.2);
+		margin: 2rem auto;
 	}
 }
 
 @media (max-width: 1400px) {
 	.admin-workspace {
-		grid-template-columns: 200px 1fr 1fr;
-		gap: 1rem;
+		grid-template-columns: 180px 1fr 1fr;
+		gap: 0.75rem;
+	}
+	
+	.admin-preview-container .product-card {
+		transform: scale(1.1);
+		margin: 1.5rem auto;
 	}
 }
 
@@ -1326,13 +1336,15 @@ html, body {
 	.admin-workspace,
 	.admin-workspace-content {
 		grid-template-columns: 1fr;
-		gap: 1.5rem;
+		gap: 1rem;
+		height: auto;
+		max-height: none;
 	}
 	
 	.admin-list-panel,
 	.admin-form-panel,
 	.admin-preview-panel {
-		max-height: 60vh;
+		max-height: 50vh;
 	}
 	
 	/* Reset preview scale on smaller screens */
