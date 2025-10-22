@@ -273,11 +273,11 @@ html, body {
 	text-transform: uppercase;
 }
 
-/* ===== MAIN CONTENT AREA ===== */
+/* ===== MAIN CONTENT AREA - COMPACT ===== */
 .admin-main-premium {
-	max-width: 1600px;
+	max-width: 1800px;
 	margin: 0 auto;
-	padding: 3rem;
+	padding: 1.5rem 2rem;
 	position: relative;
 	z-index: 1;
 	min-height: calc(100vh - 200px);
@@ -303,28 +303,32 @@ html, body {
 	}
 }
 
-/* ===== PAGE HEADER - BIG CENTERED TITLES (TRANSPARENT LIKE MARKETPLACE) ===== */
+/* ===== PAGE HEADER - COMPACT (TRANSPARENT LIKE MARKETPLACE) ===== */
 .admin-page-header {
 	text-align: center;
-	margin-bottom: 3rem;
-	padding: 3rem 2rem;
+	margin-bottom: 1.5rem;
+	padding: 1.5rem 1rem;
 	background: transparent;
 	position: relative;
 	overflow: visible;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 }
 
 .page-header-main {
 	display: flex;
 	flex-direction: column;
-	align-items: center;
-	gap: 0.75rem;
+	align-items: flex-start;
+	gap: 0.25rem;
 	position: relative;
 	z-index: 1;
+	flex: 1;
 }
 
 .admin-page-title-jp {
 	font-family: 'Noto Serif JP', serif;
-	font-size: clamp(2.5rem, 5vw, 4rem);
+	font-size: 2rem;
 	font-weight: 700;
 	color: #000000;
 	letter-spacing: 0.05em;
@@ -333,26 +337,27 @@ html, body {
 
 .admin-page-title-en {
 	font-family: 'Cinzel', serif;
-	font-size: 1.2rem;
-	color: #666;
-	letter-spacing: 0.2em;
+	font-size: 0.75rem;
+	color: rgba(42, 42, 42, 0.6);
+	letter-spacing: 0.15em;
 	text-transform: uppercase;
 	margin: 0;
 	font-weight: 600;
 }
 
 .admin-page-description {
-	font-size: 1rem;
+	font-size: 0.85rem;
 	color: #666;
-	line-height: 1.8;
-	margin-top: 1rem;
+	line-height: 1.6;
+	margin-top: 0.5rem;
 	max-width: 600px;
 	font-family: 'Noto Serif JP', serif;
+	display: none; /* Hide to save space */
 }
 
 .description-en {
 	font-family: 'Cinzel', serif;
-	font-size: 0.85rem;
+	font-size: 0.75rem;
 	opacity: 0.8;
 }
 
@@ -431,12 +436,12 @@ html, body {
 	opacity: 0.7;
 }
 
-/* ===== STATS GRID - WHITE CARDS ===== */
+/* ===== STATS GRID - COMPACT ===== */
 .admin-stats-grid {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-	gap: 2rem;
-	margin-bottom: 3rem;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	gap: 1rem;
+	margin-bottom: 2rem;
 }
 
 .admin-stat-card {
@@ -445,10 +450,10 @@ html, body {
 	-webkit-backdrop-filter: blur(10px);
 	border: 1px solid rgba(0, 0, 0, 0.08);
 	border-radius: 16px;
-	padding: 2.5rem;
+	padding: 1.5rem;
 	display: flex;
 	align-items: center;
-	gap: 1.5rem;
+	gap: 1rem;
 	box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
 	transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 	position: relative;
@@ -480,8 +485,8 @@ html, body {
 }
 
 .stat-icon {
-	width: 75px;
-	height: 75px;
+	width: 50px;
+	height: 50px;
 	border-radius: 50%;
 	background: #f5f5f5;
 	border: 1px solid rgba(0, 0, 0, 0.08);
@@ -489,7 +494,7 @@ html, body {
 	align-items: center;
 	justify-content: center;
 	color: var(--tiffany-blue);
-	font-size: 2.2rem;
+	font-size: 1.5rem;
 	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
 	position: relative;
 	z-index: 1;
@@ -498,12 +503,12 @@ html, body {
 .stat-content {
 	display: flex;
 	flex-direction: column;
-	gap: 0.5rem;
+	gap: 0.25rem;
 }
 
 .stat-value {
 	font-family: 'Cinzel', serif;
-	font-size: 3rem;
+	font-size: 2rem;
 	font-weight: 700;
 	color: var(--charcoal);
 	line-height: 1;
@@ -511,63 +516,70 @@ html, body {
 
 .stat-label-jp {
 	font-family: 'Noto Serif JP', serif;
-	font-size: 1rem;
+	font-size: 0.85rem;
 	color: #666;
 	font-weight: 500;
 }
 
 .stat-label-en {
 	font-family: 'Cinzel', serif;
-	font-size: 0.7rem;
+	font-size: 0.6rem;
 	color: #999;
 	text-transform: uppercase;
 	letter-spacing: 0.1em;
 }
 
-/* ===== QUICK ACTIONS - TRANSPARENT LIKE MARKETPLACE ===== */
+/* ===== QUICK ACTIONS - COMPACT ===== */
 .admin-quick-actions {
 	background: transparent;
-	padding: 2rem 0;
-	margin-bottom: 3rem;
+	padding: 0;
+	margin-bottom: 1.5rem;
+}
+
+/* Show quick actions only on dashboard */
+#tab-products .admin-quick-actions,
+#tab-artisans .admin-quick-actions,
+#tab-content .admin-quick-actions {
+	display: none;
 }
 
 .quick-actions-title {
-	margin-bottom: 2rem;
+	margin-bottom: 1rem;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: 0.5rem;
+	gap: 0.25rem;
 	text-align: center;
 	background: transparent;
 }
 
 .title-jp {
 	font-family: 'Noto Serif JP', serif;
-	font-size: 1.8rem;
+	font-size: 1.3rem;
 	color: #000000;
 	font-weight: 700;
 }
 
 .title-en {
 	font-family: 'Cinzel', serif;
-	font-size: 0.85rem;
-	color: rgba(42, 42, 42, 0.75);
+	font-size: 0.7rem;
+	color: rgba(42, 42, 42, 0.6);
 	text-transform: uppercase;
 	letter-spacing: 0.15em;
 }
 
 .quick-actions-grid {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-	gap: 1.5rem;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	gap: 1rem;
 }
 
 .quick-action-btn {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: 1rem;
-	padding: 2.5rem 2rem;
+	gap: 0.8rem;
+	padding: 1.5rem 1rem;
 	background: rgba(255, 255, 255, 0.9);
 	border: 1px solid rgba(0, 0, 0, 0.08);
 	border-radius: 16px;
@@ -604,7 +616,7 @@ html, body {
 }
 
 .quick-action-btn i {
-	font-size: 3rem;
+	font-size: 2rem;
 	color: var(--tiffany-blue);
 	position: relative;
 	z-index: 1;
@@ -612,7 +624,7 @@ html, body {
 
 .action-text-jp {
 	font-family: 'Noto Serif JP', serif;
-	font-size: 1rem;
+	font-size: 0.85rem;
 	color: var(--charcoal);
 	font-weight: 600;
 	text-align: center;
@@ -620,24 +632,26 @@ html, body {
 
 .action-text-en {
 	font-family: 'Cinzel', serif;
-	font-size: 0.75rem;
+	font-size: 0.65rem;
 	color: #666;
 	text-transform: uppercase;
 	letter-spacing: 0.05em;
 	text-align: center;
 }
 
-/* ===== WORKSPACE LAYOUT ===== */
+/* ===== WORKSPACE LAYOUT - CONDENSED & USABLE ===== */
 .admin-workspace {
 	display: grid;
-	grid-template-columns: 380px 1fr 420px;
-	gap: 2rem;
+	grid-template-columns: 240px 1fr 1fr;
+	gap: 1.5rem;
+	max-height: 85vh;
 }
 
 .admin-workspace-content {
 	display: grid;
-	grid-template-columns: 380px 1fr;
-	gap: 2rem;
+	grid-template-columns: 240px 1fr;
+	gap: 1.5rem;
+	max-height: 85vh;
 }
 
 /* ===== PANELS - EXACT BENTO MAP STYLING ===== */
@@ -652,9 +666,24 @@ html, body {
 	box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
 	display: flex;
 	flex-direction: column;
-	max-height: 80vh;
+	height: 100%;
 	position: relative;
 	overflow: hidden;
+}
+
+/* List panel - compact */
+.admin-list-panel {
+	grid-column: 1;
+}
+
+/* Form panel - condensed */
+.admin-form-panel {
+	grid-column: 2;
+}
+
+/* Preview panel - BIG! */
+.admin-preview-panel {
+	grid-column: 3;
 }
 
 .admin-form-panel.wide {
@@ -662,7 +691,7 @@ html, body {
 }
 
 .panel-header {
-	padding: 2rem;
+	padding: 1rem 1.5rem;
 	border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 	background: rgba(255, 255, 255, 0.5);
 	backdrop-filter: blur(5px);
@@ -672,31 +701,31 @@ html, body {
 
 .panel-title-jp {
 	font-family: 'Noto Serif JP', serif;
-	font-size: 1.3rem;
+	font-size: 1rem;
 	font-weight: 700;
 	color: var(--charcoal);
-	margin: 0 0 0.25rem 0;
+	margin: 0 0 0.15rem 0;
 }
 
 .panel-title-en {
 	font-family: 'Cinzel', serif;
-	font-size: 0.75rem;
+	font-size: 0.65rem;
 	color: #666;
 	text-transform: uppercase;
 	letter-spacing: 0.15em;
 	margin: 0;
 }
 
-/* ===== SEARCH - FILTER CHIP STYLE ===== */
+/* ===== SEARCH - COMPACT ===== */
 .admin-search {
-	width: calc(100% - 2rem);
-	padding: 0.875rem 1.25rem;
-	margin: 1rem;
+	width: calc(100% - 1.5rem);
+	padding: 0.6rem 1rem;
+	margin: 0.75rem;
 	border: 1px solid rgba(0, 0, 0, 0.1);
 	border-radius: 50px;
 	background: rgba(255, 255, 255, 0.9);
 	color: var(--charcoal);
-	font-size: 0.9rem;
+	font-size: 0.8rem;
 	font-family: 'Noto Serif JP', serif;
 	transition: all 0.3s ease;
 	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
@@ -717,33 +746,33 @@ html, body {
 	color: #999;
 }
 
-/* ===== LIST ===== */
+/* ===== LIST - COMPACT ===== */
 .admin-list {
 	flex: 1;
 	overflow-y: auto;
-	padding: 1rem;
+	padding: 0.75rem;
 	display: flex;
 	flex-direction: column;
-	gap: 0.75rem;
+	gap: 0.5rem;
 }
 
 .list-item {
 	display: flex;
 	align-items: center;
-	gap: 1rem;
-	padding: 1rem 1.25rem;
+	gap: 0.6rem;
+	padding: 0.6rem 0.8rem;
 	background: rgba(255, 255, 255, 0.8);
 	border: 1px solid rgba(0, 0, 0, 0.06);
-	border-radius: 12px;
+	border-radius: 8px;
 	cursor: pointer;
 	transition: all 0.3s ease;
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .list-item:hover {
-	transform: translateX(8px) translateY(-2px);
+	transform: translateX(4px);
 	border-color: var(--tiffany-blue);
-	box-shadow: 0 6px 20px rgba(80, 200, 120, 0.2);
+	box-shadow: 0 4px 15px rgba(80, 200, 120, 0.2);
 	background: white;
 }
 
@@ -758,43 +787,52 @@ html, body {
 	font-family: 'Cinzel', serif;
 	font-weight: 600;
 	color: var(--charcoal);
-	font-size: 0.95rem;
+	font-size: 0.8rem;
+	line-height: 1.3;
 }
 
 .list-item-meta {
 	font-family: 'Noto Serif JP', serif;
-	font-size: 0.8rem;
+	font-size: 0.65rem;
 	color: #666;
+	display: block;
+	margin-top: 0.2rem;
 }
 
-/* ===== FORM ===== */
+/* Compact list item images */
+.list-item > div:first-child {
+	width: 35px !important;
+	height: 35px !important;
+}
+
+/* ===== FORM - COMPACT ===== */
 .admin-form {
 	flex: 1;
 	overflow-y: auto;
-	padding: 2rem;
+	padding: 1.5rem;
 }
 
 .form-group-bilingual {
-	margin-bottom: 1.75rem;
+	margin-bottom: 1rem;
 }
 
 .form-label {
 	display: flex;
 	align-items: baseline;
-	gap: 0.5rem;
-	margin-bottom: 0.75rem;
+	gap: 0.4rem;
+	margin-bottom: 0.4rem;
 	font-weight: 600;
 }
 
 .label-jp {
 	font-family: 'Noto Serif JP', serif;
-	font-size: 0.95rem;
+	font-size: 0.8rem;
 	color: var(--charcoal);
 }
 
 .label-en {
 	font-family: 'Cinzel', serif;
-	font-size: 0.7rem;
+	font-size: 0.6rem;
 	color: #666;
 	text-transform: uppercase;
 	letter-spacing: 0.05em;
@@ -802,18 +840,18 @@ html, body {
 
 .label-required {
 	color: #e11d48;
-	font-size: 1rem;
+	font-size: 0.9rem;
 }
 
 .form-input,
 .form-textarea {
 	width: 100%;
-	padding: 1rem 1.25rem;
+	padding: 0.7rem 1rem;
 	border: 1px solid rgba(0, 0, 0, 0.1);
-	border-radius: 12px;
+	border-radius: 8px;
 	background: rgba(255, 255, 255, 0.9);
 	color: var(--charcoal);
-	font-size: 0.95rem;
+	font-size: 0.85rem;
 	font-family: 'Noto Serif JP', serif;
 	transition: all 0.3s ease;
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
@@ -824,25 +862,25 @@ html, body {
 	outline: none;
 	border-color: var(--tiffany-blue);
 	box-shadow: 
-		0 0 0 3px rgba(80, 200, 120, 0.2),
-		0 6px 25px rgba(80, 200, 120, 0.15);
+		0 0 0 2px rgba(80, 200, 120, 0.2),
+		0 4px 15px rgba(80, 200, 120, 0.15);
 	background: white;
-	transform: translateY(-2px);
+	transform: translateY(-1px);
 }
 
 .form-textarea {
 	resize: vertical;
-	min-height: 120px;
-	line-height: 1.7;
+	min-height: 80px;
+	line-height: 1.5;
 }
 
 .form-row {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
-	gap: 1.5rem;
+	gap: 1rem;
 }
 
-/* ===== FILE UPLOAD ===== */
+/* ===== FILE UPLOAD - COMPACT ===== */
 .file-upload-area {
 	position: relative;
 }
@@ -858,10 +896,10 @@ html, body {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	gap: 0.75rem;
-	padding: 1.25rem;
+	gap: 0.5rem;
+	padding: 0.8rem 1rem;
 	border: 2px dashed rgba(80, 200, 120, 0.3);
-	border-radius: 12px;
+	border-radius: 8px;
 	background: rgba(255, 255, 255, 0.7);
 	cursor: pointer;
 	transition: all 0.3s ease;
@@ -870,41 +908,41 @@ html, body {
 .file-upload-label:hover {
 	border-color: var(--tiffany-blue);
 	background: rgba(80, 200, 120, 0.05);
-	transform: translateY(-2px);
+	transform: translateY(-1px);
 	box-shadow: 0 4px 15px rgba(80, 200, 120, 0.15);
 }
 
 .file-upload-label i {
-	font-size: 1.8rem;
+	font-size: 1.3rem;
 	color: var(--tiffany-blue);
 }
 
 .upload-text-jp {
 	font-family: 'Noto Serif JP', serif;
-	font-size: 0.95rem;
+	font-size: 0.8rem;
 	color: var(--charcoal);
 	font-weight: 500;
 }
 
 .upload-text-en {
 	font-family: 'Cinzel', serif;
-	font-size: 0.75rem;
+	font-size: 0.65rem;
 	color: #666;
 }
 
-/* ===== FORM ACTIONS ===== */
+/* ===== FORM ACTIONS - COMPACT ===== */
 .form-actions-premium {
 	display: flex;
-	gap: 1rem;
-	padding: 2rem;
+	gap: 0.75rem;
+	padding: 1rem 1.5rem;
 	border-top: 1px solid rgba(0, 0, 0, 0.06);
 	background: rgba(255, 255, 255, 0.5);
 	backdrop-filter: blur(5px);
-	margin: 0 -2rem -2rem;
+	margin: 0 -1.5rem -1.5rem;
 	flex-shrink: 0;
 }
 
-/* ===== PREVIEW PANEL - DO NOT TOUCH! ===== */
+/* ===== PREVIEW PANEL - BIG & CENTERED ===== */
 .admin-preview-panel {
 	background: rgba(255, 255, 255, 0.98);
 }
@@ -913,10 +951,21 @@ html, body {
 	flex: 1;
 	overflow-y: auto;
 	padding: 2rem;
-	background: transparent;
+	background: white;
 	display: flex;
-	align-items: flex-start;
+	align-items: center;
 	justify-content: center;
+}
+
+/* Scale up preview for better visibility */
+.admin-preview-container .product-card {
+	transform: scale(1.2);
+	margin: 3rem;
+}
+
+.admin-preview-container .craftsman-modal-grid {
+	transform: scale(0.85);
+	margin: 2rem;
 }
 
 .preview-placeholder {
@@ -951,16 +1000,16 @@ html, body {
 	color: #999;
 }
 
-/* Make preview look EXACTLY like website - NO overrides */
+/* Make preview look EXACTLY like website - disable interactions */
 .admin-preview-container .product-card {
 	pointer-events: none;
 	user-select: none;
 	animation: none !important;
-	transform: none !important;
 }
 
 .admin-preview-container .product-card:hover {
-	transform: none !important;
+	transform: scale(1.2) !important; /* Keep scale, remove other transforms */
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06) !important;
 }
 
 .admin-preview-container .product-card::before {
@@ -1253,16 +1302,23 @@ html, body {
 }
 
 /* ===== RESPONSIVE ===== */
-@media (max-width: 1400px) {
+@media (max-width: 1600px) {
 	.admin-workspace {
-		grid-template-columns: 320px 1fr 380px;
+		grid-template-columns: 220px 1fr 1fr;
 	}
 	
 	.admin-header-content,
 	.admin-nav-content,
 	.admin-main-premium {
-		padding-left: 2rem;
-		padding-right: 2rem;
+		padding-left: 1.5rem;
+		padding-right: 1.5rem;
+	}
+}
+
+@media (max-width: 1400px) {
+	.admin-workspace {
+		grid-template-columns: 200px 1fr 1fr;
+		gap: 1rem;
 	}
 }
 
@@ -1270,13 +1326,24 @@ html, body {
 	.admin-workspace,
 	.admin-workspace-content {
 		grid-template-columns: 1fr;
-		gap: 2rem;
+		gap: 1.5rem;
 	}
 	
 	.admin-list-panel,
 	.admin-form-panel,
 	.admin-preview-panel {
 		max-height: 60vh;
+	}
+	
+	/* Reset preview scale on smaller screens */
+	.admin-preview-container .product-card {
+		transform: scale(1);
+		margin: 1rem;
+	}
+	
+	.admin-preview-container .craftsman-modal-grid {
+		transform: scale(1);
+		margin: 1rem;
 	}
 }
 
