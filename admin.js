@@ -605,11 +605,11 @@
 
 		// Use EXACT structure from website's product cards
 		preview.innerHTML = `
-			<div class="product-card" style="max-width: 320px; margin: 0 auto; box-shadow: 0 8px 30px rgba(0,0,0,0.15);">
+			<div class="product-card">
 				<div class="product-image">
 					<img src="${image}" alt="${name}" onerror="this.src='pot1.webp'">
 					${badge && badge.toLowerCase() === 'new' ? `<div class="product-badge">${badge}</div>` : ''}
-					<button class="product-wishlist-btn" onclick="return false;" title="Add to wishlist" style="pointer-events: none;">
+					<button class="product-wishlist-btn" onclick="return false;" title="Add to wishlist">
 						<i class="far fa-heart"></i>
 					</button>
 				</div>
@@ -620,10 +620,10 @@
 					<div class="product-location">📍 ${location}</div>
 					<div class="product-price-large">¥${price.toLocaleString()}</div>
 					<div class="product-actions">
-						<button class="product-stripe-btn" onclick="return false;" style="pointer-events: none;">
+						<button class="product-stripe-btn" onclick="return false;">
 							<i class="fas fa-lock"></i> Buy Now
 						</button>
-						<button class="product-cart-btn" onclick="return false;" style="pointer-events: none;">
+						<button class="product-cart-btn" onclick="return false;">
 							<i class="fas fa-shopping-cart"></i> Cart
 						</button>
 					</div>
@@ -657,9 +657,9 @@
 
 		// Use EXACT structure from website's artisan modal/spotlight
 		preview.innerHTML = `
-			<div class="craftsman-modal-grid" style="display: grid; grid-template-columns: 1fr; gap: 2rem; max-width: 600px; margin: 0 auto;">
-				<div class="craftsman-modal-left" style="max-width: 100%;">
-					<img src="${image}" alt="${name}" class="craftsman-modal-image" style="width: 100%; height: auto; border-radius: 12px; object-fit: cover;" onerror="this.src='face1.jpg'">
+			<div class="craftsman-modal-grid">
+				<div class="craftsman-modal-left">
+					<img src="${image}" alt="${name}" class="craftsman-modal-image" onerror="this.src='face1.jpg'">
 				</div>
 				<div class="craftsman-modal-right">
 					<div class="craftsman-modal-label">${craft}</div>
@@ -681,7 +681,7 @@
 						<p>${quote}</p>
 					</div>` : ''}
 					
-					<button class="craftsman-modal-browse" onclick="return false;" style="pointer-events: none;">
+					<button class="craftsman-modal-browse" onclick="return false;">
 						Browse ${name}'s Works
 					</button>
 				</div>
