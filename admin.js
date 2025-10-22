@@ -605,7 +605,7 @@
 
 		// Use EXACT structure from website's product cards
 		preview.innerHTML = `
-			<div class="product-card">
+			<div class="product-card" data-category="${category}">
 				<div class="product-image">
 					<img src="${image}" alt="${name}" onerror="this.src='pot1.webp'">
 					${badge && badge.toLowerCase() === 'new' ? `<div class="product-badge">${badge}</div>` : ''}
@@ -618,7 +618,7 @@
 					<div class="product-name">${name}</div>
 					<div class="product-artisan">${artisan}</div>
 					<div class="product-location">📍 ${location}</div>
-					<div class="product-price-large">¥${price.toLocaleString()}</div>
+					<div class="product-price-large visible">¥${price.toLocaleString()}</div>
 					<div class="product-actions">
 						<button class="product-stripe-btn" onclick="return false;">
 							<i class="fas fa-lock"></i> Buy Now
