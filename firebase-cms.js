@@ -1,14 +1,14 @@
-// ===== SIMPLE ROLE-BASED CMS (Firebase) =====
-// Provides:
-// - Inline text editing for elements with [data-edit-key]
-// - Products and Artisans CRUD (Firestore) with image upload (Storage)
-// - Role gating via users/{uid}.role in Firestore ('editor' or 'admin')
+// ===== LIVE CMS - REAL-TIME SYNC WITH FIRESTORE =====
+// Products and Artisans from admin panel appear INSTANTLY on website
+// Text edits with [data-edit-key] sync in real-time
 
 (function() {
 	if (typeof firebase === 'undefined' || !db) {
-		console.warn('CMS disabled: Firebase not initialized');
+		console.warn('⚠️ CMS disabled: Firebase not initialized');
 		return;
 	}
+
+	console.log('🔥 CMS: Initializing real-time sync...');
 
 	const cmsState = {
 		role: 'viewer',
@@ -29,40 +29,250 @@
 			const role = userDoc.exists ? (userDoc.data().role || 'viewer') : 'viewer';
 			cmsState.role = role;
 			cmsState.isEditor = ['editor', 'admin'].includes(role);
+			
+			console.log(`👤 CMS: User role = ${role}`);
+			
 			if (cmsState.isEditor) {
+				console.log('✅ CMS: Editor access - showing toolbar');
 				showCmsToolbar();
 			} else {
 				hideCmsToolbar();
 			}
 		} catch (e) {
-			console.error('Failed to load user role', e);
+			console.error('❌ Failed to load user role', e);
 		}
 	});
 
-	// ===== Content loading for data-edit-key elements =====
+	// ===== REAL-TIME PRODUCTS SYNC =====
+	// Listen to Firestore changes and update website LIVE
+	let productsListener = null;
+	
+	function startProductsSync() {
+		if (productsListener) return; // Already listening
+		
+		console.log('🔄 CMS: Starting real-time products sync...');
+		
+		productsListener = db.collection('products').onSnapshot((snapshot) => {
+			console.log(`📦 CMS: Products updated (${snapshot.docs.length} items)`);
+			
+			const cmsProducts = [];
+			snapshot.forEach(doc => {
+				cmsProducts.push({
+					id: doc.id,
+					...doc.data()
+				});
+			});
+			
+			// Merge into window.products array
+			mergeProductsIntoUI(cmsProducts);
+		}, (error) => {
+			console.error('❌ Products sync error:', error);
+		});
+	}
+
+	function mergeProductsIntoUI(cmsProducts) {
+		if (!Array.isArray(window.products)) {
+			console.warn('⚠️ window.products not found, creating array');
+			window.products = [];
+		}
+		
+		// Get max ID from existing products
+		let maxId = 0;
+		window.products.forEach(p => {
+			if (typeof p.id === 'number') maxId = Math.max(maxId, p.id);
+		});
+		
+		// Merge/update products
+		cmsProducts.forEach(cmsProduct => {
+			// Find existing product by name
+			const existingIndex = window.products.findIndex(p => p.name === cmsProduct.name);
+			
+			const productData = {
+				name: cmsProduct.name || '',
+				artisan: cmsProduct.artisan || '',
+				location: cmsProduct.location || '',
+				price: Number(cmsProduct.price) || 0,
+				image: cmsProduct.image || 'pot1.webp',
+				badge: cmsProduct.badge || '',
+				category: cmsProduct.category || 'pottery',
+				description: cmsProduct.description || '',
+				materials: cmsProduct.materials || '',
+				dimensions: cmsProduct.dimensions || ''
+			};
+			
+			if (existingIndex >= 0) {
+				// Update existing product (keep same ID)
+				window.products[existingIndex] = {
+					id: window.products[existingIndex].id,
+					...productData
+				};
+			} else {
+				// Add new product
+				maxId += 1;
+				window.products.push({
+					id: maxId,
+					...productData
+				});
+			}
+		});
+		
+		// Refresh display
+		if (typeof window.displayProducts === 'function') {
+			console.log('✅ CMS: Refreshing products display');
+			window.displayProducts(window.products);
+			
+			// Update product count if function exists
+			if (typeof window.updateProductCount === 'function') {
+				window.updateProductCount();
+			}
+		}
+	}
+
+	// ===== REAL-TIME ARTISANS SYNC =====
+	let artisansListener = null;
+	
+	function startArtisansSync() {
+		if (artisansListener) return; // Already listening
+		
+		console.log('🔄 CMS: Starting real-time artisans sync...');
+		
+		artisansListener = db.collection('artisans').onSnapshot((snapshot) => {
+			console.log(`👥 CMS: Artisans updated (${snapshot.docs.length} items)`);
+			
+			const cmsArtisans = [];
+			snapshot.forEach(doc => {
+				cmsArtisans.push({
+					id: doc.id,
+					...doc.data()
+				});
+			});
+			
+			// Merge into window.craftsmen array
+			mergeArtisansIntoUI(cmsArtisans);
+		}, (error) => {
+			console.error('❌ Artisans sync error:', error);
+		});
+	}
+
+	function mergeArtisansIntoUI(cmsArtisans) {
+		if (!Array.isArray(window.craftsmen)) {
+			console.warn('⚠️ window.craftsmen not found, creating array');
+			window.craftsmen = [];
+		}
+		
+		// Get max ID from existing artisans
+		let maxId = 0;
+		window.craftsmen.forEach(a => {
+			if (typeof a.id === 'number') maxId = Math.max(maxId, a.id);
+		});
+		
+		// Merge/update artisans
+		cmsArtisans.forEach(cmsArtisan => {
+			// Find existing artisan by name
+			const existingIndex = window.craftsmen.findIndex(a => a.name === cmsArtisan.name);
+			
+			const artisanData = {
+				name: cmsArtisan.name || '',
+				nameJp: cmsArtisan.nameJp || '',
+				craft: cmsArtisan.craft || '',
+				craftJp: cmsArtisan.craftJp || '',
+				location: cmsArtisan.location || '',
+				image: cmsArtisan.image || 'face1.jpg',
+				specialty: cmsArtisan.specialty || '',
+				years: Number(cmsArtisan.years) || 0,
+				story: cmsArtisan.story || '',
+				quote: cmsArtisan.quote || ''
+			};
+			
+			if (existingIndex >= 0) {
+				// Update existing artisan (keep same ID)
+				window.craftsmen[existingIndex] = {
+					id: window.craftsmen[existingIndex].id,
+					...artisanData
+				};
+			} else {
+				// Add new artisan
+				maxId += 1;
+				window.craftsmen.push({
+					id: maxId,
+					...artisanData
+				});
+			}
+		});
+		
+		// Refresh spotlight display
+		if (typeof window.displaySpotlightArtisan === 'function') {
+			console.log('✅ CMS: Refreshing artisans display');
+			window.displaySpotlightArtisan(window.currentSpotlightIndex || 0);
+		}
+	}
+
+	// ===== REAL-TIME CONTENT (TEXT) SYNC =====
+	let contentListener = null;
+	
+	function startContentSync() {
+		if (contentListener) return; // Already listening
+		
+		console.log('🔄 CMS: Starting real-time content sync...');
+		
+		contentListener = db.collection('content').onSnapshot((snapshot) => {
+			console.log(`📝 CMS: Content updated (${snapshot.docs.length} keys)`);
+			
+			snapshot.forEach(doc => {
+				const key = doc.id;
+				const data = doc.data();
+				
+				// Find all elements with this key
+				const elements = document.querySelectorAll(`[data-edit-key="${key}"]`);
+				elements.forEach(el => {
+					if (data.text && el.textContent !== data.text) {
+						el.textContent = data.text;
+						console.log(`✅ CMS: Updated text for key "${key}"`);
+					}
+				});
+			});
+		}, (error) => {
+			console.error('❌ Content sync error:', error);
+		});
+	}
+
+	// ===== Start all real-time listeners when page loads =====
 	document.addEventListener('DOMContentLoaded', () => {
+		console.log('📄 CMS: DOM loaded, starting sync...');
+		
+		// Start real-time sync for all data
+		startProductsSync();
+		startArtisansSync();
+		startContentSync();
+		
+		// Also load initial content
 		applyEditableContentFromFirestore();
 	});
 
+	// Initial content load (one-time)
 	async function applyEditableContentFromFirestore() {
 		const editableEls = document.querySelectorAll('[data-edit-key]');
+		console.log(`📝 CMS: Loading content for ${editableEls.length} editable elements`);
+		
 		for (const el of editableEls) {
 			const key = el.getAttribute('data-edit-key');
 			if (!key || cmsState.loadedContentKeys.has(key)) continue;
+			
 			try {
 				const docRef = db.collection('content').doc(key);
 				const snap = await docRef.get();
 				if (snap.exists && snap.data().text) {
 					el.textContent = snap.data().text;
+					console.log(`✅ CMS: Loaded content for "${key}"`);
 				}
 				cmsState.loadedContentKeys.add(key);
 			} catch (e) {
-				console.warn('Content load failed for', key, e);
+				console.warn(`⚠️ Content load failed for "${key}"`, e);
 			}
 		}
 	}
 
-	// ===== Toolbar UI =====
+	// ===== CMS TOOLBAR =====
 	let toolbar = null;
 
 	function showCmsToolbar() {
@@ -70,27 +280,62 @@
 			toolbar.style.display = 'flex';
 			return;
 		}
+		
+		// Create floating toolbar with marketplace styling
 		toolbar = document.createElement('div');
 		toolbar.id = 'cmsToolbar';
 		toolbar.style.cssText = `
-			position: fixed; z-index: 2147483647; right: 16px; bottom: 16px;
-			display: flex; gap: 8px; background: #111; color: #fff; padding: 10px 12px;
-			border-radius: 10px; box-shadow: 0 8px 30px rgba(0,0,0,.25); align-items: center;
-			font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+			position: fixed;
+			z-index: 2147483647;
+			right: 20px;
+			bottom: 20px;
+			display: flex;
+			gap: 0.8rem;
+			background: rgba(255, 255, 255, 0.4);
+			backdrop-filter: blur(10px);
+			-webkit-backdrop-filter: blur(10px);
+			color: #2a2a2a;
+			padding: 1rem 1.5rem;
+			border-radius: 50px;
+			box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+			border: 1px solid rgba(0, 0, 0, 0.08);
+			align-items: center;
+			font-family: 'Noto Serif JP', serif;
 		`;
+		
 		toolbar.innerHTML = `
-			<span style="opacity:.75; font-size:.9rem;">CMS</span>
-			<button id="cmsToggleEdit" style="background:#2e7d32; color:#fff; border:none; border-radius:6px; padding:6px 10px; cursor:pointer;">Edit</button>
-			<button id="cmsManageProducts" style="background:#1565c0; color:#fff; border:none; border-radius:6px; padding:6px 10px; cursor:pointer;">Products</button>
-			<button id="cmsManageArtisans" style="background:#6a1b9a; color:#fff; border:none; border-radius:6px; padding:6px 10px; cursor:pointer;">Artisans</button>
-			<button id="cmsSaveContent" style="background:#ef6c00; color:#fff; border:none; border-radius:6px; padding:6px 10px; cursor:pointer;">Save</button>
+			<span style="opacity: 0.75; font-size: 0.9rem; font-weight: 600;">🎨 CMS</span>
+			<button id="cmsToggleEdit" style="background: #f5f5f5; color: #2a2a2a; border: 1px solid rgba(0,0,0,0.1); border-radius: 25px; padding: 0.5rem 1rem; cursor: pointer; font-weight: 600; font-size: 0.85rem; transition: all 0.3s ease;">✏️ Edit</button>
+			<button id="cmsSaveContent" style="background: #000000; color: white; border: none; border-radius: 25px; padding: 0.5rem 1rem; cursor: pointer; font-weight: 600; font-size: 0.85rem; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">💾 Save</button>
+			<a href="admin.html" style="background: #f5f5f5; color: #2a2a2a; border: 1px solid rgba(0,0,0,0.1); border-radius: 25px; padding: 0.5rem 1rem; cursor: pointer; font-weight: 600; font-size: 0.85rem; transition: all 0.3s ease; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;">⚙️ Admin</a>
 		`;
+		
 		document.body.appendChild(toolbar);
+
+		// Add hover effects
+		const buttons = toolbar.querySelectorAll('button, a');
+		buttons.forEach(btn => {
+			btn.addEventListener('mouseenter', function() {
+				this.style.background = '#2a2a2a';
+				this.style.color = 'white';
+				this.style.transform = 'translateY(-2px)';
+				this.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.15)';
+			});
+			btn.addEventListener('mouseleave', function() {
+				if (this.id === 'cmsSaveContent') {
+					this.style.background = '#000000';
+					this.style.color = 'white';
+				} else {
+					this.style.background = '#f5f5f5';
+					this.style.color = '#2a2a2a';
+				}
+				this.style.transform = 'translateY(0)';
+				this.style.boxShadow = this.id === 'cmsSaveContent' ? '0 2px 8px rgba(0,0,0,0.2)' : 'none';
+			});
+		});
 
 		document.getElementById('cmsToggleEdit').addEventListener('click', toggleEditMode);
 		document.getElementById('cmsSaveContent').addEventListener('click', saveEditableContent);
-		document.getElementById('cmsManageProducts').addEventListener('click', openProductsManager);
-		document.getElementById('cmsManageArtisans').addEventListener('click', openArtisansManager);
 	}
 
 	function hideCmsToolbar() {
@@ -98,7 +343,9 @@
 		setEditMode(false);
 	}
 
+	// ===== INLINE TEXT EDITING =====
 	let editMode = false;
+	
 	function toggleEditMode() {
 		setEditMode(!editMode);
 	}
@@ -106,276 +353,106 @@
 	function setEditMode(enabled) {
 		editMode = enabled;
 		const btn = document.getElementById('cmsToggleEdit');
-		if (btn) btn.textContent = enabled ? 'Editing…' : 'Edit';
+		if (btn) {
+			btn.textContent = enabled ? '✅ Editing' : '✏️ Edit';
+			btn.style.background = enabled ? '#50C878' : '#f5f5f5';
+			btn.style.color = enabled ? 'white' : '#2a2a2a';
+		}
+		
 		document.querySelectorAll('[data-edit-key]').forEach(el => {
 			if (enabled) {
 				el.setAttribute('contenteditable', 'true');
-				el.style.outline = '2px dashed #ff9800';
-				el.style.outlineOffset = '2px';
+				el.style.outline = '2px dashed #50C878';
+				el.style.outlineOffset = '4px';
+				el.style.cursor = 'text';
 			} else {
 				el.removeAttribute('contenteditable');
 				el.style.outline = '';
 				el.style.outlineOffset = '';
+				el.style.cursor = '';
 			}
 		});
 	}
 
 	async function saveEditableContent() {
 		if (!cmsState.isEditor) {
-			alert('You do not have permission to save content.');
+			alert('❌ You do not have permission to save content.');
 			return;
 		}
+		
 		const user = firebase.auth().currentUser;
 		const batch = db.batch();
+		let saveCount = 0;
+		
 		document.querySelectorAll('[data-edit-key]').forEach(el => {
 			const key = el.getAttribute('data-edit-key');
 			if (!key) return;
+			
 			const ref = db.collection('content').doc(key);
 			batch.set(ref, {
 				text: el.textContent.trim(),
 				updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
 				updatedBy: user ? user.uid : ''
 			}, { merge: true });
+			
+			saveCount++;
 		});
+		
 		try {
 			await batch.commit();
-			alert('Content saved.');
+			console.log(`✅ CMS: Saved ${saveCount} content keys`);
+			
+			// Show success notification
+			showCMSNotification(`✅ ${saveCount} changes saved!`, 'success');
+			
+			// Turn off edit mode
+			setEditMode(false);
 		} catch (e) {
-			console.error('Save failed', e);
-			alert('Failed to save content.');
+			console.error('❌ Save failed', e);
+			showCMSNotification('❌ Failed to save content', 'error');
 		}
 	}
 
-	// ===== Products Manager (prompt-driven MVP) =====
-	async function openProductsManager() {
-		if (!cmsState.isEditor) { alert('Insufficient permissions'); return; }
-		const action = prompt('Products: type one of: list, add, edit, delete');
-		if (!action) return;
-		switch (action.toLowerCase()) {
-			case 'list': return listProducts();
-			case 'add': return addProduct();
-			case 'edit': return editProduct();
-			case 'delete': return deleteProduct();
-			default: alert('Unknown action');
-		}
+	// ===== CMS NOTIFICATION =====
+	function showCMSNotification(message, type = 'success') {
+		const notification = document.createElement('div');
+		notification.style.cssText = `
+			position: fixed;
+			top: 100px;
+			right: 20px;
+			background: ${type === 'success' ? 'linear-gradient(135deg, #50C878, #3da55f)' : 'linear-gradient(135deg, #e11d48, #c01d3f)'};
+			color: white;
+			padding: 1rem 2rem;
+			border-radius: 50px;
+			box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+			z-index: 2147483646;
+			font-family: 'Noto Serif JP', serif;
+			font-weight: 600;
+			font-size: 1rem;
+			animation: slideInBounce 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+			border: 2px solid white;
+		`;
+		notification.textContent = message;
+		
+		document.body.appendChild(notification);
+		
+		setTimeout(() => {
+			notification.style.animation = 'slideOut 0.3s ease';
+			setTimeout(() => notification.remove(), 300);
+		}, 3000);
 	}
 
-	async function listProducts() {
-		const snap = await db.collection('products').orderBy('createdAt', 'desc').get();
-		const items = [];
-		snap.forEach(d => items.push({ id: d.id, ...d.data() }));
-		alert(`Products in CMS:\n${items.map(p => `- ${p.name} (${p.category || ''})`).join('\n') || 'None'}`);
-	}
-
-	async function addProduct() {
-		const name = prompt('Product name?'); if (!name) return;
-		const artisan = prompt('Artisan name?') || '';
-		const location = prompt('Location?') || '';
-		const priceStr = prompt('Price (number)?') || '0';
-		const category = prompt('Category (pottery, kimono, etc)?') || 'pottery';
-		const badge = prompt('Badge (New, Masterpiece, etc)?') || '';
-		const description = prompt('Short description?') || '';
-		const materials = prompt('Materials?') || '';
-		const dimensions = prompt('Dimensions?') || '';
-		let imageUrl = prompt('Image URL (leave blank to upload)') || '';
-		if (!imageUrl && storage) {
-			alert('Select an image file in the next dialog.');
-			try {
-				const [fileHandle] = await window.showOpenFilePicker({ types: [{ description: 'Images', accept: { 'image/*': ['.png', '.jpg', '.jpeg', '.webp', '.avif'] } }] });
-				const file = await fileHandle.getFile();
-				const ref = storage.ref().child(`uploads/products/${Date.now()}_${file.name}`);
-				await ref.put(file);
-				imageUrl = await ref.getDownloadURL();
-			} catch (e) {
-				console.warn('File upload skipped/failed', e);
-			}
-		}
-		await db.collection('products').add({
-			name, artisan, location,
-			price: Number(priceStr) || 0,
-			category, badge, description, materials, dimensions,
-			image: imageUrl || 'pot1.webp',
-			createdAt: firebase.firestore.FieldValue.serverTimestamp()
-		});
-		await mergeFirestoreProductsIntoUI();
-		alert('Product added.');
-	}
-
-	async function editProduct() {
-		const name = prompt('Enter existing product name to edit'); if (!name) return;
-		const q = await db.collection('products').where('name', '==', name).limit(1).get();
-		if (q.empty) { alert('Not found'); return; }
-		const doc = q.docs[0];
-		const data = doc.data();
-		const newPrice = prompt(`New price (current ${data.price})`, String(data.price));
-		const newBadge = prompt(`New badge (current ${data.badge||''})`, data.badge||'');
-		await doc.ref.update({ price: Number(newPrice)||0, badge: newBadge });
-		await mergeFirestoreProductsIntoUI(true);
-		alert('Product updated.');
-	}
-
-	async function deleteProduct() {
-		const name = prompt('Enter product name to delete'); if (!name) return;
-		const q = await db.collection('products').where('name', '==', name).limit(1).get();
-		if (q.empty) { alert('Not found'); return; }
-		await q.docs[0].ref.delete();
-		await mergeFirestoreProductsIntoUI(true);
-		alert('Product deleted.');
-	}
-
-	// ===== Artisans Manager (prompt-driven MVP) =====
-	async function openArtisansManager() {
-		if (!cmsState.isEditor) { alert('Insufficient permissions'); return; }
-		const action = prompt('Artisans: type one of: list, add, edit, delete');
-		if (!action) return;
-		switch (action.toLowerCase()) {
-			case 'list': return listArtisans();
-			case 'add': return addArtisan();
-			case 'edit': return editArtisan();
-			case 'delete': return deleteArtisan();
-			default: alert('Unknown action');
-		}
-	}
-
-	async function listArtisans() {
-		const snap = await db.collection('artisans').orderBy('createdAt', 'desc').get();
-		const items = [];
-		snap.forEach(d => items.push({ id: d.id, ...d.data() }));
-		alert(`Artisans in CMS:\n${items.map(a => `- ${a.name} (${a.craft || ''})`).join('\n') || 'None'}`);
-	}
-
-	async function addArtisan() {
-		const name = prompt('Artisan name?'); if (!name) return;
-		const nameJp = prompt('Name (Japanese)?') || '';
-		const craft = prompt('Craft?') || '';
-		const craftJp = prompt('Craft (JP)?') || '';
-		const location = prompt('Location?') || '';
-		const yearsStr = prompt('Years of experience?') || '0';
-		const specialty = prompt('Specialty?') || '';
-		const story = prompt('Short story?') || '';
-		const quote = prompt('Quote?') || '';
-		let image = prompt('Image URL (leave blank to upload)') || '';
-		if (!image && storage) {
-			alert('Select an image file in the next dialog.');
-			try {
-				const [fileHandle] = await window.showOpenFilePicker({ types: [{ description: 'Images', accept: { 'image/*': ['.png', '.jpg', '.jpeg', '.webp', '.avif'] } }] });
-				const file = await fileHandle.getFile();
-				const ref = storage.ref().child(`uploads/artisans/${Date.now()}_${file.name}`);
-				await ref.put(file);
-				image = await ref.getDownloadURL();
-			} catch (e) {
-				console.warn('File upload skipped/failed', e);
-			}
-		}
-		await db.collection('artisans').add({
-			name, nameJp, craft, craftJp, location, years: Number(yearsStr)||0,
-			specialty, story, quote, image,
-			createdAt: firebase.firestore.FieldValue.serverTimestamp()
-		});
-		await mergeFirestoreArtisansIntoUI();
-		alert('Artisan added.');
-	}
-
-	async function editArtisan() {
-		const name = prompt('Enter existing artisan name to edit'); if (!name) return;
-		const q = await db.collection('artisans').where('name', '==', name).limit(1).get();
-		if (q.empty) { alert('Not found'); return; }
-		const doc = q.docs[0];
-		const data = doc.data();
-		const newLocation = prompt(`New location (current ${data.location||''})`, data.location||'');
-		await doc.ref.update({ location: newLocation });
-		await mergeFirestoreArtisansIntoUI(true);
-		alert('Artisan updated.');
-	}
-
-	async function deleteArtisan() {
-		const name = prompt('Enter artisan name to delete'); if (!name) return;
-		const q = await db.collection('artisans').where('name', '==', name).limit(1).get();
-		if (q.empty) { alert('Not found'); return; }
-		await q.docs[0].ref.delete();
-		await mergeFirestoreArtisansIntoUI(true);
-		alert('Artisan deleted.');
-	}
-
-	// ===== Merge CMS data into existing UI =====
-	async function mergeFirestoreProductsIntoUI(forceRefresh) {
-		try {
-			const snap = await db.collection('products').get();
-			const cmsProducts = [];
-			snap.forEach(d => cmsProducts.push(d.data()));
-			if (Array.isArray(window.products)) {
-				const existingIds = new Set(window.products.map(p => p.id));
-				let maxId = 0;
-				window.products.forEach(p => { if (typeof p.id === 'number') maxId = Math.max(maxId, p.id); });
-				cmsProducts.forEach(p => {
-					if (!window.products.some(x => x.name === p.name)) {
-						maxId += 1;
-						window.products.push({
-							id: maxId,
-							name: p.name,
-							artisan: p.artisan || '',
-							location: p.location || '',
-							price: Number(p.price) || 0,
-							image: p.image || 'pot1.webp',
-							badge: p.badge || '',
-							category: p.category || 'pottery',
-							description: p.description || '',
-							materials: p.materials || '',
-							dimensions: p.dimensions || ''
-						});
-					}
-				});
-				if (typeof window.displayProducts === 'function') {
-					window.displayProducts(window.products);
-				}
-			}
-		} catch (e) {
-			console.error('Failed merging products', e);
-		}
-	}
-
-	async function mergeFirestoreArtisansIntoUI(forceRefresh) {
-		try {
-			const snap = await db.collection('artisans').get();
-			const cmsArtisans = [];
-			snap.forEach(d => cmsArtisans.push(d.data()));
-			if (Array.isArray(window.craftsmen)) {
-				let maxId = 0;
-				window.craftsmen.forEach(a => { if (typeof a.id === 'number') maxId = Math.max(maxId, a.id); });
-				cmsArtisans.forEach(a => {
-					if (!window.craftsmen.some(x => x.name === a.name)) {
-						maxId += 1;
-						window.craftsmen.push({
-							id: maxId,
-							name: a.name,
-							nameJp: a.nameJp || '',
-							craft: a.craft || '',
-							craftJp: a.craftJp || '',
-							location: a.location || '',
-							image: a.image || 'face1.jpg',
-							specialty: a.specialty || '',
-							years: Number(a.years) || 0,
-							story: a.story || '',
-							quote: a.quote || ''
-						});
-					}
-				});
-				// Refresh spotlight
-				if (typeof window.displaySpotlightArtisan === 'function') {
-					window.displaySpotlightArtisan(0);
-				}
-			}
-		} catch (e) {
-			console.error('Failed merging artisans', e);
-		}
-	}
-
-	// Merge on window load to ensure UI functions exist
+	// ===== Start everything when window loads =====
 	window.addEventListener('load', () => {
-		mergeFirestoreProductsIntoUI();
-		mergeFirestoreArtisansIntoUI();
+		console.log('🚀 CMS: Window loaded, ensuring sync is active');
+		
+		// Make sure listeners are started
+		startProductsSync();
+		startArtisansSync();
+		startContentSync();
 	});
 
+	// ===== ADMIN LINK IN TOOLBAR =====
+	// Already included in toolbar HTML above
+
 })();
-
-
