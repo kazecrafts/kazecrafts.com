@@ -1,15 +1,17 @@
-/* ===== ADMIN PANEL - MARKETPLACE STYLING ===== */
-/* EXACT match to marketplace section design */
+/* ===== ADMIN PANEL - EXACT MARKETPLACE STYLING ===== */
+/* IDENTICAL to marketplace section from styles.css */
 
 :root {
-	/* Colors from main site */
+	/* EXACT colors from marketplace */
 	--tiffany-blue: #50C878;
-	--tiffany-blue-dark: #3da55f;
 	--tiffany-blue-light: #7DD896;
-	--warm-brown: #D4AF37;
+	--tiffany-blue-dark: #3da55f;
 	--sky-blue: #4A90E2;
+	--warm-brown: #D4AF37;
 	--charcoal: #2a2a2a;
 	--white: #ffffff;
+	--cream: #f8f8f8;
+	--shadow-tiffany: rgba(80, 200, 120, 0.3);
 }
 
 * {
@@ -18,27 +20,20 @@
 	padding: 0;
 }
 
-html, body {
-	margin: 0;
-	padding: 0;
-	background: #ffffff;
-	color: var(--charcoal);
-	font-family: 'Noto Serif JP', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-	overflow-x: hidden;
-	min-height: 100vh;
-}
-
-/* Hide any main website navigation elements */
+/* ===== HIDE MAIN WEBSITE ELEMENTS ===== */
 #mainNav,
 .mobile-menu,
 .hero-minimal,
 nav:not(.admin-nav-premium),
-.loader {
+.loader,
+footer {
 	display: none !important;
 }
 
-/* ===== ANIMATED GRADIENT BACKGROUND - EXACT FROM MARKETPLACE ===== */
-body {
+/* ===== EXACT MARKETPLACE GRADIENT BACKGROUND ===== */
+html, body {
+	margin: 0;
+	padding: 0;
 	background: linear-gradient(
 		135deg,
 		#4A90E2 0%,
@@ -49,6 +44,10 @@ body {
 	);
 	background-size: 400% 400%;
 	animation: gradientMove 20s ease infinite;
+	font-family: 'Noto Serif JP', serif;
+	color: var(--charcoal);
+	overflow-x: hidden;
+	min-height: 100vh;
 }
 
 @keyframes gradientMove {
@@ -60,7 +59,7 @@ body {
 	}
 }
 
-/* Remove old gradient-bg and paper-texture - using body gradient instead */
+/* Hide the gradient-bg and paper-texture divs - using body gradient */
 .gradient-bg,
 .paper-texture {
 	display: none !important;
@@ -72,18 +71,16 @@ body {
 	position: relative;
 }
 
-/* ===== PREMIUM HEADER - WHITE ON GRADIENT ===== */
+/* ===== HEADER - WHITE FROSTED GLASS ===== */
 .admin-header-premium {
 	position: sticky;
 	top: 0;
 	z-index: 1000;
-	background: rgba(255, 255, 255, 0.95);
+	background: rgba(255, 255, 255, 0.98);
 	backdrop-filter: blur(30px);
 	-webkit-backdrop-filter: blur(30px);
-	border-bottom: none;
-	box-shadow: 
-		0 10px 40px rgba(0, 0, 0, 0.1),
-		inset 0 -1px 0 rgba(80, 200, 120, 0.2);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 .admin-header-content {
@@ -108,7 +105,7 @@ body {
 }
 
 .admin-logo {
-	height: 55px;
+	height: 50px;
 	width: auto;
 }
 
@@ -120,15 +117,14 @@ body {
 
 .admin-brand-title {
 	font-family: 'Noto Serif JP', serif;
-	font-size: 1.4rem;
+	font-size: 1.3rem;
 	font-weight: 700;
 	color: var(--charcoal);
-	letter-spacing: 0.05em;
 }
 
 .admin-brand-subtitle {
 	font-family: 'Cinzel', serif;
-	font-size: 0.75rem;
+	font-size: 0.7rem;
 	color: #666;
 	letter-spacing: 0.15em;
 	text-transform: uppercase;
@@ -170,6 +166,7 @@ body {
 }
 
 .admin-user-name {
+	font-family: 'Cinzel', serif;
 	font-size: 0.95rem;
 	font-weight: 600;
 	color: var(--charcoal);
@@ -185,10 +182,10 @@ body {
 	display: flex;
 	align-items: center;
 	gap: 0.5rem;
-	padding: 0.6rem 1.25rem;
-	background: white;
+	padding: 0.7rem 1.5rem;
+	background: #f5f5f5;
 	border: 1px solid rgba(0, 0, 0, 0.1);
-	border-radius: 25px;
+	border-radius: 50px;
 	color: var(--charcoal);
 	font-size: 0.85rem;
 	font-weight: 600;
@@ -210,7 +207,7 @@ body {
 	font-family: 'Noto Serif JP', serif;
 }
 
-/* ===== NAVIGATION TABS - FILTER CHIP STYLE ===== */
+/* ===== NAVIGATION - EXACT FILTER CHIP STYLE ===== */
 .admin-nav-premium {
 	background: transparent;
 	border-bottom: none;
@@ -218,8 +215,6 @@ body {
 	position: sticky;
 	top: 85px;
 	z-index: 999;
-	backdrop-filter: blur(10px);
-	-webkit-backdrop-filter: blur(10px);
 }
 
 .admin-nav-content {
@@ -231,27 +226,26 @@ body {
 	flex-wrap: wrap;
 }
 
+/* EXACT filter chip styling from marketplace */
 .admin-tab-btn {
 	display: flex;
 	align-items: center;
 	gap: 0.5rem;
-	padding: 0.7rem 1.5rem;
-	background: rgba(255, 255, 255, 0.9);
+	padding: 0.6rem 1.5rem;
+	background: #f5f5f5;
 	border: 1px solid rgba(0, 0, 0, 0.1);
-	border-radius: 50px;
-	color: var(--charcoal);
+	color: #2a2a2a;
 	font-size: 0.85rem;
-	font-weight: 600;
 	cursor: pointer;
 	transition: all 0.3s ease;
+	border-radius: 50px;
+	font-weight: 600;
 	letter-spacing: 0.03em;
-	backdrop-filter: blur(10px);
-	-webkit-backdrop-filter: blur(10px);
 }
 
 .admin-tab-btn:hover {
 	background: #2a2a2a;
-	color: white;
+	color: #ffffff;
 	border-color: #2a2a2a;
 	transform: translateY(-2px);
 	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -259,14 +253,9 @@ body {
 
 .admin-tab-btn.active {
 	background: #000000;
-	color: white;
+	color: #ffffff;
 	border-color: #000000;
-	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
-	transform: translateY(-2px);
-}
-
-.admin-tab-btn.active::after {
-	display: none;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .admin-tab-btn i {
@@ -314,38 +303,19 @@ body {
 	}
 }
 
-/* ===== PAGE HEADER - BIG & BOLD ===== */
+/* ===== PAGE HEADER - BIG CENTERED TITLES ===== */
 .admin-page-header {
 	text-align: center;
 	margin-bottom: 3rem;
 	padding: 3rem 2rem;
-	background: rgba(255, 255, 255, 0.95);
-	border-radius: 20px;
-	backdrop-filter: blur(20px);
-	-webkit-backdrop-filter: blur(20px);
-	box-shadow: 0 15px 60px rgba(0, 0, 0, 0.1);
+	background: rgba(255, 255, 255, 0.4);
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
+	border-radius: 16px;
+	box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+	border: 1px solid rgba(0, 0, 0, 0.08);
 	position: relative;
 	overflow: hidden;
-}
-
-.admin-page-header::before {
-	content: '';
-	position: absolute;
-	top: 0;
-	left: -100%;
-	width: 200%;
-	height: 100%;
-	background: linear-gradient(90deg, 
-		transparent,
-		rgba(255, 255, 255, 0.4),
-		transparent
-	);
-	animation: shimmer 4s infinite;
-}
-
-@keyframes shimmer {
-	0% { left: -100%; }
-	100% { left: 100%; }
 }
 
 .page-header-main {
@@ -361,7 +331,7 @@ body {
 	font-family: 'Noto Serif JP', serif;
 	font-size: clamp(2.5rem, 5vw, 4rem);
 	font-weight: 700;
-	color: var(--charcoal);
+	color: #000000;
 	letter-spacing: 0.05em;
 	margin: 0;
 }
@@ -382,6 +352,7 @@ body {
 	line-height: 1.8;
 	margin-top: 1rem;
 	max-width: 600px;
+	font-family: 'Noto Serif JP', serif;
 }
 
 .description-en {
@@ -390,22 +361,21 @@ body {
 	opacity: 0.8;
 }
 
-/* ===== BUTTONS - FILTER CHIP STYLE ===== */
+/* ===== BUTTONS - EXACT FILTER CHIP STYLE ===== */
 .admin-btn-premium {
 	display: inline-flex;
 	align-items: center;
 	gap: 0.5rem;
-	padding: 0.75rem 1.5rem;
-	background: rgba(255, 255, 255, 0.95);
+	padding: 0.6rem 1.5rem;
+	background: #f5f5f5;
 	border: 1px solid rgba(0, 0, 0, 0.1);
-	border-radius: 50px;
+	color: #2a2a2a;
 	font-size: 0.85rem;
 	font-weight: 600;
 	cursor: pointer;
 	transition: all 0.3s ease;
+	border-radius: 50px;
 	letter-spacing: 0.03em;
-	backdrop-filter: blur(10px);
-	-webkit-backdrop-filter: blur(10px);
 	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 	position: relative;
 	z-index: 1;
@@ -427,19 +397,19 @@ body {
 }
 
 .admin-btn-premium.primary:hover {
-	background: var(--tiffany-blue);
-	border-color: var(--tiffany-blue);
-	box-shadow: 0 6px 25px rgba(80, 200, 120, 0.4);
+	background: #2a2a2a;
+	border-color: #2a2a2a;
+	box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
 }
 
 .admin-btn-premium.secondary {
-	background: rgba(255, 255, 255, 0.9);
+	background: #f5f5f5;
 	border-color: rgba(0, 0, 0, 0.1);
 	color: var(--charcoal);
 }
 
 .admin-btn-premium.danger {
-	background: rgba(255, 255, 255, 0.9);
+	background: #f5f5f5;
 	border-color: rgba(225, 29, 72, 0.3);
 	color: #e11d48;
 }
@@ -466,7 +436,7 @@ body {
 	opacity: 0.7;
 }
 
-/* ===== STATS GRID ===== */
+/* ===== STATS GRID - WHITE CARDS ===== */
 .admin-stats-grid {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -475,17 +445,17 @@ body {
 }
 
 .admin-stat-card {
-	background: rgba(255, 255, 255, 0.95);
+	background: rgba(255, 255, 255, 0.4);
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
 	border: 1px solid rgba(0, 0, 0, 0.08);
-	border-radius: 20px;
+	border-radius: 16px;
 	padding: 2.5rem;
 	display: flex;
 	align-items: center;
 	gap: 1.5rem;
-	box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+	box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
 	transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-	backdrop-filter: blur(20px);
-	-webkit-backdrop-filter: blur(20px);
 	position: relative;
 	overflow: hidden;
 }
@@ -495,41 +465,37 @@ body {
 	position: absolute;
 	top: 0;
 	left: 0;
-	width: 100%;
-	height: 100%;
-	background: radial-gradient(circle at top right, 
-		rgba(80, 200, 120, 0.15) 0%, 
-		transparent 70%
-	);
-	opacity: 0;
-	transition: opacity 0.4s ease;
+	right: 0;
+	height: 3px;
+	background: linear-gradient(90deg, var(--tiffany-blue), var(--warm-brown));
+	transform: scaleX(0);
+	transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+	z-index: 10;
+	box-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
 }
 
 .admin-stat-card:hover::before {
-	opacity: 1;
+	transform: scaleX(1);
 }
 
 .admin-stat-card:hover {
-	transform: translateY(-10px) scale(1.03);
-	box-shadow: 
-		0 20px 60px rgba(0, 0, 0, 0.15),
-		0 0 0 1px rgba(80, 200, 120, 0.3);
+	transform: translateY(-12px) scale(1.03);
+	box-shadow: 0 30px 60px rgba(0, 0, 0, 0.22);
+	border-color: rgba(212, 175, 55, 0.3);
 }
 
 .stat-icon {
 	width: 75px;
 	height: 75px;
-	border-radius: 18px;
-	background: linear-gradient(135deg, 
-		var(--tiffany-blue) 0%, 
-		var(--sky-blue) 100%
-	);
+	border-radius: 50%;
+	background: #f5f5f5;
+	border: 1px solid rgba(0, 0, 0, 0.08);
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	color: white;
+	color: var(--tiffany-blue);
 	font-size: 2.2rem;
-	box-shadow: 0 8px 25px rgba(80, 200, 120, 0.4);
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
 	position: relative;
 	z-index: 1;
 }
@@ -563,15 +529,15 @@ body {
 	letter-spacing: 0.1em;
 }
 
-/* ===== QUICK ACTIONS ===== */
+/* ===== QUICK ACTIONS - WHITE CARD ===== */
 .admin-quick-actions {
-	background: rgba(255, 255, 255, 0.95);
+	background: rgba(255, 255, 255, 0.4);
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
 	border: 1px solid rgba(0, 0, 0, 0.08);
-	border-radius: 20px;
+	border-radius: 16px;
 	padding: 3rem;
-	box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-	backdrop-filter: blur(20px);
-	-webkit-backdrop-filter: blur(20px);
+	box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
 	margin-bottom: 3rem;
 }
 
@@ -683,16 +649,16 @@ body {
 	gap: 2rem;
 }
 
-/* ===== PANELS - WHITE CARDS ON GRADIENT ===== */
+/* ===== PANELS - EXACT BENTO MAP STYLING ===== */
 .admin-list-panel,
 .admin-form-panel,
 .admin-preview-panel {
-	background: rgba(255, 255, 255, 0.95);
+	background: rgba(255, 255, 255, 0.4);
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
 	border: 1px solid rgba(0, 0, 0, 0.08);
-	border-radius: 20px;
-	box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-	backdrop-filter: blur(20px);
-	-webkit-backdrop-filter: blur(20px);
+	border-radius: 16px;
+	box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
 	display: flex;
 	flex-direction: column;
 	max-height: 80vh;
@@ -707,9 +673,10 @@ body {
 .panel-header {
 	padding: 2rem;
 	border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-	background: rgba(250, 248, 243, 0.5);
-	border-radius: 20px 20px 0 0;
+	background: rgba(255, 255, 255, 0.5);
+	backdrop-filter: blur(5px);
 	text-align: center;
+	flex-shrink: 0;
 }
 
 .panel-title-jp {
@@ -729,7 +696,7 @@ body {
 	margin: 0;
 }
 
-/* ===== SEARCH - MARKETPLACE STYLE ===== */
+/* ===== SEARCH - FILTER CHIP STYLE ===== */
 .admin-search {
 	width: calc(100% - 2rem);
 	padding: 0.875rem 1.25rem;
@@ -742,6 +709,7 @@ body {
 	font-family: 'Noto Serif JP', serif;
 	transition: all 0.3s ease;
 	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+	flex-shrink: 0;
 }
 
 .admin-search:focus {
@@ -786,6 +754,26 @@ body {
 	border-color: var(--tiffany-blue);
 	box-shadow: 0 6px 20px rgba(80, 200, 120, 0.2);
 	background: white;
+}
+
+.list-item.selected {
+	background: rgba(80, 200, 120, 0.1);
+	border-color: var(--tiffany-blue);
+	box-shadow: 0 4px 15px rgba(80, 200, 120, 0.25);
+}
+
+.list-item-name {
+	flex: 1;
+	font-family: 'Cinzel', serif;
+	font-weight: 600;
+	color: var(--charcoal);
+	font-size: 0.95rem;
+}
+
+.list-item-meta {
+	font-family: 'Noto Serif JP', serif;
+	font-size: 0.8rem;
+	color: #666;
 }
 
 /* ===== FORM ===== */
@@ -919,12 +907,13 @@ body {
 	gap: 1rem;
 	padding: 2rem;
 	border-top: 1px solid rgba(0, 0, 0, 0.06);
-	background: rgba(250, 248, 243, 0.5);
-	border-radius: 0 0 20px 20px;
+	background: rgba(255, 255, 255, 0.5);
+	backdrop-filter: blur(5px);
 	margin: 0 -2rem -2rem;
+	flex-shrink: 0;
 }
 
-/* ===== PREVIEW PANEL ===== */
+/* ===== PREVIEW PANEL - DO NOT TOUCH! ===== */
 .admin-preview-panel {
 	background: rgba(255, 255, 255, 0.98);
 }
@@ -971,7 +960,7 @@ body {
 	color: #999;
 }
 
-/* Make preview look EXACTLY like website - NO style overrides */
+/* Make preview look EXACTLY like website - NO overrides */
 .admin-preview-container .product-card {
 	pointer-events: none;
 	user-select: none;
@@ -993,7 +982,7 @@ body {
 	animation: none !important;
 }
 
-/* ===== LOGIN SCREEN - MARKETPLACE STYLE ===== */
+/* ===== LOGIN SCREEN - EXACT MARKETPLACE STYLE ===== */
 .admin-login-screen {
 	min-height: 100vh;
 	display: flex;
@@ -1007,13 +996,13 @@ body {
 .login-container {
 	max-width: 550px;
 	width: 100%;
-	background: rgba(255, 255, 255, 0.98);
+	background: rgba(255, 255, 255, 0.4);
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
 	border: 1px solid rgba(0, 0, 0, 0.08);
-	border-radius: 24px;
+	border-radius: 16px;
 	padding: 4rem 3rem;
-	box-shadow: 0 25px 80px rgba(0, 0, 0, 0.15);
-	backdrop-filter: blur(30px);
-	-webkit-backdrop-filter: blur(30px);
+	box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
 }
 
 .login-header {
@@ -1030,7 +1019,7 @@ body {
 	font-family: 'Noto Serif JP', serif;
 	font-size: 2.5rem;
 	font-weight: 700;
-	color: var(--charcoal);
+	color: #000000;
 	margin: 0 0 0.5rem 0;
 }
 
@@ -1110,6 +1099,7 @@ body {
 	margin-bottom: 1rem;
 }
 
+/* EXACT marketplace button style */
 .login-btn-primary {
 	width: 100%;
 	display: flex;
@@ -1125,14 +1115,14 @@ body {
 	font-weight: 600;
 	cursor: pointer;
 	transition: all 0.3s ease;
-	box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 	font-family: 'Noto Serif JP', serif;
 }
 
 .login-btn-primary:hover {
-	background: var(--tiffany-blue);
+	background: #2a2a2a;
 	transform: translateY(-3px);
-	box-shadow: 0 10px 35px rgba(80, 200, 120, 0.4);
+	box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
 }
 
 .login-divider {
@@ -1169,7 +1159,7 @@ body {
 	justify-content: center;
 	gap: 0.75rem;
 	padding: 1.1rem;
-	background: white;
+	background: #f5f5f5;
 	border: 1px solid rgba(0, 0, 0, 0.1);
 	border-radius: 50px;
 	color: var(--charcoal);
@@ -1233,17 +1223,17 @@ body {
 
 .denied-content {
 	max-width: 700px;
-	background: rgba(255, 255, 255, 0.98);
+	background: rgba(255, 255, 255, 0.4);
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
 	border: 1px solid rgba(0, 0, 0, 0.08);
-	border-radius: 24px;
+	border-radius: 16px;
 	padding: 4rem 3rem;
-	box-shadow: 0 25px 80px rgba(0, 0, 0, 0.15);
+	box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
 	text-align: center;
-	backdrop-filter: blur(30px);
-	-webkit-backdrop-filter: blur(30px);
 }
 
-/* ===== SCROLLBAR STYLING ===== */
+/* ===== SCROLLBAR STYLING - EXACT FROM MARKETPLACE ===== */
 .admin-list::-webkit-scrollbar,
 .admin-form::-webkit-scrollbar,
 .admin-preview-container::-webkit-scrollbar {
@@ -1254,23 +1244,21 @@ body {
 .admin-list::-webkit-scrollbar-track,
 .admin-form::-webkit-scrollbar-track,
 .admin-preview-container::-webkit-scrollbar-track {
-	background: rgba(0, 0, 0, 0.03);
+	background: rgba(0, 0, 0, 0.05);
 	border-radius: 10px;
 }
 
 .admin-list::-webkit-scrollbar-thumb,
 .admin-form::-webkit-scrollbar-thumb,
 .admin-preview-container::-webkit-scrollbar-thumb {
-	background: linear-gradient(180deg, var(--tiffany-blue), var(--tiffany-blue-light));
+	background: #2a2a2a;
 	border-radius: 10px;
-	border: 2px solid rgba(255, 255, 255, 0.5);
 }
 
 .admin-list::-webkit-scrollbar-thumb:hover,
 .admin-form::-webkit-scrollbar-thumb:hover,
 .admin-preview-container::-webkit-scrollbar-thumb:hover {
-	background: linear-gradient(180deg, var(--tiffany-blue-dark), var(--tiffany-blue));
-	box-shadow: 0 0 8px rgba(80, 200, 120, 0.6);
+	background: #000000;
 }
 
 /* ===== RESPONSIVE ===== */
@@ -1351,7 +1339,7 @@ body {
 	}
 }
 
-/* ===== ANIMATIONS ===== */
+/* ===== ANIMATIONS - EXACT FROM MARKETPLACE ===== */
 @keyframes fadeIn {
 	from {
 		opacity: 0;
