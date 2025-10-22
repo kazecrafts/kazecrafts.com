@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
-	<title>Kaze Crafts Admin</title>
-	<link rel="stylesheet" href="admin.css?v=1">
-	<link rel="stylesheet" href="styles.css">
-
+	<title>風 Kaze Crafts 管理パネル | Admin Panel</title>
+	
+	<!-- Google Fonts - Same as main site -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Noto+Serif+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+	
 	<!-- Firebase SDKs -->
 	<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
@@ -16,187 +18,633 @@
 
 	<!-- Icons -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+	
+	<!-- Styles -->
+	<link rel="stylesheet" href="admin.css?v=2">
 </head>
 <body>
+	<!-- Background Elements (same as main site) -->
+	<div class="gradient-bg"></div>
+	<div class="paper-texture"></div>
+
+	<!-- Main Admin App -->
 	<div id="adminApp" class="admin-app" style="display: none;">
-		<header class="admin-header">
-			<div class="brand">Kaze Crafts Admin</div>
-			<div class="spacer"></div>
-			<div class="user-info">
-				<span id="adminUserEmail"></span>
-				<button id="adminLogoutBtn" class="btn btn-text"><i class="fas fa-sign-out-alt"></i> Logout</button>
+		<!-- Premium Header -->
+		<header class="admin-header-premium">
+			<div class="admin-header-content">
+				<div class="admin-brand">
+					<img src="kazeblank.png" alt="Kaze Crafts" class="admin-logo">
+					<div class="admin-brand-text">
+						<div class="admin-brand-title">管理パネル</div>
+						<div class="admin-brand-subtitle">Admin Panel</div>
+					</div>
+				</div>
+				
+				<div class="admin-header-spacer"></div>
+				
+				<div class="admin-user-section">
+					<div class="admin-user-info">
+						<div class="admin-user-avatar">
+							<i class="fas fa-user-circle"></i>
+						</div>
+						<div class="admin-user-details">
+							<div class="admin-user-name" id="adminUserEmail"></div>
+							<div class="admin-user-role" id="adminUserRole"></div>
+						</div>
+					</div>
+					<button id="adminLogoutBtn" class="admin-logout-btn">
+						<i class="fas fa-sign-out-alt"></i>
+						<span class="logout-text">ログアウト</span>
+						<span class="logout-text-en">Logout</span>
+					</button>
+				</div>
 			</div>
 		</header>
 
-		<nav class="admin-nav">
-			<button class="tab-btn active" data-tab="dashboard"><i class="fas fa-gauge"></i> Dashboard</button>
-			<button class="tab-btn" data-tab="products"><i class="fas fa-box"></i> Products</button>
-			<button class="tab-btn" data-tab="artisans"><i class="fas fa-user"></i> Artisans</button>
-			<button class="tab-btn" data-tab="content"><i class="fas fa-pen"></i> Content</button>
+		<!-- Elegant Navigation -->
+		<nav class="admin-nav-premium">
+			<div class="admin-nav-content">
+				<button class="admin-tab-btn active" data-tab="dashboard">
+					<i class="fas fa-gauge"></i>
+					<span class="tab-label-jp">ダッシュボード</span>
+					<span class="tab-label-en">Dashboard</span>
+				</button>
+				<button class="admin-tab-btn" data-tab="products">
+					<i class="fas fa-box"></i>
+					<span class="tab-label-jp">商品</span>
+					<span class="tab-label-en">Products</span>
+				</button>
+				<button class="admin-tab-btn" data-tab="artisans">
+					<i class="fas fa-users"></i>
+					<span class="tab-label-jp">職人</span>
+					<span class="tab-label-en">Artisans</span>
+				</button>
+				<button class="admin-tab-btn" data-tab="content">
+					<i class="fas fa-pen-to-square"></i>
+					<span class="tab-label-jp">コンテンツ</span>
+					<span class="tab-label-en">Content</span>
+				</button>
+			</div>
 		</nav>
 
-		<main class="admin-main">
-			<section id="tab-dashboard" class="tab active">
-				<h2>Welcome</h2>
-				<p>Use the tabs above to manage products, artisans, and site content.</p>
-				<div class="cards">
-					<div class="card"><div class="card-title">Products</div><div class="card-value" id="statProducts">—</div></div>
-					<div class="card"><div class="card-title">Artisans</div><div class="card-value" id="statArtisans">—</div></div>
-					<div class="card"><div class="card-title">Content Keys</div><div class="card-value" id="statContent">—</div></div>
+		<!-- Main Content Area -->
+		<main class="admin-main-premium">
+			
+			<!-- Dashboard Tab -->
+			<section id="tab-dashboard" class="admin-tab active">
+				<div class="admin-page-header">
+					<h1 class="admin-page-title-jp">ようこそ</h1>
+					<h2 class="admin-page-title-en">Welcome</h2>
+					<p class="admin-page-description">
+						このパネルで商品、職人、コンテンツを管理できます<br>
+						<span class="description-en">Manage products, artisans, and content from this panel</span>
+					</p>
+				</div>
+
+				<div class="admin-stats-grid">
+					<div class="admin-stat-card">
+						<div class="stat-icon">
+							<i class="fas fa-box"></i>
+						</div>
+						<div class="stat-content">
+							<div class="stat-value" id="statProducts">—</div>
+							<div class="stat-label-jp">商品</div>
+							<div class="stat-label-en">Products</div>
+						</div>
+					</div>
+					
+					<div class="admin-stat-card">
+						<div class="stat-icon">
+							<i class="fas fa-users"></i>
+						</div>
+						<div class="stat-content">
+							<div class="stat-value" id="statArtisans">—</div>
+							<div class="stat-label-jp">職人</div>
+							<div class="stat-label-en">Artisans</div>
+						</div>
+					</div>
+					
+					<div class="admin-stat-card">
+						<div class="stat-icon">
+							<i class="fas fa-file-lines"></i>
+						</div>
+						<div class="stat-content">
+							<div class="stat-value" id="statContent">—</div>
+							<div class="stat-label-jp">コンテンツキー</div>
+							<div class="stat-label-en">Content Keys</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="admin-quick-actions">
+					<h3 class="quick-actions-title">
+						<span class="title-jp">クイックアクション</span>
+						<span class="title-en">Quick Actions</span>
+					</h3>
+					<div class="quick-actions-grid">
+						<button class="quick-action-btn" onclick="switchToTab('products'); document.getElementById('btnNewProduct').click()">
+							<i class="fas fa-plus"></i>
+							<span class="action-text-jp">新しい商品を追加</span>
+							<span class="action-text-en">Add New Product</span>
+						</button>
+						<button class="quick-action-btn" onclick="switchToTab('artisans'); document.getElementById('btnNewArtisan').click()">
+							<i class="fas fa-user-plus"></i>
+							<span class="action-text-jp">新しい職人を追加</span>
+							<span class="action-text-en">Add New Artisan</span>
+						</button>
+						<button class="quick-action-btn" onclick="window.open('index.html', '_blank')">
+							<i class="fas fa-eye"></i>
+							<span class="action-text-jp">サイトを表示</span>
+							<span class="action-text-en">View Site</span>
+						</button>
+					</div>
 				</div>
 			</section>
 
-			<section id="tab-products" class="tab">
-				<div class="toolbar">
-					<h2>Products</h2>
-					<div class="spacer"></div>
-					<button class="btn" id="btnNewProduct"><i class="fas fa-plus"></i> New Product</button>
-				</div>
-				<div class="grid">
-					<div class="list-panel">
-						<input type="search" id="productSearch" placeholder="Search products…">
-						<div id="productsList" class="list"></div>
+			<!-- Products Tab -->
+			<section id="tab-products" class="admin-tab">
+				<div class="admin-page-header">
+					<div class="page-header-main">
+						<h1 class="admin-page-title-jp">商品管理</h1>
+						<h2 class="admin-page-title-en">Product Management</h2>
 					</div>
-					<div class="form-panel">
-						<form id="productForm">
+					<button class="admin-btn-premium primary" id="btnNewProduct">
+						<i class="fas fa-plus"></i>
+						<span class="btn-text-jp">新規商品</span>
+						<span class="btn-text-en">New Product</span>
+					</button>
+				</div>
+
+				<div class="admin-workspace">
+					<!-- Product List -->
+					<div class="admin-list-panel">
+						<div class="panel-header">
+							<h3 class="panel-title-jp">商品リスト</h3>
+							<p class="panel-title-en">Product List</p>
+						</div>
+						<input type="search" id="productSearch" class="admin-search" placeholder="商品を検索 / Search products…">
+						<div id="productsList" class="admin-list"></div>
+					</div>
+
+					<!-- Product Form -->
+					<div class="admin-form-panel">
+						<div class="panel-header">
+							<h3 class="panel-title-jp">商品情報</h3>
+							<p class="panel-title-en">Product Details</p>
+						</div>
+						<form id="productForm" class="admin-form">
 							<input type="hidden" id="productDocId">
-							<label>Name<input id="productName" required></label>
-							<label>Artisan<input id="productArtisan"></label>
-							<label>Location<input id="productLocation"></label>
-							<label>Category<input id="productCategory" placeholder="pottery, kimono, …"></label>
-							<label>Badge<input id="productBadge" placeholder="New, Masterpiece, …"></label>
-							<label>Price (JPY)<input id="productPrice" type="number" min="0" step="1" required></label>
-							<label>Description<textarea id="productDescription" rows="3"></textarea></label>
-							<label>Materials<input id="productMaterials"></label>
-							<label>Dimensions<input id="productDimensions"></label>
-							<label>Image URL<input id="productImage"></label>
-							<label>Upload Image<input id="productImageFile" type="file" accept="image/*"></label>
-							<div class="form-actions">
-								<button type="submit" class="btn primary" id="saveProductBtn"><i class="fas fa-save"></i> Save</button>
-								<button type="button" class="btn" id="resetProductBtn">Reset</button>
-								<button type="button" class="btn danger" id="deleteProductBtn" style="display:none;"><i class="fas fa-trash"></i> Delete</button>
+							
+							<div class="form-group-bilingual">
+								<label class="form-label">
+									<span class="label-jp">商品名</span>
+									<span class="label-en">Product Name</span>
+									<span class="label-required">*</span>
+								</label>
+								<input id="productName" class="form-input" required placeholder="例: 手作り陶器の茶碗">
+							</div>
+
+							<div class="form-group-bilingual">
+								<label class="form-label">
+									<span class="label-jp">職人名</span>
+									<span class="label-en">Artisan</span>
+								</label>
+								<input id="productArtisan" class="form-input" placeholder="例: 田中太郎">
+							</div>
+
+							<div class="form-row">
+								<div class="form-group-bilingual">
+									<label class="form-label">
+										<span class="label-jp">所在地</span>
+										<span class="label-en">Location</span>
+									</label>
+									<input id="productLocation" class="form-input" placeholder="例: 京都">
+								</div>
+
+								<div class="form-group-bilingual">
+									<label class="form-label">
+										<span class="label-jp">カテゴリー</span>
+										<span class="label-en">Category</span>
+									</label>
+									<input id="productCategory" class="form-input" placeholder="pottery, kimono, cutlery…">
+								</div>
+							</div>
+
+							<div class="form-row">
+								<div class="form-group-bilingual">
+									<label class="form-label">
+										<span class="label-jp">バッジ</span>
+										<span class="label-en">Badge</span>
+									</label>
+									<input id="productBadge" class="form-input" placeholder="New, Masterpiece…">
+								</div>
+
+								<div class="form-group-bilingual">
+									<label class="form-label">
+										<span class="label-jp">価格 (円)</span>
+										<span class="label-en">Price (JPY)</span>
+										<span class="label-required">*</span>
+									</label>
+									<input id="productPrice" type="number" min="0" step="1" class="form-input" required placeholder="15000">
+								</div>
+							</div>
+
+							<div class="form-group-bilingual">
+								<label class="form-label">
+									<span class="label-jp">説明</span>
+									<span class="label-en">Description</span>
+								</label>
+								<textarea id="productDescription" rows="3" class="form-textarea" placeholder="商品の詳細説明…"></textarea>
+							</div>
+
+							<div class="form-row">
+								<div class="form-group-bilingual">
+									<label class="form-label">
+										<span class="label-jp">材料</span>
+										<span class="label-en">Materials</span>
+									</label>
+									<input id="productMaterials" class="form-input" placeholder="例: 陶器、釉薬">
+								</div>
+
+								<div class="form-group-bilingual">
+									<label class="form-label">
+										<span class="label-jp">寸法</span>
+										<span class="label-en">Dimensions</span>
+									</label>
+									<input id="productDimensions" class="form-input" placeholder="例: 12cm × 8cm">
+								</div>
+							</div>
+
+							<div class="form-group-bilingual">
+								<label class="form-label">
+									<span class="label-jp">画像URL</span>
+									<span class="label-en">Image URL</span>
+								</label>
+								<input id="productImage" class="form-input" placeholder="https://…">
+							</div>
+
+							<div class="form-group-bilingual">
+								<label class="form-label">
+									<span class="label-jp">画像をアップロード</span>
+									<span class="label-en">Upload Image</span>
+								</label>
+								<div class="file-upload-area">
+									<input id="productImageFile" type="file" accept="image/*" class="file-input">
+									<label for="productImageFile" class="file-upload-label">
+										<i class="fas fa-cloud-upload-alt"></i>
+										<span class="upload-text-jp">ファイルを選択</span>
+										<span class="upload-text-en">Choose File</span>
+									</label>
+								</div>
+							</div>
+
+							<div class="form-actions-premium">
+								<button type="submit" class="admin-btn-premium primary large">
+									<i class="fas fa-save"></i>
+									<span class="btn-text-jp">保存</span>
+									<span class="btn-text-en">Save</span>
+								</button>
+								<button type="button" class="admin-btn-premium secondary" id="resetProductBtn">
+									<i class="fas fa-rotate-left"></i>
+									<span class="btn-text-jp">リセット</span>
+									<span class="btn-text-en">Reset</span>
+								</button>
+								<button type="button" class="admin-btn-premium danger" id="deleteProductBtn" style="display:none;">
+									<i class="fas fa-trash"></i>
+									<span class="btn-text-jp">削除</span>
+									<span class="btn-text-en">Delete</span>
+								</button>
 							</div>
 						</form>
 					</div>
-					<div class="preview-panel">
-						<h3>Live Preview</h3>
-						<div id="productPreview" class="preview-container">
+
+					<!-- Product Preview -->
+					<div class="admin-preview-panel">
+						<div class="panel-header">
+							<h3 class="panel-title-jp">プレビュー</h3>
+							<p class="panel-title-en">Live Preview</p>
+						</div>
+						<div id="productPreview" class="admin-preview-container">
 							<div class="preview-placeholder">
 								<i class="fas fa-eye"></i>
-								<p>Fill out the form to see preview</p>
+								<p class="placeholder-text-jp">フォームに入力してプレビューを表示</p>
+								<p class="placeholder-text-en">Fill out the form to see preview</p>
 							</div>
 						</div>
 					</div>
 				</div>
 			</section>
 
-			<section id="tab-artisans" class="tab">
-				<div class="toolbar">
-					<h2>Artisans</h2>
-					<div class="spacer"></div>
-					<button class="btn" id="btnNewArtisan"><i class="fas fa-plus"></i> New Artisan</button>
-				</div>
-				<div class="grid">
-					<div class="list-panel">
-						<input type="search" id="artisanSearch" placeholder="Search artisans…">
-						<div id="artisansList" class="list"></div>
+			<!-- Artisans Tab -->
+			<section id="tab-artisans" class="admin-tab">
+				<div class="admin-page-header">
+					<div class="page-header-main">
+						<h1 class="admin-page-title-jp">職人管理</h1>
+						<h2 class="admin-page-title-en">Artisan Management</h2>
 					</div>
-					<div class="form-panel">
-						<form id="artisanForm">
+					<button class="admin-btn-premium primary" id="btnNewArtisan">
+						<i class="fas fa-plus"></i>
+						<span class="btn-text-jp">新規職人</span>
+						<span class="btn-text-en">New Artisan</span>
+					</button>
+				</div>
+
+				<div class="admin-workspace">
+					<!-- Artisan List -->
+					<div class="admin-list-panel">
+						<div class="panel-header">
+							<h3 class="panel-title-jp">職人リスト</h3>
+							<p class="panel-title-en">Artisan List</p>
+						</div>
+						<input type="search" id="artisanSearch" class="admin-search" placeholder="職人を検索 / Search artisans…">
+						<div id="artisansList" class="admin-list"></div>
+					</div>
+
+					<!-- Artisan Form -->
+					<div class="admin-form-panel">
+						<div class="panel-header">
+							<h3 class="panel-title-jp">職人情報</h3>
+							<p class="panel-title-en">Artisan Details</p>
+						</div>
+						<form id="artisanForm" class="admin-form">
 							<input type="hidden" id="artisanDocId">
-							<label>Name<input id="artisanName" required></label>
-							<label>Name (JP)<input id="artisanNameJp"></label>
-							<label>Craft<input id="artisanCraft"></label>
-							<label>Craft (JP)<input id="artisanCraftJp"></label>
-							<label>Location<input id="artisanLocation"></label>
-							<label>Years<input id="artisanYears" type="number" min="0" step="1"></label>
-							<label>Specialty<input id="artisanSpecialty"></label>
-							<label>Story<textarea id="artisanStory" rows="3"></textarea></label>
-							<label>Quote<input id="artisanQuote"></label>
-							<label>Image URL<input id="artisanImage"></label>
-							<label>Upload Image<input id="artisanImageFile" type="file" accept="image/*"></label>
-							<div class="form-actions">
-								<button type="submit" class="btn primary" id="saveArtisanBtn"><i class="fas fa-save"></i> Save</button>
-								<button type="button" class="btn" id="resetArtisanBtn">Reset</button>
-								<button type="button" class="btn danger" id="deleteArtisanBtn" style="display:none;"><i class="fas fa-trash"></i> Delete</button>
+							
+							<div class="form-row">
+								<div class="form-group-bilingual">
+									<label class="form-label">
+										<span class="label-jp">名前</span>
+										<span class="label-en">Name</span>
+										<span class="label-required">*</span>
+									</label>
+									<input id="artisanName" class="form-input" required placeholder="Yuki Tanaka">
+								</div>
+
+								<div class="form-group-bilingual">
+									<label class="form-label">
+										<span class="label-jp">名前（日本語）</span>
+										<span class="label-en">Name (Japanese)</span>
+									</label>
+									<input id="artisanNameJp" class="form-input" placeholder="田中由紀">
+								</div>
+							</div>
+
+							<div class="form-row">
+								<div class="form-group-bilingual">
+									<label class="form-label">
+										<span class="label-jp">職業</span>
+										<span class="label-en">Craft</span>
+									</label>
+									<input id="artisanCraft" class="form-input" placeholder="Potter">
+								</div>
+
+								<div class="form-group-bilingual">
+									<label class="form-label">
+										<span class="label-jp">職業（日本語）</span>
+										<span class="label-en">Craft (Japanese)</span>
+									</label>
+									<input id="artisanCraftJp" class="form-input" placeholder="陶芸家">
+								</div>
+							</div>
+
+							<div class="form-row">
+								<div class="form-group-bilingual">
+									<label class="form-label">
+										<span class="label-jp">所在地</span>
+										<span class="label-en">Location</span>
+									</label>
+									<input id="artisanLocation" class="form-input" placeholder="Kyoto">
+								</div>
+
+								<div class="form-group-bilingual">
+									<label class="form-label">
+										<span class="label-jp">経験年数</span>
+										<span class="label-en">Years of Experience</span>
+									</label>
+									<input id="artisanYears" type="number" min="0" step="1" class="form-input" placeholder="25">
+								</div>
+							</div>
+
+							<div class="form-group-bilingual">
+								<label class="form-label">
+									<span class="label-jp">専門</span>
+									<span class="label-en">Specialty</span>
+								</label>
+								<input id="artisanSpecialty" class="form-input" placeholder="Raku Pottery">
+							</div>
+
+							<div class="form-group-bilingual">
+								<label class="form-label">
+									<span class="label-jp">物語</span>
+									<span class="label-en">Story</span>
+								</label>
+								<textarea id="artisanStory" rows="4" class="form-textarea" placeholder="職人の物語を入力…"></textarea>
+							</div>
+
+							<div class="form-group-bilingual">
+								<label class="form-label">
+									<span class="label-jp">引用</span>
+									<span class="label-en">Quote</span>
+								</label>
+								<input id="artisanQuote" class="form-input" placeholder="職人の名言…">
+							</div>
+
+							<div class="form-group-bilingual">
+								<label class="form-label">
+									<span class="label-jp">画像URL</span>
+									<span class="label-en">Image URL</span>
+								</label>
+								<input id="artisanImage" class="form-input" placeholder="https://…">
+							</div>
+
+							<div class="form-group-bilingual">
+								<label class="form-label">
+									<span class="label-jp">画像をアップロード</span>
+									<span class="label-en">Upload Image</span>
+								</label>
+								<div class="file-upload-area">
+									<input id="artisanImageFile" type="file" accept="image/*" class="file-input">
+									<label for="artisanImageFile" class="file-upload-label">
+										<i class="fas fa-cloud-upload-alt"></i>
+										<span class="upload-text-jp">ファイルを選択</span>
+										<span class="upload-text-en">Choose File</span>
+									</label>
+								</div>
+							</div>
+
+							<div class="form-actions-premium">
+								<button type="submit" class="admin-btn-premium primary large">
+									<i class="fas fa-save"></i>
+									<span class="btn-text-jp">保存</span>
+									<span class="btn-text-en">Save</span>
+								</button>
+								<button type="button" class="admin-btn-premium secondary" id="resetArtisanBtn">
+									<i class="fas fa-rotate-left"></i>
+									<span class="btn-text-jp">リセット</span>
+									<span class="btn-text-en">Reset</span>
+								</button>
+								<button type="button" class="admin-btn-premium danger" id="deleteArtisanBtn" style="display:none;">
+									<i class="fas fa-trash"></i>
+									<span class="btn-text-jp">削除</span>
+									<span class="btn-text-en">Delete</span>
+								</button>
 							</div>
 						</form>
 					</div>
-					<div class="preview-panel">
-						<h3>Live Preview</h3>
-						<div id="artisanPreview" class="preview-container">
+
+					<!-- Artisan Preview -->
+					<div class="admin-preview-panel">
+						<div class="panel-header">
+							<h3 class="panel-title-jp">プレビュー</h3>
+							<p class="panel-title-en">Live Preview</p>
+						</div>
+						<div id="artisanPreview" class="admin-preview-container">
 							<div class="preview-placeholder">
 								<i class="fas fa-eye"></i>
-								<p>Fill out the form to see preview</p>
+								<p class="placeholder-text-jp">フォームに入力してプレビューを表示</p>
+								<p class="placeholder-text-en">Fill out the form to see preview</p>
 							</div>
 						</div>
 					</div>
 				</div>
 			</section>
 
-			<section id="tab-content" class="tab">
-				<div class="toolbar">
-					<h2>Content</h2>
-					<div class="spacer"></div>
-					<button class="btn" id="btnNewContent"><i class="fas fa-plus"></i> New Key</button>
-				</div>
-				<div class="grid">
-					<div class="list-panel">
-						<input type="search" id="contentSearch" placeholder="Search content keys…">
-						<div id="contentList" class="list"></div>
+			<!-- Content Tab -->
+			<section id="tab-content" class="admin-tab">
+				<div class="admin-page-header">
+					<div class="page-header-main">
+						<h1 class="admin-page-title-jp">コンテンツ管理</h1>
+						<h2 class="admin-page-title-en">Content Management</h2>
 					</div>
-					<div class="form-panel">
-						<form id="contentForm">
-							<label>Key<input id="contentKey" required placeholder="e.g. collections.title"></label>
-							<label>Text<textarea id="contentText" rows="5" required></textarea></label>
-							<div class="form-actions">
-								<button type="submit" class="btn primary" id="saveContentBtn"><i class="fas fa-save"></i> Save</button>
-								<button type="button" class="btn danger" id="deleteContentBtn" style="display:none;"><i class="fas fa-trash"></i> Delete</button>
+					<button class="admin-btn-premium primary" id="btnNewContent">
+						<i class="fas fa-plus"></i>
+						<span class="btn-text-jp">新規キー</span>
+						<span class="btn-text-en">New Key</span>
+					</button>
+				</div>
+
+				<div class="admin-workspace-content">
+					<!-- Content List -->
+					<div class="admin-list-panel">
+						<div class="panel-header">
+							<h3 class="panel-title-jp">コンテンツキー</h3>
+							<p class="panel-title-en">Content Keys</p>
+						</div>
+						<input type="search" id="contentSearch" class="admin-search" placeholder="キーを検索 / Search keys…">
+						<div id="contentList" class="admin-list"></div>
+					</div>
+
+					<!-- Content Form -->
+					<div class="admin-form-panel wide">
+						<div class="panel-header">
+							<h3 class="panel-title-jp">コンテンツ編集</h3>
+							<p class="panel-title-en">Edit Content</p>
+						</div>
+						<form id="contentForm" class="admin-form">
+							<div class="form-group-bilingual">
+								<label class="form-label">
+									<span class="label-jp">キー</span>
+									<span class="label-en">Key</span>
+									<span class="label-required">*</span>
+								</label>
+								<input id="contentKey" class="form-input" required placeholder="例: collections.title">
+							</div>
+
+							<div class="form-group-bilingual">
+								<label class="form-label">
+									<span class="label-jp">テキスト</span>
+									<span class="label-en">Text</span>
+									<span class="label-required">*</span>
+								</label>
+								<textarea id="contentText" rows="8" class="form-textarea" required placeholder="コンテンツを入力…"></textarea>
+							</div>
+
+							<div class="form-actions-premium">
+								<button type="submit" class="admin-btn-premium primary large">
+									<i class="fas fa-save"></i>
+									<span class="btn-text-jp">保存</span>
+									<span class="btn-text-en">Save</span>
+								</button>
+								<button type="button" class="admin-btn-premium danger" id="deleteContentBtn" style="display:none;">
+									<i class="fas fa-trash"></i>
+									<span class="btn-text-jp">削除</span>
+									<span class="btn-text-en">Delete</span>
+								</button>
 							</div>
 						</form>
 					</div>
 				</div>
 			</section>
+
 		</main>
 	</div>
 
-	<div id="denied" class="denied" style="display:none;">
-		<div class="denied-card">
+	<!-- Access Denied Screen -->
+	<div id="denied" class="admin-denied" style="display:none;">
+		<div class="denied-content">
 			<!-- Content will be injected by JS -->
 		</div>
 	</div>
 
-	<!-- Login Form -->
-	<div id="loginScreen" class="denied" style="display:flex;">
-		<div class="denied-card">
-			<h2>🔐 Admin Login</h2>
-			<p style="margin-bottom:1.5rem;color:#9aa4b2">Sign in with your editor or admin account</p>
-			
-			<form id="adminLoginForm" style="max-width:400px;margin:0 auto">
-				<div style="margin-bottom:1rem">
-					<input type="email" id="adminEmail" placeholder="Email" required style="width:100%;padding:12px;border-radius:8px;border:1px solid #2a2f3a;background:#0c0f14;color:#e6ebf0">
+	<!-- Premium Login Screen -->
+	<div id="loginScreen" class="admin-login-screen" style="display:flex;">
+		<div class="login-container">
+			<div class="login-header">
+				<img src="kazeblank.png" alt="Kaze Crafts" class="login-logo">
+				<h1 class="login-title-jp">管理パネル</h1>
+				<h2 class="login-title-en">Admin Panel</h2>
+				<p class="login-subtitle">
+					<span class="subtitle-jp">編集者または管理者アカウントでサインインしてください</span><br>
+					<span class="subtitle-en">Sign in with your editor or admin account</span>
+				</p>
+			</div>
+
+			<form id="adminLoginForm" class="login-form">
+				<div class="form-group-login">
+					<label class="login-label">
+						<span class="label-jp">メールアドレス</span>
+						<span class="label-en">Email Address</span>
+					</label>
+					<input type="email" id="adminEmail" class="login-input" required placeholder="email@example.com">
 				</div>
-				<div style="margin-bottom:1rem">
-					<input type="password" id="adminPassword" placeholder="Password" required style="width:100%;padding:12px;border-radius:8px;border:1px solid #2a2f3a;background:#0c0f14;color:#e6ebf0">
+
+				<div class="form-group-login">
+					<label class="login-label">
+						<span class="label-jp">パスワード</span>
+						<span class="label-en">Password</span>
+					</label>
+					<input type="password" id="adminPassword" class="login-input" required placeholder="••••••••">
 				</div>
-				<div id="loginError" style="color:#e11d48;margin-bottom:1rem;display:none;font-size:0.9rem"></div>
-				<button type="submit" class="btn primary" id="adminLoginBtn" style="width:100%;padding:12px">
-					<i class="fas fa-sign-in-alt"></i> Sign In
+
+				<div id="loginError" class="login-error" style="display:none;"></div>
+
+				<button type="submit" class="login-btn-primary">
+					<i class="fas fa-sign-in-alt"></i>
+					<span class="btn-text-jp">サインイン</span>
+					<span class="btn-text-en">Sign In</span>
 				</button>
 			</form>
-			
-			<div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid #232734">
-				<button class="btn" onclick="signInWithGoogle()"><i class="fab fa-google"></i> Sign in with Google</button>
+
+			<div class="login-divider">
+				<span class="divider-text-jp">または</span>
+				<span class="divider-text-en">or</span>
 			</div>
-			
-			<div style="margin-top:1.5rem">
-				<a href="index.html" style="color:#9aa4b2;text-decoration:none">← Back to main site</a>
+
+			<button class="login-btn-google" onclick="signInWithGoogle()">
+				<i class="fab fa-google"></i>
+				<span class="btn-text-jp">Googleでサインイン</span>
+				<span class="btn-text-en">Sign in with Google</span>
+			</button>
+
+			<div class="login-footer">
+				<a href="index.html" class="back-link">
+					<i class="fas fa-arrow-left"></i>
+					<span class="link-text-jp">メインサイトに戻る</span>
+					<span class="link-text-en">Back to main site</span>
+				</a>
 			</div>
 		</div>
 	</div>
 
-	<script src="admin.js?v=1"></script>
+	<script src="admin.js?v=2"></script>
 </body>
 </html>
-
-
