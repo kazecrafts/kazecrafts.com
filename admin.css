@@ -303,19 +303,14 @@ html, body {
 	}
 }
 
-/* ===== PAGE HEADER - BIG CENTERED TITLES ===== */
+/* ===== PAGE HEADER - BIG CENTERED TITLES (TRANSPARENT LIKE MARKETPLACE) ===== */
 .admin-page-header {
 	text-align: center;
 	margin-bottom: 3rem;
 	padding: 3rem 2rem;
-	background: rgba(255, 255, 255, 0.4);
-	backdrop-filter: blur(10px);
-	-webkit-backdrop-filter: blur(10px);
-	border-radius: 16px;
-	box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-	border: 1px solid rgba(0, 0, 0, 0.08);
+	background: transparent;
 	position: relative;
-	overflow: hidden;
+	overflow: visible;
 }
 
 .page-header-main {
@@ -529,15 +524,10 @@ html, body {
 	letter-spacing: 0.1em;
 }
 
-/* ===== QUICK ACTIONS - WHITE CARD ===== */
+/* ===== QUICK ACTIONS - TRANSPARENT LIKE MARKETPLACE ===== */
 .admin-quick-actions {
-	background: rgba(255, 255, 255, 0.4);
-	backdrop-filter: blur(10px);
-	-webkit-backdrop-filter: blur(10px);
-	border: 1px solid rgba(0, 0, 0, 0.08);
-	border-radius: 16px;
-	padding: 3rem;
-	box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+	background: transparent;
+	padding: 2rem 0;
 	margin-bottom: 3rem;
 }
 
@@ -548,19 +538,20 @@ html, body {
 	align-items: center;
 	gap: 0.5rem;
 	text-align: center;
+	background: transparent;
 }
 
 .title-jp {
 	font-family: 'Noto Serif JP', serif;
 	font-size: 1.8rem;
-	color: var(--charcoal);
+	color: #000000;
 	font-weight: 700;
 }
 
 .title-en {
 	font-family: 'Cinzel', serif;
 	font-size: 0.85rem;
-	color: #666;
+	color: rgba(42, 42, 42, 0.75);
 	text-transform: uppercase;
 	letter-spacing: 0.15em;
 }
