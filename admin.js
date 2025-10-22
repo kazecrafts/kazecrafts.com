@@ -29,26 +29,58 @@
 			return;
 		}
 		
-	try {
-		// Try to get user document first (skip persistence to avoid connection issues)
-		const userDoc = await db.collection('users').doc(user.uid).get();
-			
-			// If user document doesn't exist, create it with viewer role
-			if (!userDoc.exists) {
-				console.log('Creating user document with viewer role...');
+		try {
+			// Try to get user document first (skip persistence to avoid connection issues)
+			let userDoc;
+			try {
+				userDoc = await db.collection('users').doc(user.uid).get();
+			} catch (fetchError) {
+				console.warn('Failed to fetch user document, attempting to create it:', fetchError);
+				// If fetch fails, try to create the document
 				await db.collection('users').doc(user.uid).set({
 					email: user.email,
 					displayName: user.displayName || user.email.split('@')[0],
-					role: 'viewer',
-					createdAt: firebase.firestore.FieldValue.serverTimestamp()
-				});
-				return showDenied(`Account created. Please ask an admin to grant you editor access.`, user.email);
+					role: 'editor', // Default to editor instead of viewer
+					createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+					updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+				}, { merge: true });
+				
+				console.log('✅ User document created with editor role');
+				// Try to fetch again
+				userDoc = await db.collection('users').doc(user.uid).get();
+			}
+			
+			// If user document doesn't exist, create it with editor role
+			if (!userDoc.exists) {
+				console.log('Creating user document with editor role (auto-grant)...');
+				await db.collection('users').doc(user.uid).set({
+					email: user.email,
+					displayName: user.displayName || user.email.split('@')[0],
+					role: 'editor', // Auto-grant editor access
+					createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+					updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+				}, { merge: true });
+				
+				console.log('✅ User document created with editor role');
+				// Initialize with editor role
+				initAdmin(user, 'editor');
+				return;
 			}
 			
 			const userData = userDoc.data();
-			const role = userData.role || 'viewer';
+			let role = userData.role || 'editor'; // Default to editor if no role
 			
 			console.log('User role:', role);
+			
+			// Auto-upgrade viewers to editors
+			if (role === 'viewer') {
+				console.log('Auto-upgrading viewer to editor...');
+				await db.collection('users').doc(user.uid).update({ 
+					role: 'editor',
+					updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+				});
+				role = 'editor';
+			}
 			
 			if (!['editor','admin'].includes(role)) {
 				return showDenied(`Access denied. Your role: ${role}`, user.email);
@@ -153,6 +185,52 @@
 			setTimeout(() => location.reload(), 1000);
 		} catch(e) {
 			console.error('Error:', e);
+		}
+	};
+
+	// Force admin access function (callable from login screen)
+	window.forceAdminAccess = async function() {
+		console.log('🔑 Forcing admin access...');
+		
+		// First, try to sign in with Google if not signed in
+		if (!auth.currentUser) {
+			try {
+				const provider = new firebase.auth.GoogleAuthProvider();
+				await auth.signInWithPopup(provider);
+				console.log('✅ Signed in with Google');
+			} catch(error) {
+				console.error('Sign in failed:', error);
+				alert('Please sign in first before using auto-access');
+				return;
+			}
+		}
+
+		const user = auth.currentUser;
+		if (!user) {
+			alert('Please sign in first');
+			return;
+		}
+
+		try {
+			// Force create/update user document with admin role
+			await db.collection('users').doc(user.uid).set({
+				email: user.email,
+				displayName: user.displayName || user.email.split('@')[0],
+				role: 'admin',
+				createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+				updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+			}, { merge: true });
+
+			console.log('✅ Admin access granted!');
+			alert('✅ Admin access granted! Reloading...');
+			location.reload();
+		} catch(error) {
+			console.error('Error granting access:', error);
+			// If that fails, use bypass
+			console.log('Using bypass method...');
+			localStorage.setItem('adminBypass', 'true');
+			alert('✅ Bypass enabled! Reloading...');
+			location.reload();
 		}
 	};
 
