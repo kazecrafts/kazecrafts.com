@@ -29,17 +29,9 @@
 			return;
 		}
 		
-		try {
-			// Enable offline persistence
-			await db.enablePersistence().catch(err => {
-				if (err.code === 'failed-precondition') {
-					console.warn('Multiple tabs open, persistence can only be enabled in one tab at a time.');
-				} else if (err.code === 'unimplemented') {
-					console.warn('The current browser does not support all features required for persistence');
-				}
-			});
-
-			const userDoc = await db.collection('users').doc(user.uid).get();
+	try {
+		// Try to get user document first (skip persistence to avoid connection issues)
+		const userDoc = await db.collection('users').doc(user.uid).get();
 			
 			// If user document doesn't exist, create it with viewer role
 			if (!userDoc.exists) {
@@ -97,28 +89,49 @@
 		el('adminApp').style.display = 'none';
 		el('loginScreen').style.display = 'none';
 		const d = el('denied');
-		const card = d.querySelector('.denied-card');
+		if (!d) {
+			console.error('Denied element not found');
+			return;
+		}
+		const card = d.querySelector('.denied-content');
+		if (!card) {
+			console.error('Denied content element not found');
+			return;
+		}
 		
 		card.innerHTML = `
-			<h2>Access Restricted</h2>
-			<p>${message}</p>
-			${userEmail ? `<p style="margin-top:1rem;opacity:0.7">Logged in as: <strong>${userEmail}</strong></p>` : ''}
-			<div style="margin-top:1.5rem;padding:1rem;background:#1d222b;border-radius:8px;text-align:left;font-size:0.9rem">
-				<strong>To grant yourself admin access:</strong>
-				<ol style="margin:0.5rem 0;padding-left:1.5rem">
-					<li>Open Firebase Console</li>
-					<li>Go to Firestore Database</li>
-					<li>Find users collection > your user document</li>
-					<li>Edit and set <code>role</code> to <code>editor</code> or <code>admin</code></li>
-					<li>Refresh this page</li>
-				</ol>
-				<div style="margin-top:1rem;padding:0.75rem;background:#0c0f14;border-radius:6px;font-family:monospace;font-size:0.85rem">
-					Or run in console:<br>
-					<code style="color:#5c7cfa">setRole('${userEmail}', 'admin')</code>
+			<div style="text-align:center;padding:2rem;background:white;border-radius:20px;max-width:600px;box-shadow:0 20px 60px rgba(0,0,0,0.1);">
+				<div style="font-size:3rem;margin-bottom:1rem;">🔒</div>
+				<h2 style="font-family:'Noto Serif JP',serif;font-size:1.8rem;color:#2a2a2a;margin-bottom:0.5rem;">アクセス制限</h2>
+				<h3 style="font-family:'Cinzel',serif;font-size:0.9rem;color:#666;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:1.5rem;">Access Restricted</h3>
+				<p style="color:#666;margin-bottom:1rem;font-size:0.95rem;">${message}</p>
+				${userEmail ? `<p style="margin-top:1rem;opacity:0.7;font-size:0.9rem;">Logged in as: <strong>${userEmail}</strong></p>` : ''}
+				<div style="margin-top:2rem;padding:1.5rem;background:#faf8f3;border:1px solid rgba(212,175,55,0.15);border-radius:12px;text-align:left;font-size:0.9rem;">
+					<strong style="font-family:'Noto Serif JP',serif;font-size:1rem;color:#2a2a2a;">管理者アクセスを付与する方法:</strong>
+					<strong style="display:block;font-family:'Cinzel',serif;font-size:0.8rem;color:#666;margin-bottom:1rem;">To grant admin access:</strong>
+					<ol style="margin:1rem 0;padding-left:1.5rem;color:#666;line-height:1.8;">
+						<li>Open Firebase Console</li>
+						<li>Go to Firestore Database</li>
+						<li>Find users collection → your user document</li>
+						<li>Edit and set <code style="background:#fff;padding:2px 6px;border-radius:4px;color:#50C878;">role</code> to <code style="background:#fff;padding:2px 6px;border-radius:4px;color:#50C878;">editor</code> or <code style="background:#fff;padding:2px 6px;border-radius:4px;color:#50C878;">admin</code></li>
+						<li>Refresh this page</li>
+					</ol>
+					<div style="margin-top:1rem;padding:1rem;background:white;border-radius:8px;font-family:monospace;font-size:0.85rem;border:1px solid rgba(80,200,120,0.2);">
+						<div style="color:#666;margin-bottom:0.5rem;">Or run in console:</div>
+						<code style="color:#50C878;font-weight:600;">setRole('${userEmail}', 'admin')</code>
+					</div>
+				</div>
+				<div style="display:flex;gap:1rem;justify-content:center;margin-top:2rem;">
+					<button id="adminLogoutBtn2" style="padding:0.75rem 1.5rem;background:linear-gradient(135deg,#50C878,#3da55f);border:none;border-radius:10px;color:white;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:0.5rem;">
+						<i class="fas fa-sign-out-alt"></i>
+						<span style="font-family:'Noto Serif JP',serif;">ログアウト</span>
+					</button>
+					<button id="goHome" style="padding:0.75rem 1.5rem;background:white;border:1px solid rgba(212,175,55,0.3);border-radius:10px;color:#2a2a2a;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:0.5rem;">
+						<i class="fas fa-home"></i>
+						<span style="font-family:'Noto Serif JP',serif;">サイトへ</span>
+					</button>
 				</div>
 			</div>
-			<button id="adminLogoutBtn2" class="btn" style="margin-top:1rem"><i class="fas fa-sign-out-alt"></i> Logout</button>
-			<button id="goHome" class="btn" style="margin-top:0.5rem"><i class="fas fa-home"></i> Go to Site</button>
 		`;
 		
 		d.style.display = 'flex';
