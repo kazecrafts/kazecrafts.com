@@ -195,31 +195,47 @@
         </ul>
     </div>
 
-    <!-- Hero - Minimal Centered Design -->
-    <section class="hero-minimal">
-        <div class="hero-background">
-            <video class="hero-video-bg" autoplay loop muted playsinline preload="auto">
-                <source src="kazehero.mp4" type="video/mp4">
-            </video>
-            <!-- Gradient overlays removed -->
-        </div>
-        
-        <!-- Centered Content -->
-        <div class="hero-main">
-            <div class="hero-layout">
-                <!-- Logo removed -->
+    <!-- Hero - Modern Grid Layout -->
+    <section class="hero-grid">
+        <div class="hero-grid-wrapper">
+            <div class="hero-grid-container">
+                <!-- Main Video Section - Top Left (Square) -->
+                <div class="hero-main-media">
+                    <video class="hero-video" autoplay loop muted playsinline preload="auto" id="heroMainVideo">
+                        <source src="pottery.mp4" type="video/mp4">
+                    </video>
+                    <div class="hero-media-overlay"></div>
+                </div>
+                
+                <!-- Text Section - Top Right (Square with rounded corners) -->
+                <div class="hero-text-section">
+                    <div class="hero-text-inner">
+                        <h1 class="hero-title">風 Kaze Crafts</h1>
+                        <p class="hero-subtitle">Authentic Japanese Craftsmanship</p>
+                        <p class="hero-description">Discover exquisite handcrafted pieces from master artisans across Japan. Each creation tells a story of tradition, skill, and dedication passed through generations.</p>
+                        <div class="hero-actions">
+                            <a href="#collections" class="btn-hero-primary">Explore Collection</a>
+                            <a href="#artisans" class="btn-hero-secondary">Meet Artisans</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Three Small Square Photos - Bottom Row -->
+                <div class="hero-small-media hero-small-media-1">
+                    <img src="face1.jpg" alt="Craft Detail 1" class="hero-photo-img" id="heroPhoto1">
+                    <div class="hero-media-overlay"></div>
+                </div>
+                <div class="hero-small-media hero-small-media-2">
+                    <img src="face2.jpg" alt="Craft Detail 2" class="hero-photo-img" id="heroPhoto2">
+                    <div class="hero-media-overlay"></div>
+                </div>
+                <div class="hero-small-media hero-small-media-3">
+                    <img src="face3.jpg" alt="Craft Detail 3" class="hero-photo-img" id="heroPhoto3">
+                    <div class="hero-media-overlay"></div>
+                </div>
             </div>
         </div>
         
-        <!-- Scroll Indicator -->
-        <div class="scroll-indicator">
-            <div class="scroll-text">Start scrolling to experience</div>
-            <div class="scroll-text-bold">Authentic Japanese Craftsmanship</div>
-            <div class="scroll-text-small">Like Never Before</div>
-            <div class="scroll-arrow">
-                <i class="fas fa-chevron-down"></i>
-            </div>
-        </div>
     </section>
 
     <!-- Marketplace - Bento Box Grid -->
@@ -229,21 +245,6 @@
         <div class="products-section-intro" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
             <h2 class="products-main-title" data-edit-key="collections.title" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">Marketplace</h2>
             <p class="products-description" data-edit-key="collections.subtitle" data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">Discover authentic Japanese craftsmanship from master artisans across Japan</p>
-            
-            <!-- Prototype Disclaimer -->
-            <div class="marketplace-disclaimer" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
-                <div class="disclaimer-icon">
-                    <i class="fas fa-info-circle"></i>
-                </div>
-                <div class="disclaimer-content">
-                    <p class="disclaimer-en">
-                        <strong>Prototype Notice:</strong> The images and products displayed are stock references for demonstration purposes only. They are intended to showcase how authentic artisan products will appear in our marketplace to prospective partners and artisans.
-                    </p>
-                    <p class="disclaimer-jp">
-                        <strong>プロトタイプのお知らせ：</strong>表示されている画像と製品は、デモンストレーション目的のみの参考画像です。これらは、将来のパートナーや職人の皆様に、本物の職人製品がマーケットプレイスでどのように表示されるかを示すためのものです。
-                    </p>
-                </div>
-            </div>
         </div>
 
         <!-- Filter Bar Attached to Products -->
@@ -418,20 +419,6 @@
             <h2 class="showcase-title" data-edit-key="artisans.title">Masters of Tradition</h2>
             <p class="showcase-subtitle">職人たち - Guardians of Japanese Craftsmanship</p>
             
-            <!-- Artisan Prototype Disclaimer -->
-            <div class="artisan-disclaimer" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
-                <div class="disclaimer-icon">
-                    <i class="fas fa-info-circle"></i>
-                </div>
-                <div class="disclaimer-content">
-                    <p class="disclaimer-en">
-                        <strong>Prototype Notice:</strong> The artisan profiles and images displayed are representative examples for demonstration purposes only. They are intended to showcase how authentic artisan partnerships will be featured in our marketplace to prospective craftspeople and partners.
-                    </p>
-                    <p class="disclaimer-jp">
-                        <strong>プロトタイプのお知らせ：</strong>表示されている職人プロフィールと画像は、デモンストレーション目的のみの代表的な例です。これらは、将来の職人や協力者の皆様に、本物の職人パートナーシップがマーケットプレイスでどのように紹介されるかを示すためのものです。
-                    </p>
-                </div>
-            </div>
         </div>
         
         <div class="artisan-spotlight-container">
