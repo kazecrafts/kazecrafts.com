@@ -2598,3 +2598,70 @@ document.addEventListener('DOMContentLoaded', function() {
         videoObserver.observe(video);
     });
 });
+
+// Hero Image Rotation - Enhanced
+document.addEventListener('DOMContentLoaded', function() {
+    // Arrays of images for each slot
+    const smallImages1 = [
+        'face1.jpg', 'face2.jpg', 'face3.jpg', 'face4.jpg', 'face5.jpg',
+        'face6.jpeg', 'face7.jpg', 'face9.jpg', 'face10.jpg', 'face11.jpg',
+        'pot1.webp', 'pot2.jpg', 'pot3.jpg'
+    ];
+    
+    const smallImages2 = [
+        'face12.jpg', 'face13.webp', 'face15.jpg', 'face1.jpg', 'face2.jpg',
+        'pot12.jpg', 'pot13.png', 'pot14.jpg', 'pot15.jpg', 'pot16.jpg',
+        'pot5.webp', 'pot6.webp'
+    ];
+    
+    const smallImages3 = [
+        'pot17.jpg', 'pot19.webp', 'pot20.jpg', 'pot21.jpg', 'pot22.webp',
+        'bluepottery.jpg', 'face3.jpg', 'face4.jpg', 'face5.jpg', 'pot23.jpeg',
+        'pot7.webp', 'pot8.webp'
+    ];
+    
+    let currentIndex1 = 0;
+    let currentIndex2 = 0;
+    let currentIndex3 = 0;
+    
+    // Get photo elements
+    const photo1 = document.getElementById('heroPhoto1');
+    const photo2 = document.getElementById('heroPhoto2');
+    const photo3 = document.getElementById('heroPhoto3');
+    
+    // Function to change image with fade effect
+    function changeImage(element, imageArray, index) {
+        if (!element) return;
+        
+        element.style.opacity = '0';
+        
+        setTimeout(() => {
+            element.src = imageArray[index];
+            setTimeout(() => {
+                element.style.opacity = '1';
+            }, 50);
+        }, 300);
+    }
+    
+    // Rotate images at different intervals for variety
+    if (photo1) {
+        setInterval(() => {
+            currentIndex1 = (currentIndex1 + 1) % smallImages1.length;
+            changeImage(photo1, smallImages1, currentIndex1);
+        }, 4000); // Change every 4 seconds
+    }
+    
+    if (photo2) {
+        setInterval(() => {
+            currentIndex2 = (currentIndex2 + 1) % smallImages2.length;
+            changeImage(photo2, smallImages2, currentIndex2);
+        }, 5000); // Change every 5 seconds
+    }
+    
+    if (photo3) {
+        setInterval(() => {
+            currentIndex3 = (currentIndex3 + 1) % smallImages3.length;
+            changeImage(photo3, smallImages3, currentIndex3);
+        }, 6000); // Change every 6 seconds
+    }
+});
